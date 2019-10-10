@@ -18,6 +18,7 @@ public class WorldGrid : MonoBehaviour
     void Start()
     {
         Init();
+        PrintGrid();
     }
 
 
@@ -28,9 +29,10 @@ public class WorldGrid : MonoBehaviour
         grid = new List<int>[width, height];
         for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < height; i++)
+            for (int j = 0; j < height; j++)
             {
-                grid[i, j] = new List<int>(0);
+                grid[i, j] = new List<int>();
+                grid[i, j].Add(0);
             }
         }
     }
@@ -106,5 +108,36 @@ public class WorldGrid : MonoBehaviour
                 //If it does, add on adjacent and specified block
             }
         }
+    }
+
+    //Prints the grid in the unity console
+    //NOTE: You will need to click on the message to see the whole thing
+    void PrintGrid()
+    {
+        print("Length: " + grid.Length);
+
+        string temp = "\n";
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                temp += "[";
+                for (int k = 0; k < grid[i,j].Count; k++)
+                {
+                    if(k == grid[i,j].Count-1)
+                    {
+                        temp += grid[i, j][k];
+                    }
+                    else
+                    {
+                        temp += grid[i, j][k] + ", ";
+                    }
+                }
+                temp += "]";
+            }
+            temp += "\n";
+        }
+
+        print(temp);
     }
 }
