@@ -19,6 +19,9 @@ public class WorldGrid : MonoBehaviour
     {
         Init();
         PrintGrid();
+        AddBlock(5, 5, 1);
+        AddBlock(7, 2, 5);
+        PrintGrid();
     }
 
 
@@ -38,7 +41,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     //Given a vector2 of world positions, returns a Vector3Int of the corresponding grid position and the height of the block
-    Vector3Int WorldtoGrid(Vector2 worldpos)
+    public Vector3Int WorldtoGrid(Vector2 worldpos)
     {
         Vector3Int gridpos = new Vector3Int();
 
@@ -50,19 +53,19 @@ public class WorldGrid : MonoBehaviour
     }
 
     //Returns the list of items at the specified block
-    List<int> GetSpot(int x, int y)
+    public List<int> GetSpot(int x, int y)
     {
         return grid[x, y];
     }
 
     //Adds a specified structure to the specified block
-    void AddBlock(int x, int y, int block)
+    public void AddBlock(int x, int y, int block)
     {
         grid[x, y].Add(block);
     }
 
     //Removes the top structure from the specified block
-    void PopBlock(int x, int y)
+    public void PopBlock(int x, int y)
     {
         if(grid[x,y].Count == 0)
         {
@@ -112,7 +115,7 @@ public class WorldGrid : MonoBehaviour
 
     //Prints the grid in the unity console
     //NOTE: You will need to click on the message to see the whole thing
-    void PrintGrid()
+    public void PrintGrid()
     {
         print("Length: " + grid.Length);
 
