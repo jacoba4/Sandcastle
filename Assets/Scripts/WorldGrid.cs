@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class WorldGrid : MonoBehaviour
 {
     //WorldGrid is a 2d array of List<int>
@@ -14,14 +15,28 @@ public class WorldGrid : MonoBehaviour
     public int width, height = 100;
     [SerializeField]
     private List<int>[,] grid;
+    List<GameObject>[,] objectgrid;
+    SaveGrid sg;
+    public GameObject floor;
     
     void Start()
     {
         Init();
-        PrintGrid();
-        AddBlock(5, 5, 1);
-        AddBlock(7, 2, 5);
-        PrintGrid();
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            int x = Random.Range(0, width);
+            int y = Random.Range(0, height);
+            AddBlock(x, y, 0);
+        }
+        /*
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Save();
+        }*/
     }
 
 
@@ -30,12 +45,37 @@ public class WorldGrid : MonoBehaviour
     void Init()
     {
         grid = new List<int>[width, height];
+        objectgrid = new List<GameObject>[width, height];
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 grid[i, j] = new List<int>();
                 grid[i, j].Add(0);
+
+                objectgrid[i, j] = new List<GameObject>();
+                GameObject g = Instantiate(floor);
+                g.transform.position = new Vector3(i, 0, j);
+                objectgrid[i, j].Add(g);
+            }
+        }
+    }
+
+    void RefreshMap()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                for(int k = 0; k < grid[i,j].Count; k++)
+                {
+                    if(grid[i,j][k] == 0)
+                    {
+                        GameObject g = Instantiate(floor);
+                        g.transform.position = new Vector3(i, k, j);
+                        
+                    }
+                }
             }
         }
     }
@@ -62,6 +102,13 @@ public class WorldGrid : MonoBehaviour
     public void AddBlock(int x, int y, int block)
     {
         grid[x, y].Add(block);
+
+        if(block == 0)
+        {
+            GameObject g = Instantiate(floor);
+            g.transform.position = new Vector3(x, grid[x,y].Count-1, y);
+        }
+
     }
 
     //Removes the top structure from the specified block
@@ -143,4 +190,28 @@ public class WorldGrid : MonoBehaviour
 
         print(temp);
     }
+
+
+    //WIP
+    /*
+    public void Save()
+    {
+        sg = new SaveGrid();
+
+        List<int>[] s = new List<int>[width * height];
+
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                s[i + j * width] = grid[i,j];
+            }
+        }
+        sg.grid = s;
+        sg.width = width;
+        sg.height = height;
+        string json = JsonUtility.ToJson(sg);
+
+        Debug.Log(json);
+    }*/
 }
