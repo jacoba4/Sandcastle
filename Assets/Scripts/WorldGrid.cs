@@ -11,7 +11,7 @@ public class WorldGrid : MonoBehaviour
     //with the first postion of the list being the ground (dug or not dug)
 
 
-
+    
     public int width, height = 100;
     [SerializeField]
     private List<int>[,] grid;
@@ -114,11 +114,13 @@ public class WorldGrid : MonoBehaviour
     public void AddBlock(int x, int y, int block)
     {
         grid[x, y].Add(block);
+        Debug.Log("called");
 
-        if(block == 0)
+        if (block == 0)
         {
             GameObject g = Instantiate(floor, worldParent);
             g.transform.position = new Vector3(x, grid[x,y].Count-1, y);
+            Debug.Log("Adding block");
         }
 
     }
