@@ -26,7 +26,7 @@ public class WorldGrid : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.B))
+        if(Input.GetKey(KeyCode.B))
         {
             int x = Random.Range(0, width);
             int y = Random.Range(0, height);
@@ -61,6 +61,7 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
+    //Refreshes the map, going through the grid data and creating blocks specified there
     void RefreshMap()
     {
         for (int i = 0; i < width; i++)
@@ -96,6 +97,16 @@ public class WorldGrid : MonoBehaviour
     public List<int> GetSpot(int x, int y)
     {
         return grid[x, y];
+    }
+
+    public List<GameObject> GetSpotObject(int x, int y)
+    {
+        return objectgrid[x, y];
+    }
+
+    public GameObject GetSpotTop(int x, int y)
+    {
+        return objectgrid[x, y][objectgrid[x, y].Count - 1];
     }
 
     //Adds a specified structure to the specified block
