@@ -121,6 +121,7 @@ public class WorldGrid : MonoBehaviour
             GameObject g = Instantiate(floor, worldParent);
             g.transform.position = new Vector3(x, grid[x,y].Count-1, y);
             Debug.Log("Adding block");
+            objectgrid[x, y].Add(g);
         }
 
     }
@@ -128,7 +129,13 @@ public class WorldGrid : MonoBehaviour
     //Removes the top structure from the specified block
     public void PopBlock(int x, int y)
     {
-        if(grid[x,y].Count == 0)
+        if (objectgrid[x, y].Count > 0)
+        {
+            Destroy(objectgrid[x, y][objectgrid[x, y].Count - 1]);
+            objectgrid[x, y].RemoveAt(objectgrid[x, y].Count - 1);
+        }
+
+        if (grid[x,y].Count == 0)
         {
             return;
         }
