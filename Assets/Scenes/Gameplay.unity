@@ -375,6 +375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d892ab2b8aad8714fafcd861f2b85eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdRotation: 0
+  useJordanPositioning: 0
+  followDistance: 10
   player1: {fileID: 803785285}
   player2: {fileID: 943116463}
   splitDistance: 5

@@ -30,9 +30,14 @@ using System.Collections;
 
 public class SplitScreen : MonoBehaviour {
 
-	/*Reference both the transforms of the two players on screen.
+    public bool holdRotation = true; // added this to stop rotating the cameras
+    public bool useJordanPositioning = true; // added this to stop rotating the cameras
+    public float followDistance = 10f;
+
+
+    /*Reference both the transforms of the two players on screen.
 	Necessary to find out their current positions.*/
-	public Transform player1;
+    public Transform player1;
 	public Transform player2;
 
 	//The distance at which the splitscreen will be activated.
@@ -126,14 +131,34 @@ public class SplitScreen : MonoBehaviour {
 				splitter.SetActive (true);
 				camera2.SetActive (true);
 
-				camera2.transform.position = camera1.transform.position;
-				camera2.transform.rotation = camera1.transform.rotation;
+                if (useJordanPositioning)
+                {
+                    camera2.transform.position = camera1.transform.position;
+                }
+                else
+                {
+                    camera2.transform.position = camera1.transform.position;
+                }
+                if (!holdRotation)
+                {
+                    camera2.transform.rotation = camera1.transform.rotation;
+                }
 
 			} else {
-				//Lerps the second cameras position and rotation to that of the second midpoint, so relative to the second player.
-				camera2.transform.position = Vector3.Lerp(camera2.transform.position,midPoint2 + new Vector3(0,6,-5),Time.deltaTime*5);
-				Quaternion newRot2 = Quaternion.LookRotation(midPoint2-camera2.transform.position);
-				camera2.transform.rotation = Quaternion.Lerp(camera2.transform.rotation, newRot2, Time.deltaTime*5);
+                //Lerps the second cameras position and rotation to that of the second midpoint, so relative to the second player.
+                if (useJordanPositioning)
+                {
+                    camera2.transform.position = player2.position + transform.forward * -followDistance;
+                }
+                else
+                {
+                    camera2.transform.position = Vector3.Lerp(camera2.transform.position, midPoint2 + new Vector3(0, 6, -5), Time.deltaTime * 5);
+                }
+                if (!holdRotation)
+                {
+                    Quaternion newRot2 = Quaternion.LookRotation(midPoint2 - camera2.transform.position);
+                    camera2.transform.rotation = Quaternion.Lerp(camera2.transform.rotation, newRot2, Time.deltaTime * 5);
+                }
 			}
 
 		} else {
@@ -143,10 +168,20 @@ public class SplitScreen : MonoBehaviour {
 				camera2.SetActive (false);
 		}
 
-		/*Lerps the first cameras position and rotation to that of the second midpoint, so relative to the first player
+        /*Lerps the first cameras position and rotation to that of the second midpoint, so relative to the first player
 		or when both players are in view it lerps the camera to their midpoint.*/
-		camera1.transform.position = Vector3.Lerp(camera1.transform.position,midPoint + new Vector3(0,6,-5),Time.deltaTime*5);
-		Quaternion newRot = Quaternion.LookRotation(midPoint-camera1.transform.position);
-		camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime*5);
+        if (useJordanPositioning)
+        {
+            camera1.transform.position = player1.position + transform.forward * -followDistance;
+        }
+        else
+        {
+            camera1.transform.position = Vector3.Lerp(camera1.transform.position, midPoint + new Vector3(0, 6, -5), Time.deltaTime * 5);
+        }
+        if (!holdRotation)
+        {
+            Quaternion newRot = Quaternion.LookRotation(midPoint - camera1.transform.position);
+            camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 5);
+        }
 	}
 }
