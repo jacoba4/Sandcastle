@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 10
   height: 10
-  floor: {fileID: 8518805950969142730, guid: 5757abd23f2fe9b44998abeb69fc3af2, type: 3}
+  floor: {fileID: 5298583925641285940, guid: 934f6330401549244800c5f5a94f9c70, type: 3}
 --- !u!4 &1558298594
 Transform:
   m_ObjectHideFlags: 0

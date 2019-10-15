@@ -18,6 +18,7 @@ public class WorldGrid : MonoBehaviour
     List<GameObject>[,] objectgrid;
     SaveGrid sg;
     public GameObject floor;
+    public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     
     void Start()
     {
@@ -54,7 +55,7 @@ public class WorldGrid : MonoBehaviour
                 grid[i, j].Add(0);
 
                 objectgrid[i, j] = new List<GameObject>();
-                GameObject g = Instantiate(floor);
+                GameObject g = Instantiate(floor, worldParent);
                 g.transform.position = new Vector3(i, 0, j);
                 objectgrid[i, j].Add(g);
             }
@@ -72,7 +73,7 @@ public class WorldGrid : MonoBehaviour
                 {
                     if(grid[i,j][k] == 0)
                     {
-                        GameObject g = Instantiate(floor);
+                        GameObject g = Instantiate(floor, worldParent);
                         g.transform.position = new Vector3(i, k, j);
                         
                     }
@@ -116,7 +117,7 @@ public class WorldGrid : MonoBehaviour
 
         if(block == 0)
         {
-            GameObject g = Instantiate(floor);
+            GameObject g = Instantiate(floor, worldParent);
             g.transform.position = new Vector3(x, grid[x,y].Count-1, y);
         }
 
