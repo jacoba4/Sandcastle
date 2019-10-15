@@ -112,8 +112,8 @@ public class PlayerControl : MonoBehaviour
         if (player.GetButtonDown("ScoopPlaceBucket"))
         {
             // then place it!
-            Vector2 character2dPos = transform.position;
-            character2dPos.y = transform.position.z;
+            Vector2 character2dPos = placePosition.position;
+            character2dPos.y = placePosition.position.z;
             Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);
             Debug.Log("Scooping placing " + IsBucketFull() + " full?");
             // pos.z is the grid height, switching coordinate systems

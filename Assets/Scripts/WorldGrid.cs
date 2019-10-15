@@ -129,6 +129,10 @@ public class WorldGrid : MonoBehaviour
     //Removes the top structure from the specified block
     public void PopBlock(int x, int y)
     {
+        if(!CheckBlock(x,y))
+        {
+            return;
+        }
         if (objectgrid[x, y].Count > 0)
         {
             Destroy(objectgrid[x, y][objectgrid[x, y].Count - 1]);
@@ -142,6 +146,18 @@ public class WorldGrid : MonoBehaviour
         else
         {
             grid[x, y].RemoveAt(grid[x, y].Count - 1);
+        }
+    }
+
+    public bool CheckBlock(int x, int y)
+    {
+        if(grid[x,y].Count == 1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
