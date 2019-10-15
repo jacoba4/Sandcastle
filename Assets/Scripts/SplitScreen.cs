@@ -60,6 +60,7 @@ public class SplitScreen : MonoBehaviour {
 		//Setting up the culling mask of camera2 to ignore the layer "TransparentFX" as to avoid rendering the split and splitter on both cameras.
 		camera2.GetComponent<Camera> ().cullingMask = ~(1 << LayerMask.NameToLayer ("TransparentFX"));
         camera2.GetComponent<Camera>().depth = 0; // make it render first
+        Destroy(camera2.GetComponent<AudioListener>()); // destroy the second audio listener, in reality maybe we should average their positions and put a listener there?
 
         //Setting up the splitter and initalizing the gameobject.
         splitter = GameObject.CreatePrimitive (PrimitiveType.Cube);
