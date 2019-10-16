@@ -26,6 +26,7 @@ public class WorldGrid : MonoBehaviour
     public Material umat;
     [Tooltip("Highlighted material")]
     public Material hmat;
+    public GameObject textbox;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     
     void Start()
@@ -41,11 +42,11 @@ public class WorldGrid : MonoBehaviour
             int y = Random.Range(0, height);
             AddBlock(x, y, 0);
         }
-        /*
+        
         if (Input.GetKeyDown(KeyCode.O))
         {
             Save();
-        }*/
+        }
     }
 
     public bool WithinBounds(Vector3Int pos)
@@ -318,25 +319,88 @@ public class WorldGrid : MonoBehaviour
 
 
     //WIP
-    /*
     public void Save()
     {
         sg = new SaveGrid();
 
-        List<int>[] s = new List<int>[width * height];
-
-        for(int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < height; j++)
-            {
-                s[i + j * width] = grid[i,j];
-            }
-        }
+        SaveGridList[] s = GridToSaveGrid(grid);
         sg.grid = s;
         sg.width = width;
         sg.height = height;
         string json = JsonUtility.ToJson(sg);
 
-        Debug.Log(json);
-    }*/
+        Debug.Log("json: " + json);
+
+        string savename = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
+        Debug.Log("Save name: " + savename);
+
+        PlayerPrefs.SetString(savename, json);
+    }
+
+    public void LoadGrid()
+    {
+        string loadname = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
+        string json = PlayerPrefs.GetString(loadname);
+
+        SaveGridList[] s = JsonUtility.FromJson<SaveGridList[]>(json);
+
+        ClearGrid();
+
+        grid = SaveGridToGrid(s);
+        RefreshMap();
+
+    }
+
+    public SaveGridList[] GridToSaveGrid(List<int>[,] grid)
+    {
+        SaveGridList[] s = new SaveGridList[width * height];
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                SaveGridList t = new SaveGridList(grid[i, j]);
+                s[i + j * width] = t;
+            }
+        }
+
+        Debug.Log(s);
+        return s;
+    }
+
+    public List<int>[,] SaveGridToGrid(SaveGridList[] s)
+    {
+        List<int>[,] ret = new List<int>[width,height];
+
+        int i = 0;
+        for (int x = 0; x < height; x++)
+        {
+            for(int y = 0; y < width; y++)
+            {
+                Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
+                Debug.Log("s.size: " + s.Length);
+                ret[x, y] = s[i].objects;
+                i++;
+            }
+        }
+
+        Debug.Log(ret);
+        return ret;
+    }
+
+    public void ClearGrid()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < grid[i, j].Count; k++)
+                {
+                    Destroy(objectgrid[i, j][k]);
+                }
+            }
+        }
+
+        grid = new List<int>[width, height];
+    }
 }
