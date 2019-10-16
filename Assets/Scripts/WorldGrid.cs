@@ -91,6 +91,9 @@ public class WorldGrid : MonoBehaviour
         gridpos.y = Mathf.RoundToInt(Mathf.Floor(worldpos.y));
         gridpos.z = grid[gridpos.x, gridpos.y].Count;
 
+        Debug.Log("World: " + worldpos);
+        Debug.Log("Grid: " + gridpos);
+
         return gridpos;
     }
 
