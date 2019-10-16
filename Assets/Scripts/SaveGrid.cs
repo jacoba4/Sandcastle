@@ -5,8 +5,18 @@ using UnityEngine;
 [System.Serializable]
 public class SaveGrid
 {
-    [SerializeField]
-    public List<int>[] grid;
+    public SaveGridList[] grid;
     public int width;
     public int height;
+}
+
+[System.Serializable]
+public class SaveGridList
+{
+    public List<int> objects;
+
+    public SaveGridList(List<int> l)
+    {
+        objects = l;
+    }
 }
