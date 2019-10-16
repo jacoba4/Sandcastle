@@ -146,4 +146,24 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
+
+    private void OnEnable()
+    {
+        // add yourself to the camera system
+        SplitScreenRects split = GameObject.FindObjectOfType<SplitScreenRects>();
+        if (split != null)
+        {
+            split.AddPlayer(transform);
+        }
+    }
+
+    private void OnDisable()
+    {
+        // remove yourself from the camera system
+        SplitScreenRects split = GameObject.FindObjectOfType<SplitScreenRects>();
+        if (split != null)
+        {
+            split.RemovePlayer(transform);
+        }
+    }
 }
