@@ -179,5 +179,7 @@ public class PlayerControl : MonoBehaviour
         {
             split.RemovePlayer(transform);
         }
+        // remove any highlighting you added when you leave
+        sandWorld.UnHighlightBlock(highlightPosition.x, highlightPosition.y);
     }
 }
