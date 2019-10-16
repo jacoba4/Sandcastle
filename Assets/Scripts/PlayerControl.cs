@@ -5,8 +5,10 @@ using Rewired;
 
 public class PlayerControl : MonoBehaviour
 {
-    Player player;
+    Player player = null;
     public int playerID = 0;
+    public GameplayManager manager; // use this for joining/leaving the game
+
 
     [SerializeField]
     private float playerSpeed = 1f;
@@ -40,10 +42,18 @@ public class PlayerControl : MonoBehaviour
     }
 
 
+    public void SetPlayer(Player p)
+    {
+        player = p;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        TestStart();
+        if (player == null)
+        {
+            TestStart();
+        }
         if (sandWorld == null)
         {
             // make sure we have a reference to it!
@@ -56,6 +66,7 @@ public class PlayerControl : MonoBehaviour
     {
         UpdateMovement();
         UpdatePlacing();
+        UpdateUI();
     }
 
     private bool IsBucketFull()
@@ -67,6 +78,20 @@ public class PlayerControl : MonoBehaviour
     private void SetBucketFull(bool full)
     {
         bucketFull = full;
+    }
+
+    private void DisconnectPlayer()
+    {
+        player.isPlaying = false;
+        manager.LeaveGame(this);
+    }
+
+    private void UpdateUI()
+    {
+        if (player.GetButtonDown("LeaveGame")) {
+            // disconnect!
+            DisconnectPlayer();
+        }
     }
 
     private void UpdateMovement()

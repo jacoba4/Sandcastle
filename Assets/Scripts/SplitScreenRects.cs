@@ -37,6 +37,10 @@ public class SplitScreenRects : MonoBehaviour
             // have a global fly camera? Just have a default camera in scene that we activate
             defaultCamera.gameObject.SetActive(true);
             defaultCamera.rect = new Rect(0, 0, 1, 1);
+            foreach(Camera c in cameras)
+            {
+                c.gameObject.SetActive(false); // disable them all
+            }
         }
         else
         {
