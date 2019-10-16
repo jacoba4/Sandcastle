@@ -22,7 +22,9 @@ public class WorldGrid : MonoBehaviour
     public GameObject square;
     public GameObject wall;
     public GameObject wall2;
+    [Tooltip("Regular material")]
     public Material umat;
+    [Tooltip("Highlighted material")]
     public Material hmat;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     
@@ -114,6 +116,7 @@ public class WorldGrid : MonoBehaviour
     //Given a vector2 of world positions, returns a Vector3Int of the corresponding grid position and the height of the block
     public Vector3Int WorldtoGrid(Vector2 worldpos)
     {
+        worldpos += Vector2.one * .5f; // offset it
         Vector3Int gridpos = new Vector3Int();
 
         gridpos.x = Mathf.RoundToInt(Mathf.Floor(worldpos.x));
@@ -127,8 +130,8 @@ public class WorldGrid : MonoBehaviour
             gridpos.z = grid[gridpos.x, gridpos.y].Count;
         }
 
-        Debug.Log("World: " + worldpos);
-        Debug.Log("Grid: " + gridpos);
+        //Debug.Log("World: " + worldpos);
+        //Debug.Log("Grid: " + gridpos);
 
         return gridpos;
     }
