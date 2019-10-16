@@ -18,6 +18,12 @@ public class WorldGrid : MonoBehaviour
     List<GameObject>[,] objectgrid;
     SaveGrid sg;
     public GameObject floor;
+    public GameObject cylinder;
+    public GameObject square;
+    public GameObject wall;
+    public GameObject wall2;
+    public Material umat;
+    public Material hmat;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     
     void Start()
@@ -198,6 +204,16 @@ public class WorldGrid : MonoBehaviour
                 //If it does, add on adjacent and specified block
             }
         }
+    }
+
+    public void HighlightBlock(int x, int y)
+    {
+        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
+    }
+
+    public void UnHighlightBlock(int x, int y)
+    {
+        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
     }
 
     //Prints the grid in the unity console
