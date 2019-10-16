@@ -18,6 +18,14 @@ public class WorldGrid : MonoBehaviour
     List<GameObject>[,] objectgrid;
     SaveGrid sg;
     public GameObject floor;
+    public GameObject cylinder;
+    public GameObject square;
+    public GameObject wall;
+    public GameObject wall2;
+    [Tooltip("Regular material")]
+    public Material umat;
+    [Tooltip("Highlighted material")]
+    public Material hmat;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     
     void Start()
@@ -38,6 +46,29 @@ public class WorldGrid : MonoBehaviour
         {
             Save();
         }*/
+    }
+
+    public bool WithinBounds(Vector3Int pos)
+    {
+        if (WithinBounds(pos.x, pos.y))
+        {
+            // then check to see if the height is ok
+            if (pos.z >= 0 && pos.z < grid[pos.x, pos.y].Count)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool WithinBounds(Vector2Int pos)
+    {
+        return WithinBounds(pos.x, pos.y);
+    }
+
+    public bool WithinBounds(int x, int y)
+    {
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
 
@@ -85,14 +116,22 @@ public class WorldGrid : MonoBehaviour
     //Given a vector2 of world positions, returns a Vector3Int of the corresponding grid position and the height of the block
     public Vector3Int WorldtoGrid(Vector2 worldpos)
     {
+        worldpos += Vector2.one * .5f; // offset it
         Vector3Int gridpos = new Vector3Int();
 
         gridpos.x = Mathf.RoundToInt(Mathf.Floor(worldpos.x));
         gridpos.y = Mathf.RoundToInt(Mathf.Floor(worldpos.y));
-        gridpos.z = grid[gridpos.x, gridpos.y].Count;
+        if (!WithinBounds(gridpos.x, gridpos.y))
+        {
+            gridpos.z = -1;
+        }
+        else
+        {
+            gridpos.z = grid[gridpos.x, gridpos.y].Count;
+        }
 
-        Debug.Log("World: " + worldpos);
-        Debug.Log("Grid: " + gridpos);
+        //Debug.Log("World: " + worldpos);
+        //Debug.Log("Grid: " + gridpos);
 
         return gridpos;
     }
@@ -100,30 +139,45 @@ public class WorldGrid : MonoBehaviour
     //Returns the list of items at the specified block
     public List<int> GetSpot(int x, int y)
     {
+        if (!WithinBounds(x, y))
+        {
+            return null; // outside of bounds
+        }
         return grid[x, y];
     }
 
     public List<GameObject> GetSpotObject(int x, int y)
     {
+        if (!WithinBounds(x, y))
+        {
+            return null; // outside of bounds
+        }
         return objectgrid[x, y];
     }
 
     public GameObject GetSpotTop(int x, int y)
     {
+        if (!WithinBounds(x, y))
+        {
+            return null; // outside of bounds
+        }
         return objectgrid[x, y][objectgrid[x, y].Count - 1];
     }
 
     //Adds a specified structure to the specified block
     public void AddBlock(int x, int y, int block)
     {
+        if (!WithinBounds(x, y))
+        {
+            return; // outside of bounds
+        }
+
         grid[x, y].Add(block);
-        Debug.Log("called");
 
         if (block == 0)
         {
             GameObject g = Instantiate(floor, worldParent);
             g.transform.position = new Vector3(x, grid[x,y].Count-1, y);
-            Debug.Log("Adding block");
             objectgrid[x, y].Add(g);
         }
 
@@ -154,7 +208,11 @@ public class WorldGrid : MonoBehaviour
 
     public bool CheckBlock(int x, int y)
     {
-        if(grid[x,y].Count == 1)
+        if (!WithinBounds(x, y))
+        {
+            return false; // outside of bounds
+        }
+        if (grid[x,y].Count == 1)
         {
             return false;
         }
@@ -198,6 +256,33 @@ public class WorldGrid : MonoBehaviour
                 //If it does, add on adjacent and specified block
             }
         }
+    }
+
+    public void HighlightBlock(int x, int y)
+    {
+        if (!WithinBounds(x, y))
+        {
+            return; // outside of bounds
+        }
+        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
+    }
+
+    public void UnHighlightBlock(int x, int y)
+    {
+        if (!WithinBounds(x, y))
+        {
+            return; // outside of bounds
+        }
+        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+    }
+
+    public void UnHighlightBlock(Vector3Int pos)
+    {
+        if (!WithinBounds(pos))
+        {
+            return; // outside of bounds
+        }
+        objectgrid[pos.x, pos.y][pos.z].GetComponent<MeshRenderer>().material = umat;
     }
 
     //Prints the grid in the unity console
