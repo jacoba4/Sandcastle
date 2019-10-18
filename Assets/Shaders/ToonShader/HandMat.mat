@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HatMat
+  m_Name: HandMat
   m_Shader: {fileID: -6465566751694194690, guid: 78c77a91f1e980c489b9fa2655ab3f9b,
     type: 3}
   m_ShaderKeywords: 
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_D2BBEC37:
-        m_Texture: {fileID: 2800000, guid: bc2a90edc8bb5304f9b42a468bb23798, type: 3}
+        m_Texture: {fileID: 2800000, guid: 08abda75a0677bb489d969c3946d5836, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
