@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glasses_test
+  m_Name: P1_HeadMat
   m_Shader: {fileID: -6465566751694194690, guid: 78c77a91f1e980c489b9fa2655ab3f9b,
     type: 3}
   m_ShaderKeywords: 
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_D2BBEC37:
-        m_Texture: {fileID: 2800000, guid: 390b8d3dd1232e340ba527e4fbcf0b60, type: 3}
+        m_Texture: {fileID: 2800000, guid: 625f0f6bdf868f642837a61c01175455, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -53,8 +53,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_24EEB452: 0.5
-    - Vector1_26EA98E6: 0.6
+    - Vector1_24EEB452: 0.985
+    - Vector1_26EA98E6: 0.456
     - Vector1_C7180AEF: 0
     - _AlphaClip: 0
     - _Blend: 0
