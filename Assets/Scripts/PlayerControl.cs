@@ -5,8 +5,10 @@ using Rewired;
 
 public class PlayerControl : MonoBehaviour
 {
-    Player player;
+    Player player = null;
     public int playerID = 0;
+    public GameplayManager manager; // use this for joining/leaving the game
+
 
     [SerializeField]
     private float playerSpeed = 1f;
@@ -18,6 +20,8 @@ public class PlayerControl : MonoBehaviour
     private float ignoreLookCutoff = .1f;
     [SerializeField]
     private Transform placePosition; // a child gameobject of the parent which is where we should place/remove sandcastle stuff
+
+    private Vector3Int highlightPosition = new Vector3Int();
 
     public WorldGrid sandWorld; // a reference to the world to place things in
 
@@ -38,10 +42,18 @@ public class PlayerControl : MonoBehaviour
     }
 
 
+    public void SetPlayer(Player p)
+    {
+        player = p;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        TestStart();
+        if (player == null)
+        {
+            TestStart();
+        }
         if (sandWorld == null)
         {
             // make sure we have a reference to it!
@@ -54,6 +66,7 @@ public class PlayerControl : MonoBehaviour
     {
         UpdateMovement();
         UpdatePlacing();
+        UpdateUI();
     }
 
     private bool IsBucketFull()
@@ -65,6 +78,20 @@ public class PlayerControl : MonoBehaviour
     private void SetBucketFull(bool full)
     {
         bucketFull = full;
+    }
+
+    private void DisconnectPlayer()
+    {
+        player.isPlaying = false;
+        manager.LeaveGame(this);
+    }
+
+    private void UpdateUI()
+    {
+        if (player.GetButtonDown("LeaveGame")) {
+            // disconnect!
+            DisconnectPlayer();
+        }
     }
 
     private void UpdateMovement()
@@ -109,13 +136,24 @@ public class PlayerControl : MonoBehaviour
         //    Rigidbody rb = go.GetComponent<Rigidbody>();
         //    rb.velocity = -go.transform.up * bulletSpeed;
         //}
+
+        // highlight blocks that we're using!
+        Vector2 character2dPos = placePosition.position;
+        character2dPos.y = placePosition.position.z;
+        Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);
+
+        if (pos != highlightPosition)
+        {
+            // de-highlight the highlight position
+            sandWorld.UnHighlightBlock(highlightPosition.x, highlightPosition.y);
+            highlightPosition.Set(pos.x, pos.y, pos.z - 1);
+        }
+
         if (player.GetButtonDown("ScoopPlaceBucket"))
         {
+            sandWorld.UnHighlightBlock(pos.x, pos.y);
             // then place it!
-            Vector2 character2dPos = placePosition.position;
-            character2dPos.y = placePosition.position.z;
-            Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);
-            Debug.Log("Scooping placing " + IsBucketFull() + " full?");
+            //Debug.Log("Scooping placing " + IsBucketFull() + " full?");
             // pos.z is the grid height, switching coordinate systems
 
             if (IsBucketFull())
@@ -134,7 +172,7 @@ public class PlayerControl : MonoBehaviour
         else if (player.GetButtonDown("PickupDropBucket"))
         {
             // 
-            Debug.Log("Drop bucket");
+            //Debug.Log("Drop bucket");
             if (IsBucketFull())
             {
                 // first empty it
@@ -145,5 +183,28 @@ public class PlayerControl : MonoBehaviour
                 // if it's empty then drop the bucket!
             }
         }
+        sandWorld.HighlightBlock(pos.x, pos.y);
+    }
+
+    private void OnEnable()
+    {
+        // add yourself to the camera system
+        SplitScreenRects split = GameObject.FindObjectOfType<SplitScreenRects>();
+        if (split != null)
+        {
+            split.AddPlayer(transform);
+        }
+    }
+
+    private void OnDisable()
+    {
+        // remove yourself from the camera system
+        SplitScreenRects split = GameObject.FindObjectOfType<SplitScreenRects>();
+        if (split != null)
+        {
+            split.RemovePlayer(transform);
+        }
+        // remove any highlighting you added when you leave
+        sandWorld.UnHighlightBlock(highlightPosition.x, highlightPosition.y);
     }
 }
