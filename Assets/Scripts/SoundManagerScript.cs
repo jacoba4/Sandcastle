@@ -67,7 +67,7 @@ public class SoundManagerScript : MonoBehaviour
     }
 
     //calls the static FadeOut coroutine
-    public static void FadeOutCaller(TrackClass track, float speed, float maxVolume)
+    public static void FadeOutCaller(TrackClass track, float speed)
     {
         instance.StartCoroutine(FadeOut(track, speed));
     }
