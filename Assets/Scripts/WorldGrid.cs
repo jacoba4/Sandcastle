@@ -45,7 +45,7 @@ public class WorldGrid : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Save();
+            //Save();
         }
     }
 
@@ -329,10 +329,10 @@ public class WorldGrid : MonoBehaviour
         sg.height = height;
         string json = JsonUtility.ToJson(sg);
 
-        Debug.Log("json: " + json);
+        //Debug.Log("json: " + json);
 
         string savename = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
-        Debug.Log("Save name: " + savename);
+        //Debug.Log("Save name: " + savename);
 
         PlayerPrefs.SetString(savename, json);
     }
@@ -340,13 +340,20 @@ public class WorldGrid : MonoBehaviour
     public void LoadGrid()
     {
         string loadname = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
+        if(!PlayerPrefs.HasKey(loadname))
+        {
+            return;
+        }
+        //Debug.Log("Load name: " + loadname);
         string json = PlayerPrefs.GetString(loadname);
+        //Debug.Log("json: " + json);
 
-        SaveGridList[] s = JsonUtility.FromJson<SaveGridList[]>(json);
+        SaveGrid s = JsonUtility.FromJson<SaveGrid>(json);
+        //Debug.Log("savegridlist length: " + s.grid.Length);
 
         ClearGrid();
 
-        grid = SaveGridToGrid(s);
+        grid = SaveGridToGrid(s.grid);
         RefreshMap();
 
     }
@@ -354,13 +361,14 @@ public class WorldGrid : MonoBehaviour
     public SaveGridList[] GridToSaveGrid(List<int>[,] grid)
     {
         SaveGridList[] s = new SaveGridList[width * height];
-
+        int d = 0;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 SaveGridList t = new SaveGridList(grid[i, j]);
-                s[i + j * width] = t;
+                s[d] = t;
+                d++;
             }
         }
 
@@ -377,14 +385,15 @@ public class WorldGrid : MonoBehaviour
         {
             for(int y = 0; y < width; y++)
             {
-                Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
-                Debug.Log("s.size: " + s.Length);
+                //Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
+                //Debug.Log("s.size: " + s.Length);
+                ret[x, y] = new List<int>();
                 ret[x, y] = s[i].objects;
                 i++;
             }
         }
 
-        Debug.Log(ret);
+        //Debug.Log(ret);
         return ret;
     }
 
