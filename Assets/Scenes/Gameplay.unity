@@ -152,12 +152,14 @@ MonoBehaviour:
   width: 200
   height: 50
   floor: {fileID: 5298583925641285940, guid: 934f6330401549244800c5f5a94f9c70, type: 3}
-  cylinder: {fileID: 0}
-  square: {fileID: 0}
-  wall: {fileID: 0}
-  wall2: {fileID: 0}
+  cylinder: {fileID: 6411153440717365685, guid: 0b767c7ae5899b84a88955dc5cf7e386,
+    type: 3}
+  square: {fileID: 6822711904708790328, guid: d725f3adf7684bc488bbb6e47a01bf3b, type: 3}
+  wall: {fileID: 5743729369314102926, guid: ef24ca7dcdebd0b408c62b462962f1ba, type: 3}
+  gate: {fileID: 3144497118551327617, guid: 2e0edbffc2e54454c91c950a9e4499c1, type: 3}
   umat: {fileID: 2100000, guid: 7586a80bced9b164d96aaee250ac23ce, type: 2}
   hmat: {fileID: 2100000, guid: 014d1396ba8ae2d40a0d83f464a8a898, type: 2}
+  textbox: {fileID: 0}
   worldParent: {fileID: 38914249}
 --- !u!4 &38914249
 Transform:

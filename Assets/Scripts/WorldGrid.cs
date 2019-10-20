@@ -21,7 +21,7 @@ public class WorldGrid : MonoBehaviour
     public GameObject cylinder;
     public GameObject square;
     public GameObject wall;
-    public GameObject wall2;
+    public GameObject gate;
     [Tooltip("Regular material")]
     public Material umat;
     [Tooltip("Highlighted material")]
@@ -45,10 +45,11 @@ public class WorldGrid : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Save();
+            //Save();
         }
     }
 
+    //Checks if the position is within the bounds of the world
     public bool WithinBounds(Vector3Int pos)
     {
         if (WithinBounds(pos.x, pos.y))
@@ -62,11 +63,13 @@ public class WorldGrid : MonoBehaviour
         return false;
     }
 
+    //Checks if the position is within the bounds of the world
     public bool WithinBounds(Vector2Int pos)
     {
         return WithinBounds(pos.x, pos.y);
     }
 
+    //Checks if the position is within the bounds of the world
     public bool WithinBounds(int x, int y)
     {
         return x >= 0 && x < width && y >= 0 && y < height;
@@ -103,12 +106,31 @@ public class WorldGrid : MonoBehaviour
             {
                 for(int k = 0; k < grid[i,j].Count; k++)
                 {
+                    GameObject g = null;
                     if(grid[i,j][k] == 0)
                     {
-                        GameObject g = Instantiate(floor, worldParent);
-                        g.transform.position = new Vector3(i, k, j);
-                        
+                        g = Instantiate(floor, worldParent);           
                     }
+                    if(grid[i,j][k] == 1)
+                    {
+                        g = Instantiate(cylinder, worldParent);                     
+                    }
+                    if (grid[i, j][k] == 2)
+                    {
+                        g = Instantiate(square, worldParent);                       
+                    }
+                    if (grid[i, j][k] == 3)
+                    {
+                        g = Instantiate(wall, worldParent);                       
+                    }
+                    if (grid[i, j][k] == 4)
+                    {
+                        g = Instantiate(gate, worldParent);                       
+                    }
+
+
+                    g.transform.position = new Vector3(i, k, j);
+                    objectgrid[i, j].Add(g);
                 }
             }
         }
@@ -147,6 +169,7 @@ public class WorldGrid : MonoBehaviour
         return grid[x, y];
     }
 
+    //Returns the list of GameObjects at the given spot
     public List<GameObject> GetSpotObject(int x, int y)
     {
         if (!WithinBounds(x, y))
@@ -156,6 +179,7 @@ public class WorldGrid : MonoBehaviour
         return objectgrid[x, y];
     }
 
+    //Returns the top block at a given spot
     public GameObject GetSpotTop(int x, int y)
     {
         if (!WithinBounds(x, y))
@@ -173,14 +197,34 @@ public class WorldGrid : MonoBehaviour
             return; // outside of bounds
         }
 
-        grid[x, y].Add(block);
+        GameObject g = null;
 
         if (block == 0)
         {
-            GameObject g = Instantiate(floor, worldParent);
-            g.transform.position = new Vector3(x, grid[x,y].Count-1, y);
-            objectgrid[x, y].Add(g);
+            g = Instantiate(floor, worldParent);
         }
+        if (block == 1)
+        {
+            g = Instantiate(cylinder, worldParent);
+        }
+        if (block == 2)
+        {
+            g = Instantiate(square, worldParent);
+        }
+        if (block == 3)
+        {
+            g = Instantiate(wall, worldParent);
+        }
+        if (block == 4)
+        {
+            g = Instantiate(gate, worldParent);
+        }
+
+        objectgrid[x, y].Add(g);
+        grid[x, y].Add(block);
+
+        g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
+        Debug.Log(g.transform.position);
 
     }
 
@@ -259,24 +303,49 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
+    //Highlights the top block of the specified spot
     public void HighlightBlock(int x, int y)
     {
         if (!WithinBounds(x, y))
         {
             return; // outside of bounds
         }
-        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
+
+        GameObject block = objectgrid[x, y][objectgrid[x, y].Count - 1];
+        if(block.transform.childCount == 0)
+        {
+            objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
+            return;
+        }
+        foreach (Transform child in block.transform)
+        {
+            child.GetComponent<MeshRenderer>().material = hmat;
+        }
+        
     }
 
+    //UnHighlights the top block of the specified spot
     public void UnHighlightBlock(int x, int y)
     {
         if (!WithinBounds(x, y))
         {
             return; // outside of bounds
         }
-        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+
+        GameObject block = objectgrid[x, y][objectgrid[x, y].Count - 1];
+        if (block.transform.childCount == 0)
+        {
+            objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+            return;
+        }
+        foreach (Transform child in objectgrid[x, y][objectgrid[x, y].Count - 1].transform)
+        {
+            child.GetComponent<MeshRenderer>().material = umat;
+        }
+        
     }
 
+    //UnHighlights the top block of the specified spot
     public void UnHighlightBlock(Vector3Int pos)
     {
         if (!WithinBounds(pos))
@@ -318,7 +387,8 @@ public class WorldGrid : MonoBehaviour
     }
 
 
-    //WIP
+    //Saves the current map
+    //Will save in playerprefs with a name specified by the text in "textbox"
     public void Save()
     {
         sg = new SaveGrid();
@@ -329,38 +399,49 @@ public class WorldGrid : MonoBehaviour
         sg.height = height;
         string json = JsonUtility.ToJson(sg);
 
-        Debug.Log("json: " + json);
+        //Debug.Log("json: " + json);
 
         string savename = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
-        Debug.Log("Save name: " + savename);
+        //Debug.Log("Save name: " + savename);
 
         PlayerPrefs.SetString(savename, json);
     }
 
+    //Loads a map
+    //Will load from playerprefs with a name specified by the text in "textbox"
     public void LoadGrid()
     {
         string loadname = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
+        if(!PlayerPrefs.HasKey(loadname))
+        {
+            return;
+        }
+        //Debug.Log("Load name: " + loadname);
         string json = PlayerPrefs.GetString(loadname);
+        //Debug.Log("json: " + json);
 
-        SaveGridList[] s = JsonUtility.FromJson<SaveGridList[]>(json);
+        SaveGrid s = JsonUtility.FromJson<SaveGrid>(json);
+        //Debug.Log("savegridlist length: " + s.grid.Length);
 
         ClearGrid();
 
-        grid = SaveGridToGrid(s);
+        grid = SaveGridToGrid(s.grid);
         RefreshMap();
 
     }
 
+    //Converts a List<int>[,] to a SavegridList[]
     public SaveGridList[] GridToSaveGrid(List<int>[,] grid)
     {
         SaveGridList[] s = new SaveGridList[width * height];
-
+        int d = 0;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 SaveGridList t = new SaveGridList(grid[i, j]);
-                s[i + j * width] = t;
+                s[d] = t;
+                d++;
             }
         }
 
@@ -368,6 +449,7 @@ public class WorldGrid : MonoBehaviour
         return s;
     }
 
+    //Converts a SaveGridList[] to a List<int>[,]
     public List<int>[,] SaveGridToGrid(SaveGridList[] s)
     {
         List<int>[,] ret = new List<int>[width,height];
@@ -377,17 +459,19 @@ public class WorldGrid : MonoBehaviour
         {
             for(int y = 0; y < width; y++)
             {
-                Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
-                Debug.Log("s.size: " + s.Length);
+                //Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
+                //Debug.Log("s.size: " + s.Length);
+                ret[x, y] = new List<int>();
                 ret[x, y] = s[i].objects;
                 i++;
             }
         }
 
-        Debug.Log(ret);
+        //Debug.Log(ret);
         return ret;
     }
 
+    //Clears the map
     public void ClearGrid()
     {
         for (int i = 0; i < width; i++)

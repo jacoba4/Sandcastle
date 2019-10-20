@@ -160,7 +160,9 @@ public class PlayerControl : MonoBehaviour
             {
                 // then place!
                 SetBucketFull(false);
-                sandWorld.AddBlock(pos.x, pos.y, 0);
+                int r = Random.Range(1, 5);
+                //int r = 2;
+                sandWorld.AddBlock(pos.x, pos.y, r);
             }
             else
             {
