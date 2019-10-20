@@ -333,16 +333,28 @@ public class WorldGrid : MonoBehaviour
         }
 
         GameObject block = objectgrid[x, y][objectgrid[x, y].Count - 1];
+        if (block == null)
+        {
+            return; // it was probably destroyed, so return early
+        }
         if (block.transform.childCount == 0)
         {
-            objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+            if (objectgrid[x, y][objectgrid[x, y].Count - 1] == null)
+            {
+                //Debug.Log("Object is null, was it destroyed?");
+                return; // it was destroyed...
+            }
+            else
+            {
+                objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+            }
             return;
         }
         foreach (Transform child in objectgrid[x, y][objectgrid[x, y].Count - 1].transform)
         {
             child.GetComponent<MeshRenderer>().material = umat;
         }
-        
+
     }
 
     //UnHighlights the top block of the specified spot
