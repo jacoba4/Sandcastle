@@ -241,7 +241,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 3870107402642273232, guid: 5a8926617b7d9334c85ea70eb3a09706,
     type: 3}
   bucketPrefabs:
-  - {fileID: 2192669312721209086, guid: 4e72f70749220ad4e823da917742b0a6, type: 3}
+  - {fileID: 2192669312721209086, guid: acc7d3b678eadbd4297de1b2a12cf7f1, type: 3}
   players: []
   buckets: []
 --- !u!1 &536060647
