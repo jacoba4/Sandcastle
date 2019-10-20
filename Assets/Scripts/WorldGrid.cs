@@ -21,7 +21,7 @@ public class WorldGrid : MonoBehaviour
     public GameObject cylinder;
     public GameObject square;
     public GameObject wall;
-    public GameObject wall2;
+    public GameObject gate;
     [Tooltip("Regular material")]
     public Material umat;
     [Tooltip("Highlighted material")]
@@ -103,12 +103,31 @@ public class WorldGrid : MonoBehaviour
             {
                 for(int k = 0; k < grid[i,j].Count; k++)
                 {
+                    GameObject g = null;
                     if(grid[i,j][k] == 0)
                     {
-                        GameObject g = Instantiate(floor, worldParent);
-                        g.transform.position = new Vector3(i, k, j);
-                        
+                        g = Instantiate(floor, worldParent);           
                     }
+                    if(grid[i,j][k] == 1)
+                    {
+                        g = Instantiate(cylinder, worldParent);                     
+                    }
+                    if (grid[i, j][k] == 2)
+                    {
+                        g = Instantiate(square, worldParent);                       
+                    }
+                    if (grid[i, j][k] == 3)
+                    {
+                        g = Instantiate(wall, worldParent);                       
+                    }
+                    if (grid[i, j][k] == 4)
+                    {
+                        g = Instantiate(gate, worldParent);                       
+                    }
+
+
+                    g.transform.position = new Vector3(i, k, j);
+                    objectgrid[i, j].Add(g);
                 }
             }
         }
@@ -173,14 +192,34 @@ public class WorldGrid : MonoBehaviour
             return; // outside of bounds
         }
 
-        grid[x, y].Add(block);
+        GameObject g = null;
 
         if (block == 0)
         {
-            GameObject g = Instantiate(floor, worldParent);
-            g.transform.position = new Vector3(x, grid[x,y].Count-1, y);
-            objectgrid[x, y].Add(g);
+            g = Instantiate(floor, worldParent);
         }
+        if (block == 1)
+        {
+            g = Instantiate(cylinder, worldParent);
+        }
+        if (block == 2)
+        {
+            g = Instantiate(square, worldParent);
+        }
+        if (block == 3)
+        {
+            g = Instantiate(wall, worldParent);
+        }
+        if (block == 4)
+        {
+            g = Instantiate(gate, worldParent);
+        }
+
+        objectgrid[x, y].Add(g);
+        grid[x, y].Add(block);
+
+        g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
+        Debug.Log(g.transform.position);
 
     }
 
@@ -265,7 +304,18 @@ public class WorldGrid : MonoBehaviour
         {
             return; // outside of bounds
         }
-        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
+
+        GameObject block = objectgrid[x, y][objectgrid[x, y].Count - 1];
+        if(block.transform.childCount == 0)
+        {
+            objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
+            return;
+        }
+        foreach (Transform child in block.transform)
+        {
+            child.GetComponent<MeshRenderer>().material = hmat;
+        }
+        
     }
 
     public void UnHighlightBlock(int x, int y)
@@ -274,7 +324,18 @@ public class WorldGrid : MonoBehaviour
         {
             return; // outside of bounds
         }
-        objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+
+        GameObject block = objectgrid[x, y][objectgrid[x, y].Count - 1];
+        if (block.transform.childCount == 0)
+        {
+            objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+            return;
+        }
+        foreach (Transform child in objectgrid[x, y][objectgrid[x, y].Count - 1].transform)
+        {
+            child.GetComponent<MeshRenderer>().material = umat;
+        }
+        
     }
 
     public void UnHighlightBlock(Vector3Int pos)
