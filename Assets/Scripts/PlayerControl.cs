@@ -38,6 +38,17 @@ public class PlayerControl : MonoBehaviour
     AudioSource audioSource;
     float volume = 0.7f;
 
+    private bool canMove = true;
+    private bool hasBucket = false;
+
+
+    [SerializeField]
+    private float scoopDelayTime = .7f;
+
+    private Coroutine scoopPlaceCoroutine = null;
+
+    public Animator playerAnimator;
+
     // temp bucket stuff
     bool bucketFull = false;
 
@@ -71,7 +82,10 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateMovement();
+        if (canMove)
+        {
+            UpdateMovement();
+        }
         UpdatePlacing();
         UpdateUI();
     }
@@ -117,6 +131,7 @@ public class PlayerControl : MonoBehaviour
         movementInput = Quaternion.Euler(0, 0, inputRotation) * movementInput;
         lookInput = Quaternion.Euler(0, 0, inputRotation) * lookInput;
         transform.position += Vector3.right * playerSpeed * movementInput.x + Vector3.forward * playerSpeed * movementInput.y;
+        playerAnimator.SetBool("Walking", movementInput.sqrMagnitude > 0);
 
         float lookAngle = 0;
         if (lookInput.magnitude > ignoreLookCutoff)
@@ -158,29 +173,20 @@ public class PlayerControl : MonoBehaviour
 
         if (player.GetButtonDown("ScoopPlaceBucket"))
         {
-            sandWorld.UnHighlightBlock(pos.x, pos.y);
             // then place it!
             //Debug.Log("Scooping placing " + IsBucketFull() + " full?");
             // pos.z is the grid height, switching coordinate systems
-
-            if (IsBucketFull())
+            if (hasBucket)
             {
-                // then place!
-                SetBucketFull(false);
-                int r = Random.Range(1, 5);
-                //int r = 2;
-                sandWorld.AddBlock(pos.x, pos.y, r);
-                //plays placing sound effect
-                PlaySoundEffect(placingSound, volume);
-
-            }
-            else
+                if (scoopPlaceCoroutine == null)
+                {
+                    scoopPlaceCoroutine = StartCoroutine(ScoopPlaceAfterTime(scoopDelayTime, pos));
+                }
+            } else
             {
-                // pickup!
-                SetBucketFull(true);
-                sandWorld.PopBlock(pos.x, pos.y);
-                //plays digging sound effect
-                PlaySoundEffect(diggingSound, volume);
+                // try picking up a bucket! for now just do it...
+                hasBucket = true;
+                playerAnimator.SetBool("HoldingBucket", true);
             }
         }
         else if (player.GetButtonDown("PickupDropBucket"))
@@ -195,9 +201,50 @@ public class PlayerControl : MonoBehaviour
             else
             {
                 // if it's empty then drop the bucket!
+                //playerAnimator.SetBool("HasBucket", false);
+                hasBucket = false;
+                playerAnimator.SetBool("HoldingBucket", false);
             }
         }
         sandWorld.HighlightBlock(pos.x, pos.y);
+    }
+
+    private IEnumerator ScoopPlaceAfterTime(float t, Vector3Int pos)
+    {
+        canMove = false;
+        playerAnimator.SetBool("Walking", false);
+        if (IsBucketFull())
+        {
+            playerAnimator.SetTrigger("Place");
+        }
+        else
+        {
+            playerAnimator.SetTrigger("Scoop");
+        }
+
+        yield return new WaitForSeconds(t);
+
+        sandWorld.UnHighlightBlock(pos.x, pos.y);
+        if (IsBucketFull())
+        {
+            // then place!
+            SetBucketFull(false);
+            int r = Random.Range(1, 5);
+            //int r = 2;
+            sandWorld.AddBlock(pos.x, pos.y, r);
+            //plays placing sound effect
+            PlaySoundEffect(placingSound, volume);
+        }
+        else
+        {
+            // pickup!
+            SetBucketFull(true);
+            sandWorld.PopBlock(pos.x, pos.y);
+            //plays digging sound effect
+            PlaySoundEffect(diggingSound, volume);
+        }
+        scoopPlaceCoroutine = null; // let people scoop and place again!
+        canMove = true;
     }
 
     private void OnEnable()
