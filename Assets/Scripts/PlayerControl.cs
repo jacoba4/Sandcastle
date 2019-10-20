@@ -197,7 +197,15 @@ public class PlayerControl : MonoBehaviour
             {
                 if (scoopPlaceCoroutine == null)
                 {
-                    scoopPlaceCoroutine = StartCoroutine(ScoopPlaceAfterTime(scoopDelayTime, pos));
+                    if (carryingBucket.isSpecialItem)
+                    {
+                        Debug.LogWarning("Currently doesn't check for animation preferences");
+                        carryingBucket.InvokeSpecialEvent();
+                    }
+                    else
+                    {
+                        scoopPlaceCoroutine = StartCoroutine(ScoopPlaceAfterTime(scoopDelayTime, pos));
+                    }
                 }
             }
             else

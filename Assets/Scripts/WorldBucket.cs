@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WorldBucket : MonoBehaviour
 {
@@ -11,10 +12,19 @@ public class WorldBucket : MonoBehaviour
     public bool beingHeld = false;
     public Rigidbody rb;
 
+    public bool isSpecialItem = false; // if it's a special item then do things!
+    public bool specialItemUseScoopAnimation = false; // if it's a special item should it use the usual animation?
+    public UnityEvent specialItemEvent; // invoke this!
+
 
     private void Start()
     {
         SetFullOfSand(false);
+    }
+
+    public void InvokeSpecialEvent()
+    {
+        specialItemEvent.Invoke();
     }
 
     public void Pickup()
