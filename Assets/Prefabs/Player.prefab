@@ -145,11 +145,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   manager: {fileID: 0}
+  bucketAttachment: {fileID: 5172691722341829277}
   playerSpeed: 0.15
   inputRotation: 45
   lookmoveCutoff: 0.2
   ignoreLookCutoff: 0.1
   placePosition: {fileID: 3870107403547504226}
+  pickupBucketRange: 2
+  bucketDropForce: 250
+  pickupPercentThing: 20
+  pickupRotationPercentThing: 0.1
   sandWorld: {fileID: 0}
   tempBullet: {fileID: 1611409615287160817, guid: 270a5d8a4df6cab4893c1b0d5d43953d,
     type: 3}
@@ -682,6 +687,12 @@ Transform:
 --- !u!95 &355579800254028974 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: e0644a7da0f0dd243993e4cf54bcff03,
+    type: 3}
+  m_PrefabInstance: {fileID: 3395699820772399822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5172691722341829277 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7554477530115657811, guid: e0644a7da0f0dd243993e4cf54bcff03,
     type: 3}
   m_PrefabInstance: {fileID: 3395699820772399822}
   m_PrefabAsset: {fileID: 0}

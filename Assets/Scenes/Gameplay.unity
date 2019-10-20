@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 384274727}
   - component: {fileID: 384274729}
   m_Layer: 0
-  m_Name: SplitScreenManager
+  m_Name: GameplayManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,9 +237,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayers: 4
+  copiesOfEachBucket: 5
   playerPrefab: {fileID: 3870107402642273232, guid: 5a8926617b7d9334c85ea70eb3a09706,
     type: 3}
+  bucketPrefabs:
+  - {fileID: 2192669312721209086, guid: 4e72f70749220ad4e823da917742b0a6, type: 3}
   players: []
+  buckets: []
 --- !u!1 &536060647
 GameObject:
   m_ObjectHideFlags: 0
