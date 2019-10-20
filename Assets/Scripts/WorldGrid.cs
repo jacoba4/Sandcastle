@@ -49,6 +49,7 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
+    //Checks if the position is within the bounds of the world
     public bool WithinBounds(Vector3Int pos)
     {
         if (WithinBounds(pos.x, pos.y))
@@ -62,11 +63,13 @@ public class WorldGrid : MonoBehaviour
         return false;
     }
 
+    //Checks if the position is within the bounds of the world
     public bool WithinBounds(Vector2Int pos)
     {
         return WithinBounds(pos.x, pos.y);
     }
 
+    //Checks if the position is within the bounds of the world
     public bool WithinBounds(int x, int y)
     {
         return x >= 0 && x < width && y >= 0 && y < height;
@@ -166,6 +169,7 @@ public class WorldGrid : MonoBehaviour
         return grid[x, y];
     }
 
+    //Returns the list of GameObjects at the given spot
     public List<GameObject> GetSpotObject(int x, int y)
     {
         if (!WithinBounds(x, y))
@@ -175,6 +179,7 @@ public class WorldGrid : MonoBehaviour
         return objectgrid[x, y];
     }
 
+    //Returns the top block at a given spot
     public GameObject GetSpotTop(int x, int y)
     {
         if (!WithinBounds(x, y))
@@ -298,6 +303,7 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
+    //Highlights the top block of the specified spot
     public void HighlightBlock(int x, int y)
     {
         if (!WithinBounds(x, y))
@@ -318,6 +324,7 @@ public class WorldGrid : MonoBehaviour
         
     }
 
+    //UnHighlights the top block of the specified spot
     public void UnHighlightBlock(int x, int y)
     {
         if (!WithinBounds(x, y))
@@ -338,6 +345,7 @@ public class WorldGrid : MonoBehaviour
         
     }
 
+    //UnHighlights the top block of the specified spot
     public void UnHighlightBlock(Vector3Int pos)
     {
         if (!WithinBounds(pos))
@@ -379,7 +387,8 @@ public class WorldGrid : MonoBehaviour
     }
 
 
-    //WIP
+    //Saves the current map
+    //Will save in playerprefs with a name specified by the text in "textbox"
     public void Save()
     {
         sg = new SaveGrid();
@@ -398,6 +407,8 @@ public class WorldGrid : MonoBehaviour
         PlayerPrefs.SetString(savename, json);
     }
 
+    //Loads a map
+    //Will load from playerprefs with a name specified by the text in "textbox"
     public void LoadGrid()
     {
         string loadname = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
@@ -419,6 +430,7 @@ public class WorldGrid : MonoBehaviour
 
     }
 
+    //Converts a List<int>[,] to a SavegridList[]
     public SaveGridList[] GridToSaveGrid(List<int>[,] grid)
     {
         SaveGridList[] s = new SaveGridList[width * height];
@@ -437,6 +449,7 @@ public class WorldGrid : MonoBehaviour
         return s;
     }
 
+    //Converts a SaveGridList[] to a List<int>[,]
     public List<int>[,] SaveGridToGrid(SaveGridList[] s)
     {
         List<int>[,] ret = new List<int>[width,height];
@@ -458,6 +471,7 @@ public class WorldGrid : MonoBehaviour
         return ret;
     }
 
+    //Clears the map
     public void ClearGrid()
     {
         for (int i = 0; i < width; i++)
