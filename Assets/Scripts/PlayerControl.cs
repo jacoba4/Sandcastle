@@ -30,6 +30,13 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]
     private float bulletSpeed = 5f;
 
+    //for the noises
+    //idk how to public/private change these if u want @jordan
+    public AudioClip diggingSound;
+    public AudioClip placingSound;
+    public AudioClip footstepSound;
+    AudioSource audioSource;
+    float volume = 0.7f;
 
     // temp bucket stuff
     bool bucketFull = false;
@@ -163,12 +170,17 @@ public class PlayerControl : MonoBehaviour
                 int r = Random.Range(1, 5);
                 //int r = 2;
                 sandWorld.AddBlock(pos.x, pos.y, r);
+                //plays placing sound effect
+                PlaySoundEffect(placingSound, volume);
+
             }
             else
             {
                 // pickup!
                 SetBucketFull(true);
                 sandWorld.PopBlock(pos.x, pos.y);
+                //plays digging sound effect
+                PlaySoundEffect(diggingSound, volume);
             }
         }
         else if (player.GetButtonDown("PickupDropBucket"))
@@ -208,5 +220,12 @@ public class PlayerControl : MonoBehaviour
         }
         // remove any highlighting you added when you leave
         sandWorld.UnHighlightBlock(highlightPosition.x, highlightPosition.y);
+    }
+
+    //plays sound effects at a volume
+    public void PlaySoundEffect(AudioClip soundEffect, float volume)
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(soundEffect, volume);
     }
 }
