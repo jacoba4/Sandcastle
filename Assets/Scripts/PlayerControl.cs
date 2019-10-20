@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
     public int playerID = 0;
     public GameplayManager manager; // use this for joining/leaving the game
 
+    public Transform bucketAttachment; // used for holding buckets!
 
     [SerializeField]
     private float playerSpeed = 1f;
@@ -20,6 +21,15 @@ public class PlayerControl : MonoBehaviour
     private float ignoreLookCutoff = .1f;
     [SerializeField]
     private Transform placePosition; // a child gameobject of the parent which is where we should place/remove sandcastle stuff
+
+    [SerializeField]
+    private float pickupBucketRange = 2f;
+    [SerializeField]
+    private float bucketDropForce = 17f;
+    [SerializeField]
+    private float pickupPercentThing = .2f;
+    [SerializeField]
+    private float pickupRotationPercentThing = .2f;
 
     private Vector3Int highlightPosition = new Vector3Int();
 
@@ -37,6 +47,20 @@ public class PlayerControl : MonoBehaviour
     public AudioClip footstepSound;
     AudioSource audioSource;
     float volume = 0.7f;
+
+    private bool canMove = true;
+    private bool hasBucket = false;
+
+
+    private WorldBucket carryingBucket;
+    private BucketData carryingBucketData;
+
+    [SerializeField]
+    private float scoopDelayTime = .7f;
+
+    private Coroutine scoopPlaceCoroutine = null;
+
+    public Animator playerAnimator;
 
     // temp bucket stuff
     bool bucketFull = false;
@@ -71,7 +95,10 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateMovement();
+        if (canMove)
+        {
+            UpdateMovement();
+        }
         UpdatePlacing();
         UpdateUI();
     }
@@ -117,6 +144,7 @@ public class PlayerControl : MonoBehaviour
         movementInput = Quaternion.Euler(0, 0, inputRotation) * movementInput;
         lookInput = Quaternion.Euler(0, 0, inputRotation) * lookInput;
         transform.position += Vector3.right * playerSpeed * movementInput.x + Vector3.forward * playerSpeed * movementInput.y;
+        playerAnimator.SetBool("Walking", movementInput.sqrMagnitude > 0);
 
         float lookAngle = 0;
         if (lookInput.magnitude > ignoreLookCutoff)
@@ -158,29 +186,31 @@ public class PlayerControl : MonoBehaviour
 
         if (player.GetButtonDown("ScoopPlaceBucket"))
         {
-            sandWorld.UnHighlightBlock(pos.x, pos.y);
             // then place it!
             //Debug.Log("Scooping placing " + IsBucketFull() + " full?");
             // pos.z is the grid height, switching coordinate systems
-
-            if (IsBucketFull())
+            if (hasBucket)
             {
-                // then place!
-                SetBucketFull(false);
-                int r = Random.Range(1, 5);
-                //int r = 2;
-                sandWorld.AddBlock(pos.x, pos.y, r);
-                //plays placing sound effect
-                PlaySoundEffect(placingSound, volume);
-
+                if (scoopPlaceCoroutine == null)
+                {
+                    scoopPlaceCoroutine = StartCoroutine(ScoopPlaceAfterTime(scoopDelayTime, pos));
+                }
             }
             else
             {
-                // pickup!
-                SetBucketFull(true);
-                sandWorld.PopBlock(pos.x, pos.y);
-                //plays digging sound effect
-                PlaySoundEffect(diggingSound, volume);
+                // try picking up a bucket! for now just do it...
+                WorldBucket wb = manager.GetClosestBucket(transform.position, pickupBucketRange);
+                if (wb != null)
+                {
+                    wb.beingHeld = true; // so that other players can't pick it up
+                    hasBucket = true;
+                    playerAnimator.SetBool("HoldingBucket", true);
+                    carryingBucket = wb;
+                    carryingBucketData = wb.bucket;
+                    // also do UI stuff
+                    wb.Pickup();
+                    StartCoroutine(PickUpBucketAfterTime(.25f));
+                }
             }
         }
         else if (player.GetButtonDown("PickupDropBucket"))
@@ -195,9 +225,100 @@ public class PlayerControl : MonoBehaviour
             else
             {
                 // if it's empty then drop the bucket!
+                //playerAnimator.SetBool("HasBucket", false);
+                hasBucket = false;
+                playerAnimator.SetBool("HoldingBucket", false);
+                if (carryingBucket != null)
+                {
+                    // if it's currently carrying a bucket then drop it
+                    // do UI stuff
+                    // then drop it!
+                    carryingBucket.Drop();
+                    carryingBucket.transform.parent = null;
+                    Vector3 bucketForce = Random.onUnitSphere;
+                    if (bucketForce.y < .4)
+                    {
+                        bucketForce.y = .4f;
+                    }
+                    bucketForce *= bucketDropForce;
+                    carryingBucket.rb.AddForce(bucketForce, ForceMode.Acceleration);
+                    carryingBucket = null;
+                    carryingBucketData = null;
+                }
             }
         }
         sandWorld.HighlightBlock(pos.x, pos.y);
+    }
+
+    private IEnumerator PickUpBucketAfterTime(float t)
+    {
+        //float percent = 0;
+        //float startTime = Time.time;
+        Vector3 delta = Vector3.one;
+        int i = 0;
+        //Quaternion deltaRot;
+        while (delta.magnitude > .01f && i < 100)
+        {
+            yield return null; // wait a frame
+            //percent = (Time.time - startTime) / t;
+            if (carryingBucket == null)
+            {
+                break; // leave early since we dropped the bucket
+            }
+            delta = bucketAttachment.position - carryingBucket.transform.position;
+            delta *= pickupPercentThing * Time.deltaTime;
+            //deltaRot = bucketAttachment.rotation * Quaternion.Inverse(carryingBucket.transform.rotation);
+            carryingBucket.transform.rotation = Quaternion.Slerp(carryingBucket.transform.rotation, bucketAttachment.rotation, pickupRotationPercentThing);
+            carryingBucket.transform.position += delta;
+            i++;
+            //Debug.Log("Delta: " + delta.magnitude);
+        }
+        //yield return new WaitForSeconds(t);
+        if (carryingBucket != null)
+        {
+            // i.e. if we haven't really quickly dropped it for some reason...
+            carryingBucket.transform.parent = bucketAttachment;
+            carryingBucket.transform.localPosition = Vector3.zero;
+            carryingBucket.transform.localRotation = Quaternion.identity;
+        }
+    }
+
+    private IEnumerator ScoopPlaceAfterTime(float t, Vector3Int pos)
+    {
+        canMove = false;
+        playerAnimator.SetBool("Walking", false);
+        if (IsBucketFull())
+        {
+            playerAnimator.SetTrigger("Place");
+        }
+        else
+        {
+            playerAnimator.SetTrigger("Scoop");
+        }
+
+        yield return new WaitForSeconds(t);
+
+        sandWorld.UnHighlightBlock(pos.x, pos.y);
+        if (IsBucketFull())
+        {
+            // then place!
+            SetBucketFull(false);
+            int r = Random.Range(1, 5);
+            //int r = 2;
+            sandWorld.AddBlock(pos.x, pos.y, r);
+            //plays placing sound effect
+            PlaySoundEffect(placingSound, volume);
+        }
+        else
+        {
+            // pickup!
+            SetBucketFull(true);
+            sandWorld.PopBlock(pos.x, pos.y);
+            //plays digging sound effect
+            PlaySoundEffect(diggingSound, volume);
+        }
+        scoopPlaceCoroutine = null; // let people scoop and place again!
+        canMove = true;
     }
 
     private void OnEnable()

@@ -6,8 +6,16 @@ using Rewired;
 public class GameplayManager : MonoBehaviour
 {
     public int maxPlayers = 4;
+    public int copiesOfEachBucket = 5;
     public GameObject playerPrefab;
+    public List<GameObject> bucketPrefabs = new List<GameObject>(); // list of prefabs to spawn of each bucket
     public List<PlayerControl> players = new List<PlayerControl>();
+    public List<WorldBucket> buckets = new List<WorldBucket>();
+
+    private void Start()
+    {
+        SpawnBuckets();
+    }
 
     // Update is called once per frame
     void Update()
@@ -19,6 +27,53 @@ public class GameplayManager : MonoBehaviour
     {
         players.Remove(p);
         Destroy(p.gameObject);
+    }
+
+    private void SpawnBuckets()
+    {
+        DestroyBuckets();
+        for (int i = 0; i < bucketPrefabs.Count; i++)
+        {
+            for (int j = 0; j < copiesOfEachBucket; j++)
+            {
+                // spawn the bucket prefabs!
+                GameObject g = Instantiate(bucketPrefabs[i]);
+                // move it around somewhere!
+
+                // then initialize it and store it!
+                WorldBucket b = g.GetComponent<WorldBucket>();
+                b.Initialize(this);
+                buckets.Add(b);
+            }
+        }
+    }
+
+    public WorldBucket GetClosestBucket(Vector3 pos, float maxRange = -1)
+    {
+        WorldBucket closest = null;
+        float closestDistance = maxRange; // if max Range is -1 then it has no max range, otherwise it uses that as the max range duh.
+        for (int i = 0; i < buckets.Count; i++)
+        {
+            float d = Vector3.Distance(pos, buckets[i].transform.position);
+            if (!buckets[i].beingHeld && (closestDistance == -1 || d < closestDistance))
+            {
+                // then you can pick it up!
+                closest = buckets[i];
+                closestDistance = d;
+            }
+        }
+
+        return closest;
+    }
+
+    private void DestroyBuckets()
+    {
+        // in the off chance that we managed to create lots of buckets somehow, destroy old buckets
+        foreach(WorldBucket go in buckets)
+        {
+            Destroy(go.gameObject);
+        }
+        buckets = new List<WorldBucket>();
     }
 
     public void WatchForJoiningGame()
