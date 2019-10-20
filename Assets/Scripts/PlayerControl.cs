@@ -112,6 +112,10 @@ public class PlayerControl : MonoBehaviour
     private void SetBucketFull(bool full)
     {
         bucketFull = full;
+        if (carryingBucket)
+        {
+            carryingBucket.SetFullOfSand(full);
+        }
     }
 
     private void DisconnectPlayer()
@@ -317,6 +321,7 @@ public class PlayerControl : MonoBehaviour
             //plays digging sound effect
             PlaySoundEffect(diggingSound, volume);
         }
+        yield return new WaitForSeconds(t/2);
         scoopPlaceCoroutine = null; // let people scoop and place again!
         canMove = true;
     }
