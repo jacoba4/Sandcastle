@@ -271,7 +271,7 @@ public class PlayerControl : MonoBehaviour
             carryingBucket.transform.rotation = Quaternion.Slerp(carryingBucket.transform.rotation, bucketAttachment.rotation, pickupRotationPercentThing);
             carryingBucket.transform.position += delta;
             i++;
-            Debug.Log("Delta: " + delta.magnitude);
+            //Debug.Log("Delta: " + delta.magnitude);
         }
         //yield return new WaitForSeconds(t);
         if (carryingBucket != null)
