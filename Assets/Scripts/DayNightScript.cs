@@ -40,8 +40,11 @@ public class DayNightScript : MonoBehaviour
 
         float intensityMultiplier = 1;
 
+        //if night
         if (currentTimeOfDay <= 0.23f || currentTimeOfDay >= 0.75f)
         {
+            timeMultiplier = 2;
+
             if (isSun)
             {
                 intensityMultiplier = 0;
@@ -51,8 +54,13 @@ public class DayNightScript : MonoBehaviour
                 intensityMultiplier = 1;
             }
         }
+
+        //if sunrise
         else if (currentTimeOfDay <= 0.25f)
         {
+
+            timeMultiplier = 1.5f;
+
             if (isSun)
             {
                 intensityMultiplier = Mathf.Clamp01((currentTimeOfDay - 0.23f) * (1 / 0.02f));
@@ -64,6 +72,8 @@ public class DayNightScript : MonoBehaviour
             
             
         }
+
+        //if sunset
         else if (currentTimeOfDay >= 0.73f)
         {
             if (isSun)
@@ -75,6 +85,13 @@ public class DayNightScript : MonoBehaviour
                 intensityMultiplier = Mathf.Clamp01((currentTimeOfDay - 0.23f) * (1 / 0.02f));
             }
         }
+
+        else
+        {
+            timeMultiplier = 1f;
+        }
+
+        
 
         sun.intensity = sunInitialIntensity * intensityMultiplier;
     }
