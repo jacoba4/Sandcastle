@@ -313,13 +313,22 @@ public class PlayerControl : MonoBehaviour
         sandWorld.UnHighlightBlock(pos.x, pos.y);
         if (IsBucketFull())
         {
-            // then place!
-            SetBucketFull(false);
-            //int r = Random.Range(1, 5);
-            //int r = 2;
-            sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
-            //plays placing sound effect
-            PlaySoundEffect(placingSound, volume);
+            //Check if current bucket is placeable on selected block
+            bool p = false;
+            int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
+            p = carryingBucketData.Placeable(s);
+
+            Debug.Log("Carrying: " + carryingBucketData.bucketID);
+            Debug.Log("Spot: " + s);
+            Debug.Log("Placeable?: " + p);
+            if(p)
+            {
+                SetBucketFull(false);
+                sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
+                //plays placing sound effect
+                PlaySoundEffect(placingSound, volume);
+            }    
+            
         }
         else
         {

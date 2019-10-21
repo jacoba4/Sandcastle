@@ -223,7 +223,15 @@ public class WorldGrid : MonoBehaviour
         objectgrid[x, y].Add(g);
         grid[x, y].Add(block);
 
-        g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
+        if(block != 0)
+        {
+            g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
+        }
+        else
+        {
+            g.transform.position = new Vector3(x, grid[x, y].Count - 1f, y);
+        }
+        
         Debug.Log(g.transform.position);
 
     }
