@@ -11,6 +11,7 @@ public class GameplayManager : MonoBehaviour
     public List<GameObject> bucketPrefabs = new List<GameObject>(); // list of prefabs to spawn of each bucket
     public List<PlayerControl> players = new List<PlayerControl>();
     public List<WorldBucket> buckets = new List<WorldBucket>();
+    public WorldGrid sandWorld;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class GameplayManager : MonoBehaviour
         Destroy(p.gameObject);
     }
 
+    [ContextMenu("Spawn buckets")]
     private void SpawnBuckets()
     {
         DestroyBuckets();
@@ -39,6 +41,8 @@ public class GameplayManager : MonoBehaviour
                 // spawn the bucket prefabs!
                 GameObject g = Instantiate(bucketPrefabs[i]);
                 // move it around somewhere!
+
+                g.transform.position = new Vector3(Random.Range(0f, sandWorld.width), 10, Random.Range(0f, sandWorld.height));
 
                 // then initialize it and store it!
                 WorldBucket b = g.GetComponent<WorldBucket>();

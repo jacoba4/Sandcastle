@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 2192669312721209084}
   - component: {fileID: 2192669312721209083}
   m_Layer: 0
-  m_Name: CircleBucket
+  m_Name: CircleBucket 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190be14f8f8eb2643a3aacd93d054ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bucket: {fileID: 11400000, guid: 3ef77b49a480dd64d9ae2ee75de9f259, type: 2}
+  bucket: {fileID: 11400000, guid: a051f410108dc44438aad64049670889, type: 2}
   colliders:
   - {fileID: 3726904208314883779}
   fullMeshes:
@@ -298,7 +298,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7586a80bced9b164d96aaee250ac23ce, type: 2}
+      objectReference: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 291a1154b01927b48b2dd0f95e48ca37, type: 3}
 --- !u!4 &4682599728877340998 stripped

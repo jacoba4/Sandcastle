@@ -242,8 +242,13 @@ MonoBehaviour:
     type: 3}
   bucketPrefabs:
   - {fileID: 2192669312721209086, guid: acc7d3b678eadbd4297de1b2a12cf7f1, type: 3}
+  - {fileID: 2192669312721209086, guid: a958d7718ee5d4448829ff6512a8ee92, type: 3}
+  - {fileID: 2192669312721209086, guid: 2c3e2df6c168ab5489305bef7a987399, type: 3}
+  - {fileID: 2192669312721209086, guid: 6ea2eaf494bfdf34aaf0953a65c2cf88, type: 3}
+  - {fileID: 2192669312721209086, guid: b4bb3e4b669d76843be90f52bc7e0ecc, type: 3}
   players: []
   buckets: []
+  sandWorld: {fileID: 38914248}
 --- !u!1 &536060647
 GameObject:
   m_ObjectHideFlags: 0

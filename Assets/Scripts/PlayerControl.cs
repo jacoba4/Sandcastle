@@ -315,9 +315,9 @@ public class PlayerControl : MonoBehaviour
         {
             // then place!
             SetBucketFull(false);
-            int r = Random.Range(1, 5);
+            //int r = Random.Range(1, 5);
             //int r = 2;
-            sandWorld.AddBlock(pos.x, pos.y, r);
+            sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
             //plays placing sound effect
             PlaySoundEffect(placingSound, volume);
         }
