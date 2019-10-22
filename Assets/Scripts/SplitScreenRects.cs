@@ -9,6 +9,7 @@ public class SplitScreenRects : MonoBehaviour
     public GameObject cameraPrefab;
     public GameObject inventoryPrefab;
     public GameObject gameManager;
+    public GameObject player;
     public List<Transform> players = new List<Transform>();
     public List<GameObject> inventoryui = new List<GameObject>();
     // we can add and remove from this and it'll create scripts to follow that
@@ -106,8 +107,11 @@ public class SplitScreenRects : MonoBehaviour
                 }
 
                 GameObject inventory = Instantiate(inventoryPrefab);
+                
                 inventoryui.Add(inventory);
                 inventory.GetComponent<Canvas>().worldCamera = c;
+                InventoryItems ui = inventory.GetComponentInChildren<InventoryItems>();
+                players[i].inventoryUI = ui;
 
                 // now make c follow whoever it's following
                 c.gameObject.GetComponent<PlayerFollowScript>().toFollow = players[i].transform;

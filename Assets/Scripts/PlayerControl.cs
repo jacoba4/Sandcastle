@@ -34,6 +34,7 @@ public class PlayerControl : MonoBehaviour
     private Vector3Int highlightPosition = new Vector3Int();
 
     public WorldGrid sandWorld; // a reference to the world to place things in
+    public InventoryItems inventoryUI;
 
     [SerializeField]
     private GameObject tempBullet;
