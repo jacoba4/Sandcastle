@@ -212,7 +212,6 @@ public class PlayerControl : MonoBehaviour
                 {
                     if (carryingBucket.isSpecialItem)
                     {
-                        Debug.LogWarning("Currently doesn't check for animation preferences");
                         if (carryingBucket.specialItemScoopAnimation != WorldBucket.SpecialItemAnimation.None)
                         {
                             scoopPlaceCoroutine = StartCoroutine(AnimatedUseSpecialBucketAfterTime(scoopDelayTime, pos));
