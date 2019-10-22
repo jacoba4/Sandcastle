@@ -371,4 +371,16 @@ public class PlayerControl : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.PlayOneShot(soundEffect, volume);
     }
+
+    //halts player controls when game paused
+    public void DisablePlayerMovement()
+    {
+        canMove = false;
+    }
+
+    //re-enables player controls
+    public void EnablePlayerMovement()
+    {
+        canMove = true;
+    }
 }
