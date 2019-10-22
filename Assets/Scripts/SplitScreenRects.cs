@@ -111,7 +111,7 @@ public class SplitScreenRects : MonoBehaviour
                 inventoryui.Add(inventory);
                 inventory.GetComponent<Canvas>().worldCamera = c;
                 InventoryItems ui = inventory.GetComponentInChildren<InventoryItems>();
-                players[i].inventoryUI = ui;
+                players[i].gameObject.GetComponent<PlayerControl>().inventoryUI = ui;
 
                 // now make c follow whoever it's following
                 c.gameObject.GetComponent<PlayerFollowScript>().toFollow = players[i].transform;
