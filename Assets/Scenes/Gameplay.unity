@@ -151,6 +151,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 200
   height: 50
+  BucketData:
+  - {fileID: 11400000, guid: 8f9667ef0a1242b4ca041125d20ce2f9, type: 2}
+  - {fileID: 11400000, guid: 3ef77b49a480dd64d9ae2ee75de9f259, type: 2}
+  - {fileID: 11400000, guid: a051f410108dc44438aad64049670889, type: 2}
+  - {fileID: 11400000, guid: e1de1036ac5d5264cbabc4475b36eb0b, type: 2}
+  - {fileID: 11400000, guid: 2859dba2c2183fb4aa306c3e94d791e4, type: 2}
+  - {fileID: 11400000, guid: df0c93f1666008e40b84c794a690d802, type: 2}
+  - {fileID: 11400000, guid: 93b548b86fcaaba4b812062ff7bb4ecd, type: 2}
+  - {fileID: 11400000, guid: 83152df7930db3a498b9b43c497453b7, type: 2}
+  - {fileID: 11400000, guid: 435330c5b33a0a94c8909307ca7eb332, type: 2}
+  - {fileID: 11400000, guid: 0033d5de10a0ba140851dfe35d142fcb, type: 2}
+  - {fileID: 11400000, guid: 633164cae2fbf2740bc8a09631cce5d6, type: 2}
+  - {fileID: 11400000, guid: ce56e63534c7fa54d8a78f99264bc23d, type: 2}
+  - {fileID: 11400000, guid: 2f58f6eb9bab17e42a3245add1f329cf, type: 2}
+  - {fileID: 11400000, guid: 83d6f4ccba1a8614380efedb5d7d0117, type: 2}
+  - {fileID: 11400000, guid: 488c6c771004a354dad47532015bd39e, type: 2}
   floor: {fileID: 5298583925641285940, guid: 934f6330401549244800c5f5a94f9c70, type: 3}
   cylinder: {fileID: 6411153440717365685, guid: 0b767c7ae5899b84a88955dc5cf7e386,
     type: 3}
