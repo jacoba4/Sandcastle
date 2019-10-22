@@ -132,11 +132,11 @@ public class WorldGrid : MonoBehaviour
 
                     if (grid[i,j][k] != 0)
                     {
-                        g.transform.position = new Vector3(i, grid[i, j].Count - 1.5f, j);
+                        g.transform.position = new Vector3(i, k-.5f, j);
                     }
                     else
                     {
-                        g.transform.position = new Vector3(i, grid[i, j].Count - 1f, j);
+                        g.transform.position = new Vector3(i, k, j);
                     }
                     //g.transform.position = new Vector3(i, k, j);
                     objectgrid[i, j].Add(g);
