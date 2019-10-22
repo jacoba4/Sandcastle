@@ -100,9 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubblePrefab: {fileID: 7104988698582088175, guid: a8504330b0630f048b53f5a52bff5648,
     type: 3}
-  randomSizeRange: {x: 0.5, y: 1.5}
-  randomSpeedRange: {x: 1, y: 3}
-  randomDestroyRange: {x: 3, y: 10}
+  randomSizeRange: {x: 1, y: 5}
+  randomSpeedRange: {x: 1.5, y: 4}
+  randomDestroyRange: {x: 5, y: 20}
   spawnPoint: {fileID: 3156883345036599856}
 --- !u!1 &2350376476438691184
 GameObject:
