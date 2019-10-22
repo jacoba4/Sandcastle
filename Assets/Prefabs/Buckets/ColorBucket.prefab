@@ -69,8 +69,10 @@ MonoBehaviour:
   fullMeshes: []
   beingHeld: 0
   rb: {fileID: 2192669312721209084}
+  unHighlightPosition: 0
   isSpecialItem: 1
-  specialItemUseScoopAnimation: 0
+  isSingleUse: 0
+  specialItemScoopAnimation: 2
   specialItemEvent:
     m_PersistentCalls:
       m_Calls:

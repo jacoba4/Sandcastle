@@ -12,21 +12,28 @@ public class WorldGrid : MonoBehaviour
     //with the first postion of the list being the ground (dug or not dug)
 
 
-    
-    public int width, height = 100;
+    [Header("Data")]
+    public int width = 100;
+    public int height = 100;
+    public List<BucketData> BucketData;
     [SerializeField]
     private List<int>[,] grid;
     List<GameObject>[,] objectgrid;
     SaveGrid sg;
+    [Header("Prefabs")]
     public GameObject floor;
     public GameObject cylinder;
     public GameObject square;
     public GameObject wall;
     public GameObject gate;
+
+    [Header("Materials")]
     [Tooltip("Regular material")]
     public Material umat;
     [Tooltip("Highlighted material")]
     public Material hmat;
+
+    [Header("References")]
     public TMP_InputField textbox;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     public GameObject player;
@@ -106,7 +113,7 @@ public class WorldGrid : MonoBehaviour
         {
             for(int j = 0; j < height; j++)
             {
-                for(int k = 0; k < grid[i,j].Count; k++)
+                for(int k = 1; k < grid[i,j].Count; k++)
                 {
                     GameObject g = null;
                     if(grid[i,j][k] == 0)
@@ -132,6 +139,25 @@ public class WorldGrid : MonoBehaviour
 
                     if (grid[i,j][k] != 0)
                     {
+                        if(grid[i,j][k] == 1 || grid[i, j][k] == 2)
+                        {
+                            int rot = Random.Range(0, 4);
+                            float yrot = 0;
+                            switch (rot)
+                            {
+                                case 1:
+                                    yrot = 90;
+                                    return;
+                                case 2:
+                                    yrot = 180;
+                                    return;
+                                case 3:
+                                    yrot = 270;
+                                    return;
+
+                            }
+                            g.transform.eulerAngles = new Vector3(g.transform.rotation.x, yrot, g.transform.rotation.z);
+                        }
                         g.transform.position = new Vector3(i, k-.5f, j);
                     }
                     else
@@ -212,26 +238,8 @@ public class WorldGrid : MonoBehaviour
 
         GameObject g = null;
 
-        if (block == 0)
-        {
-            g = Instantiate(floor, worldParent);
-        }
-        if (block == 1)
-        {
-            g = Instantiate(cylinder, worldParent);
-        }
-        if (block == 2)
-        {
-            g = Instantiate(square, worldParent);
-        }
-        if (block == 3)
-        {
-            g = Instantiate(wall, worldParent);
-        }
-        if (block == 4)
-        {
-            g = Instantiate(gate, worldParent);
-        }
+
+        g = Instantiate(BucketData[block].prefab, worldParent);
 
         objectgrid[x, y].Add(g);
         grid[x, y].Add(block);
@@ -242,9 +250,25 @@ public class WorldGrid : MonoBehaviour
             g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
             g.transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.Round(player.transform.eulerAngles.y / 90) * 90f, transform.eulerAngles.z);
         }
-        else if(block != 0)
+        else if(block == 1 || block == 2)
         {
-            g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
+            int rot = Random.Range(0, 4);
+            float yrot = 0;
+            switch (rot)
+            {
+                case 1:
+                    yrot = 90;
+                    break;
+                case 2:
+                    yrot = 180;
+                    break;
+                case 3:
+                    yrot = 270;
+                    break;
+
+            }
+            g.transform.eulerAngles = new Vector3(g.transform.rotation.x, yrot, g.transform.rotation.z);
+            g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);         
         }
         else
         {
@@ -449,6 +473,7 @@ public class WorldGrid : MonoBehaviour
     //Will load from playerprefs with a name specified by the text in "textbox"
     public void LoadGrid()
     {
+        double starttime = Time.fixedTime;
         string loadname = textbox.text;
         if(!PlayerPrefs.HasKey(loadname))
         {
@@ -456,16 +481,22 @@ public class WorldGrid : MonoBehaviour
         }
         //Debug.Log("Load name: " + loadname);
         string json = PlayerPrefs.GetString(loadname);
+        //Debug.Log("got string");
         //Debug.Log("json: " + json);
 
         SaveGrid s = JsonUtility.FromJson<SaveGrid>(json);
+        //Debug.Log("saved grid");
         //Debug.Log("savegridlist length: " + s.grid.Length);
 
         ClearGrid();
+        //Debug.Log("cleared");
 
         grid = SaveGridToGrid(s.grid);
+        //Debug.Log("changed grid");
         RefreshMap();
-
+        //Debug.Log("refreshed");
+        double endtime = Time.fixedTime;
+        Debug.Log("Load time: " + (endtime - starttime));
     }
 
     //Converts a List<int>[,] to a SavegridList[]
@@ -497,8 +528,8 @@ public class WorldGrid : MonoBehaviour
         {
             for(int y = 0; y < height; y++)
             {
-                Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
-                Debug.Log("s.size: " + s.Length);
+                //Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
+                //Debug.Log("s.size: " + s.Length);
                 ret[x, y] = new List<int>();
                 ret[x, y] = s[i].objects;
                 i++;
@@ -516,7 +547,7 @@ public class WorldGrid : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                for (int k = 0; k < grid[i, j].Count; k++)
+                for (int k = 1; k < grid[i, j].Count; k++)
                 {
                     Destroy(objectgrid[i, j][k]);
                 }

@@ -12,8 +12,12 @@ public class WorldBucket : MonoBehaviour
     public bool beingHeld = false;
     public Rigidbody rb;
 
+    [Space]
+    [Header("Special Bucket Settings")]
+    public bool unHighlightPosition = true; // unhighlight the position by default
     public bool isSpecialItem = false; // if it's a special item then do things!
-    public bool specialItemUseScoopAnimation = false; // if it's a special item should it use the usual animation?
+    public bool isSingleUse = false; // true only for shells and seaweed and decorations
+    public SpecialItemAnimation specialItemScoopAnimation = SpecialItemAnimation.None; // if it's a special item should it use the usual animation?
     [System.Serializable] public class UnityUseItemEvent : UnityEvent<PlayerControl> { };
     public UnityUseItemEvent specialItemEvent; // invoke this!
 
@@ -64,5 +68,10 @@ public class WorldBucket : MonoBehaviour
     public void Initialize(GameplayManager gameplayManger)
     {
         manager = gameplayManger;
+    }
+
+    public enum SpecialItemAnimation
+    {
+        None, Scoop, Place
     }
 }

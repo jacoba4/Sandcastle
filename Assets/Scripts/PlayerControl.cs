@@ -34,6 +34,7 @@ public class PlayerControl : MonoBehaviour
     private Vector3Int highlightPosition = new Vector3Int();
 
     public WorldGrid sandWorld; // a reference to the world to place things in
+    public InventoryItems inventoryUI;
 
     [SerializeField]
     private GameObject tempBullet;
@@ -119,6 +120,16 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void PickupBucket(Sprite s)
+    {
+        // used for UI stuff
+    }
+
+    public void DropBucket()
+    {
+        // used for UI stuff
+    }
+
     public void DisconnectPlayer()
     {
         player.isPlaying = false;
@@ -202,7 +213,13 @@ public class PlayerControl : MonoBehaviour
                     if (carryingBucket.isSpecialItem)
                     {
                         Debug.LogWarning("Currently doesn't check for animation preferences");
-                        carryingBucket.InvokeSpecialEvent(this);
+                        if (carryingBucket.specialItemScoopAnimation != WorldBucket.SpecialItemAnimation.None)
+                        {
+                            scoopPlaceCoroutine = StartCoroutine(AnimatedUseSpecialBucketAfterTime(scoopDelayTime, pos));
+                        } else
+                        {
+                            UseSpecialBucket(pos);
+                        }
                     }
                     else
                     {
@@ -264,6 +281,80 @@ public class PlayerControl : MonoBehaviour
         sandWorld.HighlightBlock(pos.x, pos.y);
     }
 
+    private void UseSpecialBucket(Vector3Int pos)
+    {
+        if (carryingBucket.unHighlightPosition)
+        {
+            sandWorld.UnHighlightBlock(pos.x, pos.y);
+        }
+        carryingBucket.InvokeSpecialEvent(this);
+        if (carryingBucket.isSingleUse)
+        {
+            carryingBucket.Drop();
+            carryingBucket.transform.parent = null;
+            carryingBucket.transform.position = manager.RandomWorldBucketPosition(); // randomize the position after use
+            carryingBucket = null;
+            carryingBucketData = null;
+
+            hasBucket = false;
+            playerAnimator.SetBool("HoldingBucket", false);
+        }
+    }
+
+    private IEnumerator AnimatedUseSpecialBucketAfterTime(float t, Vector3Int pos)
+    {
+        if (carryingBucket == null)
+        {
+            yield break; // can't do this so leave!
+        }
+
+        canMove = false;
+        playerAnimator.SetBool("Walking", false);
+        if (carryingBucket.specialItemScoopAnimation == WorldBucket.SpecialItemAnimation.Place)
+        {
+            playerAnimator.SetTrigger("Place");
+        }
+        else if (carryingBucket.specialItemScoopAnimation == WorldBucket.SpecialItemAnimation.Scoop)
+        {
+            playerAnimator.SetTrigger("Scoop");
+        }
+
+        yield return new WaitForSeconds(t);
+
+        UseSpecialBucket(pos);
+        //carryingBucket.specialItemEvent.Invoke();
+        //if (IsBucketFull())
+        //{
+        //    //Check if current bucket is placeable on selected block
+        //    bool p = false;
+        //    int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
+        //    p = carryingBucketData.Placeable(s);
+
+        //    //Debug.Log("Carrying: " + carryingBucketData.bucketID);
+        //    //Debug.Log("Spot: " + s);
+        //    //Debug.Log("Placeable?: " + p);
+        //    if (p)
+        //    {
+        //        SetBucketFull(false);
+        //        sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
+        //        //plays placing sound effect
+        //        PlaySoundEffect(placingSound, volume);
+        //    }
+
+        //}
+        //else
+        //{
+        //    // pickup!
+        //    SetBucketFull(true);
+        //    sandWorld.PopBlock(pos.x, pos.y);
+        //    //plays digging sound effect
+        //    PlaySoundEffect(diggingSound, volume);
+        //}
+        yield return new WaitForSeconds(t / 2);
+        scoopPlaceCoroutine = null; // let people scoop and place again!
+        canMove = true;
+    }
+
     private IEnumerator PickUpBucketAfterTime(float t)
     {
         //float percent = 0;
@@ -318,7 +409,52 @@ public class PlayerControl : MonoBehaviour
             //Check if current bucket is placeable on selected block
             bool p = false;
             int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
-            p = carryingBucketData.Placeable(s);
+            switch (s)
+            {
+                case 0:
+                    p = carryingBucketData.POFloor;
+                    break;
+                case 1:
+                    p = carryingBucketData.POCylinder;
+                    break;
+                case 2:
+                    p = carryingBucketData.POSquare;
+                    break;
+                case 3:
+                    p = carryingBucketData.POWall;
+                    break;
+                case 4:
+                    p = carryingBucketData.POGate;
+                    break;
+                case 5:
+                    p = carryingBucketData.POStraightWall;
+                    break;
+                case 6:
+                    p = carryingBucketData.POWallRoof;
+                    break;
+                case 7:
+                    p = carryingBucketData.POCylinderRoof;
+                    break;
+                case 8:
+                    p = carryingBucketData.POCylinder2Roof;
+                    break;
+                case 9:
+                    p = carryingBucketData.POCylinder3Roof;
+                    break;
+                case 10:
+                    p = carryingBucketData.POSquareRoof;
+                    break;
+                case 11:
+                    p = carryingBucketData.POStraightRoad;
+                    break;
+                case 12:
+                    p = carryingBucketData.POCurvedRoad;
+                    break;
+                case 13:
+                    p = carryingBucketData.POIntersectionRoad;
+                    break;
+            }
+            
 
             //Debug.Log("Carrying: " + carryingBucketData.bucketID);
             //Debug.Log("Spot: " + s);

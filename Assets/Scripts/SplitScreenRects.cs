@@ -7,11 +7,38 @@ public class SplitScreenRects : MonoBehaviour
 
     public Camera defaultCamera;
     public GameObject cameraPrefab;
+    public GameObject inventoryPrefab;
+    public GameObject gameManager;
+    public GameObject player;
     public List<Transform> players = new List<Transform>();
+    public List<GameObject> inventoryui = new List<GameObject>();
     // we can add and remove from this and it'll create scripts to follow that
 
     public List<Camera> cameras = new List<Camera>();
-    
+
+    private void Start()
+    {
+        gameManager = GameObject.Find("GameplayManagers");
+    }
+    void Update()
+    {
+        if (PauseMenu.GamePaused == true)
+        {
+            foreach (GameObject i in inventoryui)
+            {
+                i.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (GameObject i in inventoryui)
+            {
+                i.SetActive(true);
+            }
+        }
+        
+    }
+
     public void AddPlayer(Transform player)
     {
         if (players.Contains(player))
@@ -36,6 +63,14 @@ public class SplitScreenRects : MonoBehaviour
             // then it's all being destroyed just return now
             return;
         }
+        
+        // destroy current inventory
+        foreach(GameObject g in inventoryui)
+        {
+            Destroy(g);
+        }
+        inventoryui = new List<GameObject>();
+
 
         // call this when we add or remove a player to refresh the cameras
         if (players.Count == 0)
@@ -45,6 +80,10 @@ public class SplitScreenRects : MonoBehaviour
             defaultCamera.rect = new Rect(0, 0, 1, 1);
             foreach(Camera c in cameras)
             {
+                if (c == null || c.gameObject == null)
+                {
+                    continue; // skip it. It's probably destroyed at the end of the game though...
+                }
                 c.gameObject.SetActive(false); // disable them all
             }
         }
@@ -66,6 +105,14 @@ public class SplitScreenRects : MonoBehaviour
                     c = cameras[i];
                     c.gameObject.SetActive(true);
                 }
+
+                GameObject inventory = Instantiate(inventoryPrefab);
+                
+                inventoryui.Add(inventory);
+                inventory.GetComponent<Canvas>().worldCamera = c;
+                InventoryItems ui = inventory.GetComponentInChildren<InventoryItems>();
+                players[i].inventoryUI = ui;
+
                 // now make c follow whoever it's following
                 c.gameObject.GetComponent<PlayerFollowScript>().toFollow = players[i].transform;
                 // now calculate the rect
