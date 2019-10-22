@@ -14,7 +14,8 @@ public class WorldBucket : MonoBehaviour
 
     public bool isSpecialItem = false; // if it's a special item then do things!
     public bool specialItemUseScoopAnimation = false; // if it's a special item should it use the usual animation?
-    public UnityEvent specialItemEvent; // invoke this!
+    [System.Serializable] public class UnityUseItemEvent : UnityEvent<PlayerControl> { };
+    public UnityUseItemEvent specialItemEvent; // invoke this!
 
 
     private void Start()
@@ -22,9 +23,9 @@ public class WorldBucket : MonoBehaviour
         SetFullOfSand(false);
     }
 
-    public void InvokeSpecialEvent()
+    public void InvokeSpecialEvent(PlayerControl p)
     {
-        specialItemEvent.Invoke();
+        specialItemEvent.Invoke(p);
     }
 
     public void Pickup()

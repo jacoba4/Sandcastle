@@ -61,6 +61,7 @@ public class PlayerControl : MonoBehaviour
     private Coroutine scoopPlaceCoroutine = null;
 
     public Animator playerAnimator;
+    public SkinnedMeshRenderer playerBodyMeshRenderer;
 
     // temp bucket stuff
     bool bucketFull = false;
@@ -200,7 +201,7 @@ public class PlayerControl : MonoBehaviour
                     if (carryingBucket.isSpecialItem)
                     {
                         Debug.LogWarning("Currently doesn't check for animation preferences");
-                        carryingBucket.InvokeSpecialEvent();
+                        carryingBucket.InvokeSpecialEvent(this);
                     }
                     else
                     {
