@@ -31,6 +31,12 @@ public class SplitScreenRects : MonoBehaviour
 
     public void UpdatePlayerCameras()
     {
+        if (defaultCamera == null)
+        {
+            // then it's all being destroyed just return now
+            return;
+        }
+
         // call this when we add or remove a player to refresh the cameras
         if (players.Count == 0)
         {
