@@ -387,8 +387,17 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void UpgradeFacingBlock(bool isSeaweed)
+    {
+        Vector2 character2dPos = placePosition.position;
+        character2dPos.y = placePosition.position.z;
+        Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);
+        Debug.LogError("CUrrently unable to upgrade thigns!");
+    }
+
     private IEnumerator ScoopPlaceAfterTime(float t, Vector3Int pos)
     {
+        Debug.Log("Placing stuff?");
         canMove = false;
         playerAnimator.SetBool("Walking", false);
         if (IsBucketFull())
@@ -464,8 +473,10 @@ public class PlayerControl : MonoBehaviour
                 sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
                 //plays placing sound effect
                 PlaySoundEffect(placingSound, volume);
-            }    
-            
+                Debug.Log("added stuff?");
+
+            }
+
         }
         else
         {
@@ -474,6 +485,7 @@ public class PlayerControl : MonoBehaviour
             sandWorld.PopBlock(pos.x, pos.y);
             //plays digging sound effect
             PlaySoundEffect(diggingSound, volume);
+            Debug.Log("Popped stuff?");
         }
         yield return new WaitForSeconds(t/2);
         scoopPlaceCoroutine = null; // let people scoop and place again!
