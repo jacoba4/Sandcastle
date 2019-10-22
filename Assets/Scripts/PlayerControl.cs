@@ -178,6 +178,7 @@ public class PlayerControl : MonoBehaviour
         //}
 
         // highlight blocks that we're using!
+        sandWorld.SetPlayer(gameObject);
         Vector2 character2dPos = placePosition.position;
         character2dPos.y = placePosition.position.z;
         Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);

@@ -29,6 +29,7 @@ public class WorldGrid : MonoBehaviour
     public Material hmat;
     public TMP_InputField textbox;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
+    public GameObject player;
     
     void Start()
     {
@@ -197,6 +198,10 @@ public class WorldGrid : MonoBehaviour
         return objectgrid[x, y][objectgrid[x, y].Count - 1];
     }
 
+    public void SetPlayer(GameObject g)
+    {
+        player = g;
+    }
     //Adds a specified structure to the specified block
     public void AddBlock(int x, int y, int block)
     {
@@ -231,7 +236,13 @@ public class WorldGrid : MonoBehaviour
         objectgrid[x, y].Add(g);
         grid[x, y].Add(block);
 
-        if(block != 0)
+
+        if(block == 4 || block == 3)
+        {
+            g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
+            g.transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.Round(player.transform.eulerAngles.y / 90) * 90f, transform.eulerAngles.z);
+        }
+        else if(block != 0)
         {
             g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
         }
