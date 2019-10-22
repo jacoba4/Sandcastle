@@ -9,4 +9,9 @@ public class InventoryItems : MonoBehaviour
     public string description;
     public Sprite icon;
     public bool pickedUp;
+
+    void Update()
+    {
+        
+    }
 }

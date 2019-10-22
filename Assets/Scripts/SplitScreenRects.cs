@@ -8,12 +8,17 @@ public class SplitScreenRects : MonoBehaviour
     public Camera defaultCamera;
     public GameObject cameraPrefab;
     public GameObject inventoryPrefab;
+    public GameObject gameManager;
     public List<Transform> players = new List<Transform>();
     public List<GameObject> inventoryui = new List<GameObject>();
     // we can add and remove from this and it'll create scripts to follow that
 
     public List<Camera> cameras = new List<Camera>();
 
+    private void Start()
+    {
+        gameManager = GameObject.Find("GameplayManagers");
+    }
     void Update()
     {
         if (PauseMenu.GamePaused == true)
@@ -30,6 +35,7 @@ public class SplitScreenRects : MonoBehaviour
                 i.SetActive(true);
             }
         }
+        
     }
 
     public void AddPlayer(Transform player)
