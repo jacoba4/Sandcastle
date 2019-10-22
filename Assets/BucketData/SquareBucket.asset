@@ -16,3 +16,8 @@ MonoBehaviour:
   bucketID: 2
   bucketSprite: {fileID: 0}
   bucketRarity: 1
+  POFloor: 1
+  POCylinder: 0
+  POSquare: 1
+  POWall: 0
+  POGate: 0
