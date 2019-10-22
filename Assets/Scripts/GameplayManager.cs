@@ -7,11 +7,15 @@ public class GameplayManager : MonoBehaviour
 {
     public int maxPlayers = 4;
     public int copiesOfEachBucket = 5;
+    public int copiesOfEachDecoration = 10;
     public GameObject playerPrefab;
     public List<GameObject> bucketPrefabs = new List<GameObject>(); // list of prefabs to spawn of each bucket
+    public List<GameObject> decorationPrefabs = new List<GameObject>();
     public List<PlayerControl> players = new List<PlayerControl>();
     public List<WorldBucket> buckets = new List<WorldBucket>();
     public WorldGrid sandWorld;
+
+    public float playerCenterSpawnRange = 5f; // randomized location near the center that the players spawn
 
     public int copiesOfSpecialBuckets = 3;
     public List<GameObject> specialBucketPrefabs = new List<GameObject>(); // list of prefabs to spawn of each bucket
@@ -54,7 +58,7 @@ public class GameplayManager : MonoBehaviour
                 GameObject g = Instantiate(bucketPrefabs[i]);
                 // move it around somewhere!
 
-                g.transform.position = new Vector3(Random.Range(0f, sandWorld.width), 10, Random.Range(0f, sandWorld.height));
+                g.transform.position = RandomWorldBucketPosition();
 
                 // then initialize it and store it!
                 WorldBucket b = g.GetComponent<WorldBucket>();
@@ -71,7 +75,7 @@ public class GameplayManager : MonoBehaviour
                 GameObject g = Instantiate(specialBucketPrefabs[i]);
                 // move it around somewhere!
 
-                g.transform.position = new Vector3(Random.Range(0f, sandWorld.width), 10, Random.Range(0f, sandWorld.height));
+                g.transform.position = RandomWorldBucketPosition();
 
                 // then initialize it and store it!
                 WorldBucket b = g.GetComponent<WorldBucket>();
@@ -79,6 +83,33 @@ public class GameplayManager : MonoBehaviour
                 buckets.Add(b);
             }
         }
+
+        for (int i = 0; i < decorationPrefabs.Count; i++)
+        {
+            for (int j = 0; j < copiesOfEachDecoration; j++)
+            {
+                // spawn the bucket prefabs!
+                GameObject g = Instantiate(decorationPrefabs[i]);
+                // move it around somewhere!
+
+                g.transform.position = RandomWorldBucketPosition();
+
+                // then initialize it and store it!
+                WorldBucket b = g.GetComponent<WorldBucket>();
+                b.Initialize(this);
+                buckets.Add(b);
+            }
+        }
+    }
+
+    public Vector3 RandomWorldBucketPosition()
+    {
+        return new Vector3(Random.Range(0f, sandWorld.width), 10, Random.Range(0f, sandWorld.height));
+    }
+
+    public Vector3 RandomWorldPlayerPosition()
+    {
+        return new Vector3(sandWorld.width / 2f + Random.Range(-playerCenterSpawnRange, playerCenterSpawnRange), 1, sandWorld.height / 2f + Random.Range(-playerCenterSpawnRange, playerCenterSpawnRange));
     }
 
     public WorldBucket GetClosestBucket(Vector3 pos, float maxRange = -1)
@@ -125,6 +156,7 @@ public class GameplayManager : MonoBehaviour
                         // create the player!
                         GameObject player = Instantiate(playerPrefab);
                         PlayerControl c = player.GetComponent<PlayerControl>();
+                        c.transform.position = RandomWorldPlayerPosition();
                         c.manager = this;
                         c.SetPlayer(p);
                         players.Add(c);

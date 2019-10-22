@@ -202,7 +202,13 @@ public class PlayerControl : MonoBehaviour
                     if (carryingBucket.isSpecialItem)
                     {
                         Debug.LogWarning("Currently doesn't check for animation preferences");
-                        carryingBucket.InvokeSpecialEvent(this);
+                        if (carryingBucket.specialItemScoopAnimation != WorldBucket.SpecialItemAnimation.None)
+                        {
+                            scoopPlaceCoroutine = StartCoroutine(AnimatedUseSpecialBucketAfterTime(scoopDelayTime, pos));
+                        } else
+                        {
+                            UseSpecialBucket(pos);
+                        }
                     }
                     else
                     {
@@ -262,6 +268,77 @@ public class PlayerControl : MonoBehaviour
             }
         }
         sandWorld.HighlightBlock(pos.x, pos.y);
+    }
+
+    private void UseSpecialBucket(Vector3Int pos)
+    {
+        if (carryingBucket.unHighlightPosition)
+        {
+            sandWorld.UnHighlightBlock(pos.x, pos.y);
+        }
+        carryingBucket.InvokeSpecialEvent(this);
+        if (carryingBucket.isSingleUse)
+        {
+            carryingBucket.Drop();
+            carryingBucket.transform.parent = null;
+            carryingBucket.transform.position = manager.RandomWorldBucketPosition(); // randomize the position after use
+            carryingBucket = null;
+            carryingBucketData = null;
+        }
+    }
+
+    private IEnumerator AnimatedUseSpecialBucketAfterTime(float t, Vector3Int pos)
+    {
+        if (carryingBucket == null)
+        {
+            yield break; // can't do this so leave!
+        }
+
+        canMove = false;
+        playerAnimator.SetBool("Walking", false);
+        if (carryingBucket.specialItemScoopAnimation == WorldBucket.SpecialItemAnimation.Place)
+        {
+            playerAnimator.SetTrigger("Place");
+        }
+        else if (carryingBucket.specialItemScoopAnimation == WorldBucket.SpecialItemAnimation.Scoop)
+        {
+            playerAnimator.SetTrigger("Scoop");
+        }
+
+        yield return new WaitForSeconds(t);
+
+        UseSpecialBucket(pos);
+        //carryingBucket.specialItemEvent.Invoke();
+        //if (IsBucketFull())
+        //{
+        //    //Check if current bucket is placeable on selected block
+        //    bool p = false;
+        //    int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
+        //    p = carryingBucketData.Placeable(s);
+
+        //    //Debug.Log("Carrying: " + carryingBucketData.bucketID);
+        //    //Debug.Log("Spot: " + s);
+        //    //Debug.Log("Placeable?: " + p);
+        //    if (p)
+        //    {
+        //        SetBucketFull(false);
+        //        sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
+        //        //plays placing sound effect
+        //        PlaySoundEffect(placingSound, volume);
+        //    }
+
+        //}
+        //else
+        //{
+        //    // pickup!
+        //    SetBucketFull(true);
+        //    sandWorld.PopBlock(pos.x, pos.y);
+        //    //plays digging sound effect
+        //    PlaySoundEffect(diggingSound, volume);
+        //}
+        yield return new WaitForSeconds(t / 2);
+        scoopPlaceCoroutine = null; // let people scoop and place again!
+        canMove = true;
     }
 
     private IEnumerator PickUpBucketAfterTime(float t)

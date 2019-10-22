@@ -45,6 +45,10 @@ public class SplitScreenRects : MonoBehaviour
             defaultCamera.rect = new Rect(0, 0, 1, 1);
             foreach(Camera c in cameras)
             {
+                if (c == null || c.gameObject == null)
+                {
+                    continue; // skip it. It's probably destroyed at the end of the game though...
+                }
                 c.gameObject.SetActive(false); // disable them all
             }
         }
