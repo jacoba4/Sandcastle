@@ -69,7 +69,7 @@ MonoBehaviour:
   fullMeshes: []
   beingHeld: 0
   rb: {fileID: 2192669312721209084}
-  unHighlightPosition: 1
+  unHighlightPosition: 0
   isSpecialItem: 1
   isSingleUse: 0
   specialItemScoopAnimation: 2

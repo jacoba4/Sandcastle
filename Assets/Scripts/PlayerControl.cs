@@ -119,6 +119,16 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void PickupBucket(Sprite s)
+    {
+        // used for UI stuff
+    }
+
+    public void DropBucket()
+    {
+        // used for UI stuff
+    }
+
     public void DisconnectPlayer()
     {
         player.isPlaying = false;
@@ -284,6 +294,9 @@ public class PlayerControl : MonoBehaviour
             carryingBucket.transform.position = manager.RandomWorldBucketPosition(); // randomize the position after use
             carryingBucket = null;
             carryingBucketData = null;
+
+            hasBucket = false;
+            playerAnimator.SetBool("HoldingBucket", false);
         }
     }
 
