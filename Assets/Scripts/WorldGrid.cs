@@ -27,7 +27,7 @@ public class WorldGrid : MonoBehaviour
     public Material umat;
     [Tooltip("Highlighted material")]
     public Material hmat;
-    public GameObject textbox;
+    public TMP_InputField textbox;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     
     void Start()
@@ -428,7 +428,7 @@ public class WorldGrid : MonoBehaviour
         string json = JsonUtility.ToJson(sg);
 
         //Debug.Log("json: " + json);
-        string savename = textbox.GetComponentInChildren<TextMeshProUGUI>().text;
+        string savename = textbox.text;
         //Debug.Log("Save name: " + savename);
 
         PlayerPrefs.SetString(savename, json);
@@ -438,7 +438,7 @@ public class WorldGrid : MonoBehaviour
     //Will load from playerprefs with a name specified by the text in "textbox"
     public void LoadGrid()
     {
-        string loadname = textbox.GetComponentInChildren<TextMeshProUGUI>().text;
+        string loadname = textbox.text;
         if(!PlayerPrefs.HasKey(loadname))
         {
             return;
