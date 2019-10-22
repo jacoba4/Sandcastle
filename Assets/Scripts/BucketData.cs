@@ -12,6 +12,11 @@ public class BucketData : ScriptableObject
     [Header("Also put in things like meshes here so that it's easy to find them!")]
     [Tooltip("I have no clue if we're actually going to use this")]
     public float bucketRarity = 1;
+    public bool POFloor;
+    public bool POCylinder;
+    public bool POSquare;
+    public bool POWall;
+    public bool POGate;
 
     public bool Placeable(int s)
     {
