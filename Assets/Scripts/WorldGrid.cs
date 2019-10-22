@@ -302,6 +302,61 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
+    public bool Placeable(int x, int y, int block)
+    {
+        int t = grid[x, y].Count - 1;
+        bool p = false;
+        switch (t)
+        {
+            case 0:
+                p = BucketData[block].POFloor;
+                break;
+            case 1:
+                p = BucketData[block].POCylinder;
+                break;
+            case 2:
+                p = BucketData[block].POSquare;
+                break;
+            case 3:
+                p = BucketData[block].POWall;
+                break;
+            case 4:
+                p = BucketData[block].POGate;
+                break;
+            case 5:
+                p = BucketData[block].POStraightWall;
+                break;
+            case 6:
+                p = BucketData[block].POWallRoof;
+                break;
+            case 7:
+                p = BucketData[block].POCylinderRoof;
+                break;
+            case 8:
+                p = BucketData[block].POCylinder2Roof;
+                break;
+            case 9:
+                p = BucketData[block].POCylinder3Roof;
+                break;
+            case 10:
+                p = BucketData[block].POSquareRoof;
+                break;
+            case 11:
+                p = BucketData[block].POStraightRoad;
+                break;
+            case 12:
+                p = BucketData[block].POCurvedRoad;
+                break;
+            case 13:
+                p = BucketData[block].POIntersectionRoad;
+                break;
+            case 14:
+                p = BucketData[block].POTShapedRoad;
+                break;
+        }
+        return p;
+    }
+
     public bool CheckBlock(int x, int y)
     {
         if (!WithinBounds(x, y))

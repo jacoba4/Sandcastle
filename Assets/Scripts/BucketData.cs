@@ -31,4 +31,5 @@ public class BucketData : ScriptableObject
     public bool POStraightRoad;
     public bool POCurvedRoad;
     public bool POIntersectionRoad;
+    public bool POTShapedRoad;
 }
