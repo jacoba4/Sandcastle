@@ -1155,6 +1155,18 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 7714190528975332321}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &707012983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7637706356960382431, guid: 2dd5ca7d8a4980f49ad7346ae200209c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7637706357769374370}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1af91a44ddf6e246a4bce5076825383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &831825225
 GameObject:
   m_ObjectHideFlags: 0
@@ -5097,6 +5109,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Options.m_Options.Array.data[0].m_Text
       value: Gooey
+      objectReference: {fileID: 0}
+    - target: {fileID: 4200367100778542293, guid: 2dd5ca7d8a4980f49ad7346ae200209c,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 707012983}
+    - target: {fileID: 4200367100778542293, guid: 2dd5ca7d8a4980f49ad7346ae200209c,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetGraphics
       objectReference: {fileID: 0}
     - target: {fileID: 4200367101824428562, guid: 2dd5ca7d8a4980f49ad7346ae200209c,
         type: 3}
