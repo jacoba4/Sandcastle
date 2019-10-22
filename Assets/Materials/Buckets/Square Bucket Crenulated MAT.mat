@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Circle Bucket mat
+  m_Name: Square Bucket Crenulated MAT
   m_Shader: {fileID: -6465566751694194690, guid: 78c77a91f1e980c489b9fa2655ab3f9b,
     type: 3}
   m_ShaderKeywords: 
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_D2BBEC37:
-        m_Texture: {fileID: 2800000, guid: 8806e45141236694cb70498f8ecbd062, type: 3}
+        m_Texture: {fileID: 2800000, guid: 698ba13bbcccf7a4b8c37f37cf448a52, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
