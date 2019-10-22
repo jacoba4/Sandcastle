@@ -29,3 +29,4 @@ MonoBehaviour:
   POStraightRoad: 0
   POCurvedRoad: 0
   POIntersectionRoad: 0
+  POTShapedRoad: 0
