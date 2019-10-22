@@ -119,7 +119,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void DisconnectPlayer()
+    public void DisconnectPlayer()
     {
         player.isPlaying = false;
         manager.LeaveGame(this);

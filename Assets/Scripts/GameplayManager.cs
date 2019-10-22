@@ -28,6 +28,14 @@ public class GameplayManager : MonoBehaviour
         WatchForJoiningGame();
     }
 
+    public void DisconnectAllPlayers()
+    {
+        for (int i = players.Count - 1; i >= 0; i--)
+        {
+            players[i].DisconnectPlayer();
+        }
+    }
+
     public void LeaveGame(PlayerControl p)
     {
         players.Remove(p);
