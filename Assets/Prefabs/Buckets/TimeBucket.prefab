@@ -145,11 +145,10 @@ MonoBehaviour:
   bucket: {fileID: 11400000, guid: 3ef77b49a480dd64d9ae2ee75de9f259, type: 2}
   colliders:
   - {fileID: 3726904208314883779}
-  fullMeshes:
-  - {fileID: 0}
+  fullMeshes: []
   beingHeld: 0
   rb: {fileID: 2192669312721209084}
-  isSpecialItem: 0
+  isSpecialItem: 1
   specialItemUseScoopAnimation: 0
   specialItemEvent:
     m_PersistentCalls:

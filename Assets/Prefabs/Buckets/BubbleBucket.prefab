@@ -67,8 +67,7 @@ MonoBehaviour:
   bucket: {fileID: 0}
   colliders:
   - {fileID: 3726904208314883779}
-  fullMeshes:
-  - {fileID: 0}
+  fullMeshes: []
   beingHeld: 0
   rb: {fileID: 2192669312721209084}
   isSpecialItem: 1
@@ -99,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86d37d4e4159fe42af87c225f162d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubblePrefab: {fileID: 1611409615287160817, guid: 270a5d8a4df6cab4893c1b0d5d43953d,
+  bubblePrefab: {fileID: 7104988698582088175, guid: a8504330b0630f048b53f5a52bff5648,
     type: 3}
   randomSizeRange: {x: 0.5, y: 1.5}
   randomSpeedRange: {x: 1, y: 3}

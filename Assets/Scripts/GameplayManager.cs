@@ -13,6 +13,10 @@ public class GameplayManager : MonoBehaviour
     public List<WorldBucket> buckets = new List<WorldBucket>();
     public WorldGrid sandWorld;
 
+    public int copiesOfSpecialBuckets = 3;
+    public List<GameObject> specialBucketPrefabs = new List<GameObject>(); // list of prefabs to spawn of each bucket
+
+
     private void Start()
     {
         SpawnBuckets();
@@ -40,6 +44,23 @@ public class GameplayManager : MonoBehaviour
             {
                 // spawn the bucket prefabs!
                 GameObject g = Instantiate(bucketPrefabs[i]);
+                // move it around somewhere!
+
+                g.transform.position = new Vector3(Random.Range(0f, sandWorld.width), 10, Random.Range(0f, sandWorld.height));
+
+                // then initialize it and store it!
+                WorldBucket b = g.GetComponent<WorldBucket>();
+                b.Initialize(this);
+                buckets.Add(b);
+            }
+        }
+
+        for (int i = 0; i < specialBucketPrefabs.Count; i++)
+        {
+            for (int j = 0; j < copiesOfSpecialBuckets; j++)
+            {
+                // spawn the bucket prefabs!
+                GameObject g = Instantiate(specialBucketPrefabs[i]);
                 // move it around somewhere!
 
                 g.transform.position = new Vector3(Random.Range(0f, sandWorld.width), 10, Random.Range(0f, sandWorld.height));

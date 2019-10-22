@@ -26,6 +26,7 @@ public class BubbleGun : MonoBehaviour
         }
         rb.velocity = spawnPoint.TransformDirection(vel) * speed;
 
-        Destroy(go, Random.Range(randomDestroyRange.x, randomDestroyRange.y));
+        // make sure it pops at some point:
+        go.GetComponent<BubbleCollision>().PopAfterTime(Random.Range(randomDestroyRange.x, randomDestroyRange.y));
     }
 }
