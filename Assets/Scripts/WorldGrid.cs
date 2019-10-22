@@ -12,21 +12,28 @@ public class WorldGrid : MonoBehaviour
     //with the first postion of the list being the ground (dug or not dug)
 
 
-    
-    public int width, height = 100;
+    [Header("Data")]
+    public int width = 100;
+    public int height = 100;
+    public List<BucketData> BucketData;
     [SerializeField]
     private List<int>[,] grid;
     List<GameObject>[,] objectgrid;
     SaveGrid sg;
+    [Header("Prefabs")]
     public GameObject floor;
     public GameObject cylinder;
     public GameObject square;
     public GameObject wall;
     public GameObject gate;
+
+    [Header("Materials")]
     [Tooltip("Regular material")]
     public Material umat;
     [Tooltip("Highlighted material")]
     public Material hmat;
+
+    [Header("References")]
     public TMP_InputField textbox;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     public GameObject player;
@@ -231,26 +238,8 @@ public class WorldGrid : MonoBehaviour
 
         GameObject g = null;
 
-        if (block == 0)
-        {
-            g = Instantiate(floor, worldParent);
-        }
-        if (block == 1)
-        {
-            g = Instantiate(cylinder, worldParent);
-        }
-        if (block == 2)
-        {
-            g = Instantiate(square, worldParent);
-        }
-        if (block == 3)
-        {
-            g = Instantiate(wall, worldParent);
-        }
-        if (block == 4)
-        {
-            g = Instantiate(gate, worldParent);
-        }
+
+        g = Instantiate(BucketData[block].prefab, worldParent);
 
         objectgrid[x, y].Add(g);
         grid[x, y].Add(block);
@@ -261,7 +250,7 @@ public class WorldGrid : MonoBehaviour
             g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
             g.transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.Round(player.transform.eulerAngles.y / 90) * 90f, transform.eulerAngles.z);
         }
-        else if(block != 0)
+        else if(block == 1 || block == 2)
         {
             int rot = Random.Range(0, 4);
             float yrot = 0;

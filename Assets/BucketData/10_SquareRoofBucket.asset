@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e88348635921648b51a894f4eb7b9b, type: 3}
+  m_Name: 10_SquareRoofBucket
+  m_EditorClassIdentifier: 
+  bucketName: Square Roof
+  bucketID: 100
+  prefab: {fileID: 91843497518856107, guid: 38267e71d4b1a2a429f4245b3422a3de, type: 3}
+  POFloor: 1
+  POCylinder: 0
+  POSquare: 1
+  POWall: 0
+  POGate: 0
+  POStraightWall: 0
+  POWallRoof: 0
+  POCylinderRoof: 0
+  POCylinder2Roof: 0
+  POCylinder3Roof: 0
+  POSquareRoof: 0
+  POStraightRoad: 0
+  POCurvedRoad: 0
+  POIntersectionRoad: 0

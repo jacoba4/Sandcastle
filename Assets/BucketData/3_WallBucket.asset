@@ -10,14 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27e88348635921648b51a894f4eb7b9b, type: 3}
-  m_Name: WallBucket
+  m_Name: 3_WallBucket
   m_EditorClassIdentifier: 
   bucketName: Wall Bucket
   bucketID: 3
-  bucketSprite: {fileID: 0}
-  bucketRarity: 1
+  prefab: {fileID: 5743729369314102926, guid: ef24ca7dcdebd0b408c62b462962f1ba, type: 3}
   POFloor: 1
   POCylinder: 0
   POSquare: 1
-  POWall: 1
-  POGate: 1
+  POWall: 0
+  POGate: 0
+  POStraightWall: 0
+  POWallRoof: 0
+  POCylinderRoof: 0
+  POCylinder2Roof: 0
+  POCylinder3Roof: 0
+  POSquareRoof: 0
+  POStraightRoad: 0
+  POCurvedRoad: 0
+  POIntersectionRoad: 0
