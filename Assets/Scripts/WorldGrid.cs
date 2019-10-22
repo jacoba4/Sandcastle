@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 public class WorldGrid : MonoBehaviour
@@ -128,8 +129,15 @@ public class WorldGrid : MonoBehaviour
                         g = Instantiate(gate, worldParent);                       
                     }
 
-
-                    g.transform.position = new Vector3(i, k, j);
+                    if (grid[i,j][k] != 0)
+                    {
+                        g.transform.position = new Vector3(i, grid[i, j].Count - 1.5f, j);
+                    }
+                    else
+                    {
+                        g.transform.position = new Vector3(i, grid[i, j].Count - 1f, j);
+                    }
+                    //g.transform.position = new Vector3(i, k, j);
                     objectgrid[i, j].Add(g);
                 }
             }
@@ -232,7 +240,7 @@ public class WorldGrid : MonoBehaviour
             g.transform.position = new Vector3(x, grid[x, y].Count - 1f, y);
         }
         
-        Debug.Log(g.transform.position);
+        //Debug.Log(g.transform.position);
 
     }
 
@@ -420,8 +428,7 @@ public class WorldGrid : MonoBehaviour
         string json = JsonUtility.ToJson(sg);
 
         //Debug.Log("json: " + json);
-
-        string savename = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
+        string savename = textbox.GetComponentInChildren<TextMeshProUGUI>().text;
         //Debug.Log("Save name: " + savename);
 
         PlayerPrefs.SetString(savename, json);
@@ -431,7 +438,7 @@ public class WorldGrid : MonoBehaviour
     //Will load from playerprefs with a name specified by the text in "textbox"
     public void LoadGrid()
     {
-        string loadname = textbox.GetComponentInChildren<UnityEngine.UI.Text>().text;
+        string loadname = textbox.GetComponentInChildren<TextMeshProUGUI>().text;
         if(!PlayerPrefs.HasKey(loadname))
         {
             return;
@@ -465,7 +472,7 @@ public class WorldGrid : MonoBehaviour
             }
         }
 
-        Debug.Log(s);
+        //Debug.Log(s);
         return s;
     }
 
@@ -475,12 +482,12 @@ public class WorldGrid : MonoBehaviour
         List<int>[,] ret = new List<int>[width,height];
 
         int i = 0;
-        for (int x = 0; x < height; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int y = 0; y < width; y++)
+            for(int y = 0; y < height; y++)
             {
-                //Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
-                //Debug.Log("s.size: " + s.Length);
+                Debug.Log("i: " + i + "\n" + "x: " + x + "\n" + "y: " + y);
+                Debug.Log("s.size: " + s.Length);
                 ret[x, y] = new List<int>();
                 ret[x, y] = s[i].objects;
                 i++;

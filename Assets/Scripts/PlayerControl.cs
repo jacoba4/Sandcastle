@@ -318,9 +318,9 @@ public class PlayerControl : MonoBehaviour
             int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
             p = carryingBucketData.Placeable(s);
 
-            Debug.Log("Carrying: " + carryingBucketData.bucketID);
-            Debug.Log("Spot: " + s);
-            Debug.Log("Placeable?: " + p);
+            //Debug.Log("Carrying: " + carryingBucketData.bucketID);
+            //Debug.Log("Spot: " + s);
+            //Debug.Log("Placeable?: " + p);
             if(p)
             {
                 SetBucketFull(false);
