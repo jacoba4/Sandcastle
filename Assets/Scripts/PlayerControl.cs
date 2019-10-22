@@ -395,7 +395,52 @@ public class PlayerControl : MonoBehaviour
             //Check if current bucket is placeable on selected block
             bool p = false;
             int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
-            p = carryingBucketData.Placeable(s);
+            switch (s)
+            {
+                case 0:
+                    p = carryingBucketData.POFloor;
+                    break;
+                case 1:
+                    p = carryingBucketData.POCylinder;
+                    break;
+                case 2:
+                    p = carryingBucketData.POSquare;
+                    break;
+                case 3:
+                    p = carryingBucketData.POWall;
+                    break;
+                case 4:
+                    p = carryingBucketData.POGate;
+                    break;
+                case 5:
+                    p = carryingBucketData.POStraightWall;
+                    break;
+                case 6:
+                    p = carryingBucketData.POWallRoof;
+                    break;
+                case 7:
+                    p = carryingBucketData.POCylinderRoof;
+                    break;
+                case 8:
+                    p = carryingBucketData.POCylinder2Roof;
+                    break;
+                case 9:
+                    p = carryingBucketData.POCylinder3Roof;
+                    break;
+                case 10:
+                    p = carryingBucketData.POSquareRoof;
+                    break;
+                case 11:
+                    p = carryingBucketData.POStraightRoad;
+                    break;
+                case 12:
+                    p = carryingBucketData.POCurvedRoad;
+                    break;
+                case 13:
+                    p = carryingBucketData.POIntersectionRoad;
+                    break;
+            }
+            
 
             //Debug.Log("Carrying: " + carryingBucketData.bucketID);
             //Debug.Log("Spot: " + s);

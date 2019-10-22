@@ -30,6 +30,7 @@ public class GameplayManager : MonoBehaviour
     void Update()
     {
         WatchForJoiningGame();
+
     }
 
     public void DisconnectAllPlayers()

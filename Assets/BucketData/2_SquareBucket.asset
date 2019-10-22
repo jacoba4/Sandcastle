@@ -10,9 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27e88348635921648b51a894f4eb7b9b, type: 3}
-  m_Name: SquareBucket
+  m_Name: 2_SquareBucket
   m_EditorClassIdentifier: 
   bucketName: Square Tower
   bucketID: 2
-  bucketSprite: {fileID: 0}
-  bucketRarity: 1
+  prefab: {fileID: 6822711904708790328, guid: d725f3adf7684bc488bbb6e47a01bf3b, type: 3}
+  POFloor: 1
+  POCylinder: 0
+  POSquare: 1
+  POWall: 0
+  POGate: 0
+  POStraightWall: 0
+  POWallRoof: 0
+  POCylinderRoof: 0
+  POCylinder2Roof: 0
+  POCylinder3Roof: 0
+  POSquareRoof: 0
+  POStraightRoad: 0
+  POCurvedRoad: 0
+  POIntersectionRoad: 0
