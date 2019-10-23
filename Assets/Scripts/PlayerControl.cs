@@ -410,7 +410,6 @@ public class PlayerControl : MonoBehaviour
 
     private IEnumerator ScoopPlaceAfterTime(float t, Vector3Int pos)
     {
-        Debug.Log("Placing stuff?");
         canMove = false;
         playerAnimator.SetBool("Walking", false);
         if (IsBucketFull())
@@ -486,7 +485,6 @@ public class PlayerControl : MonoBehaviour
                 sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
                 //plays placing sound effect
                 PlaySoundEffect(placingSound, volume);
-                Debug.Log("added stuff?");
 
             }
 
@@ -498,7 +496,6 @@ public class PlayerControl : MonoBehaviour
             sandWorld.PopBlock(pos.x, pos.y);
             //plays digging sound effect
             PlaySoundEffect(diggingSound, volume);
-            Debug.Log("Popped stuff?");
         }
         yield return new WaitForSeconds(t/2);
         scoopPlaceCoroutine = null; // let people scoop and place again!
