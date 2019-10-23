@@ -15,6 +15,8 @@ MonoBehaviour:
   bucketName: Cylinder Roof 3
   bucketID: 9
   prefab: {fileID: 8304077182688448208, guid: 2ec3b81ecfc2da84c85399583d10326f, type: 3}
+  emptyImage: {fileID: 21300000, guid: eb3098d63925d674193ceb0fc89acad1, type: 3}
+  fullImage: {fileID: 21300000, guid: d2603e9e73e80b4439b4286352653c82, type: 3}
   POFloor: 1
   POCylinder: 1
   POSquare: 0
@@ -29,3 +31,4 @@ MonoBehaviour:
   POStraightRoad: 0
   POCurvedRoad: 0
   POIntersectionRoad: 0
+  POTShapedRoad: 0

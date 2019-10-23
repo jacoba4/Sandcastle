@@ -14,5 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bucketName: Test Bucket
   bucketID: 0
-  bucketSprite: {fileID: 0}
-  bucketRarity: 1
+  prefab: {fileID: 0}
+  emptyImage: {fileID: 21300000, guid: eb3098d63925d674193ceb0fc89acad1, type: 3}
+  fullImage: {fileID: 21300000, guid: d2603e9e73e80b4439b4286352653c82, type: 3}
+  POFloor: 0
+  POCylinder: 0
+  POSquare: 0
+  POWall: 0
+  POGate: 0
+  POStraightWall: 0
+  POWallRoof: 0
+  POCylinderRoof: 0
+  POCylinder2Roof: 0
+  POCylinder3Roof: 0
+  POSquareRoof: 0
+  POStraightRoad: 0
+  POCurvedRoad: 0
+  POIntersectionRoad: 0
+  POTShapedRoad: 0
