@@ -60,6 +60,7 @@ public class GameplayManager : MonoBehaviour
                 // move it around somewhere!
 
                 g.transform.position = RandomWorldBucketPosition();
+                g.transform.rotation *= Quaternion.Euler(0, Random.Range(0f, 360f), 0);
 
                 // then initialize it and store it!
                 WorldBucket b = g.GetComponent<WorldBucket>();
@@ -77,6 +78,7 @@ public class GameplayManager : MonoBehaviour
                 // move it around somewhere!
 
                 g.transform.position = RandomWorldBucketPosition();
+                g.transform.rotation *= Quaternion.Euler(0, Random.Range(0f, 360f), 0);
 
                 // then initialize it and store it!
                 WorldBucket b = g.GetComponent<WorldBucket>();
@@ -94,6 +96,7 @@ public class GameplayManager : MonoBehaviour
                 // move it around somewhere!
 
                 g.transform.position = RandomWorldBucketPosition();
+                g.transform.rotation *= Quaternion.Euler(0, Random.Range(0f, 360f), 0);
 
                 // then initialize it and store it!
                 WorldBucket b = g.GetComponent<WorldBucket>();
