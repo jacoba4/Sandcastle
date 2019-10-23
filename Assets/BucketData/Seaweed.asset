@@ -15,7 +15,7 @@ MonoBehaviour:
   bucketName: Seaweed
   bucketID: 0
   prefab: {fileID: 0}
-  emptyImage: {fileID: 21300000, guid: bbf59c25695ae3642add8e163d3580cf, type: 3}
+  emptyImage: {fileID: 21300000, guid: c5341b21b877741409ec32eec382aaf6, type: 3}
   fullImage: {fileID: 0}
   POFloor: 0
   POCylinder: 0
