@@ -70,6 +70,7 @@ MonoBehaviour:
   fullMeshes: []
   beingHeld: 0
   rb: {fileID: 2192669312721209084}
+  callSpecialFunctionInsteadOfPlace: 0
   unHighlightPosition: 0
   isSpecialItem: 1
   isSingleUse: 0
@@ -78,7 +79,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7839798033765494414}
-        m_MethodName: Fire
+        m_MethodName: ToggleShooting
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -102,10 +103,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubblePrefab: {fileID: 7104988698582088175, guid: a8504330b0630f048b53f5a52bff5648,
     type: 3}
-  randomSizeRange: {x: 1, y: 5}
+  randomSizeRange: {x: 1, y: 4}
   randomSpeedRange: {x: 1.5, y: 4}
   randomDestroyRange: {x: 5, y: 20}
   spawnPoint: {fileID: 3156883345036599856}
+  timeBetweenBubbles: {x: 0.3, y: 0.5}
+  stopShootingWhenDropped: 1
+  shooting: 0
 --- !u!1 &2350376476438691184
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,14 +265,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7807391927412553643}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.931}
+  m_LocalRotation: {x: -0.15879405, y: -0, z: -0, w: 0.9873117}
+  m_LocalPosition: {x: 0, y: 0, z: 1.0281}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2657682023974894863}
   m_Father: {fileID: 2192669312721209085}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -18.274, y: 0, z: 0}
 --- !u!1001 &5353762144050103543
 PrefabInstance:
   m_ObjectHideFlags: 0

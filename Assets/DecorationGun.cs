@@ -10,4 +10,14 @@ public class DecorationGun : MonoBehaviour
     {
         player.UpgradeFacingBlock(isSeaWeed);
     }
+
+    public void PlacePath(PlayerControl player)
+    {
+        player.PlacePathWhereFacing();
+    }
+
+    public void PlaceRoof(PlayerControl player)
+    {
+        player.PlaceRandomRoofWhereFacing();
+    }
 }

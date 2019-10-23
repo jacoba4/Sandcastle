@@ -9,6 +9,47 @@ public class BubbleGun : MonoBehaviour
     public Vector2 randomSpeedRange = Vector2.one * 2;
     public Vector2 randomDestroyRange = Vector2.one * 5;
     public Transform spawnPoint; // move in spawnpoint.forward plus some randomness I guess?
+    public Vector2 timeBetweenBubbles = Vector2.one * .25f;
+    public bool stopShootingWhenDropped = true;
+
+    private WorldBucket bubbleGunBucket;
+
+    private float timer = 0;
+
+    public bool shooting = false;
+
+    private void Start()
+    {
+        bubbleGunBucket = GetComponent<WorldBucket>();
+    }
+
+
+    private void Update()
+    {
+        if (shooting)
+        {
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                // then shoot!
+                Fire();
+                timer = Random.Range(timeBetweenBubbles.x, timeBetweenBubbles.y);
+            }
+            if (stopShootingWhenDropped)
+            {
+                if (bubbleGunBucket != null && !bubbleGunBucket.beingHeld)
+                {
+                    shooting = false;
+                }
+            }
+        }
+    }
+
+    public void ToggleShooting()
+    {
+        shooting = !shooting;
+        timer = 0;
+    }
 
     public void Fire()
     {

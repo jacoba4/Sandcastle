@@ -37,6 +37,9 @@ public class WorldGrid : MonoBehaviour
     public TMP_InputField textbox;
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     public GameObject player;
+
+    [Space]
+    public BucketData cubeBucketdata;
     
     void Start()
     {
@@ -49,7 +52,7 @@ public class WorldGrid : MonoBehaviour
         {
             int x = Random.Range(0, width);
             int y = Random.Range(0, height);
-            AddBlock(x, y, 0);
+            AddBlock(x, y, BucketData[Random.Range(0, BucketData.Count)]);
         }
         
         if (Input.GetKeyDown(KeyCode.O))
@@ -64,7 +67,7 @@ public class WorldGrid : MonoBehaviour
         if (WithinBounds(pos.x, pos.y))
         {
             // then check to see if the height is ok
-            if (pos.z >= 0 && pos.z < grid[pos.x, pos.y].Count)
+            if (pos.z >= 0 && pos.z <= grid[pos.x, pos.y].Count)
             {
                 return true;
             }
@@ -229,8 +232,11 @@ public class WorldGrid : MonoBehaviour
         player = g;
     }
     //Adds a specified structure to the specified block
-    public void AddBlock(int x, int y, int block)
+    public void AddBlock(int x, int y, BucketData bucketData)
     {
+        int block = bucketData.bucketID;
+
+
         if (!WithinBounds(x, y))
         {
             return; // outside of bounds
@@ -245,12 +251,12 @@ public class WorldGrid : MonoBehaviour
         grid[x, y].Add(block);
 
 
-        if(block == 4 || block == 3)
+        if(bucketData.rotateWithPlayer)
         {
-            g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);
+            g.transform.position = new Vector3(x, grid[x, y].Count - 1f, y);
             g.transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.Round(player.transform.eulerAngles.y / 90) * 90f, transform.eulerAngles.z);
         }
-        else if(block == 1 || block == 2)
+        else if(bucketData.randomRotation)
         {
             int rot = Random.Range(0, 4);
             float yrot = 0;

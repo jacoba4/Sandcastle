@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: 10_SquareRoofBucket
   m_EditorClassIdentifier: 
   bucketName: Square Roof
-  bucketID: 100
+  bucketID: 10
   prefab: {fileID: 91843497518856107, guid: 38267e71d4b1a2a429f4245b3422a3de, type: 3}
   emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
   fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   POFloor: 1
-  POCylinder: 0
+  POCylinder: 1
   POSquare: 1
   POWall: 0
   POGate: 0

@@ -8,6 +8,9 @@ public class TimeGun : MonoBehaviour
 
     public float normalTimeMultiplier = 1;
     public List<float> times = new List<float>(); // loop through these then go to a moving day/night cycle after you exhaust them, then loop again
+    public List<Color> colors = new List<Color>();
+
+
     private int status = -1; // what the current status is of this gun.
 
     // Start is called before the first frame update
@@ -26,7 +29,8 @@ public class TimeGun : MonoBehaviour
             // then set the time to dynamic!
             foreach (DayNightScript t in suns)
             {
-                t.timeMultiplier = normalTimeMultiplier;
+                t.timeScalar = normalTimeMultiplier;
+                t.ResetColor();
             }
             Debug.Log("Time is moving!");
         }
@@ -34,8 +38,9 @@ public class TimeGun : MonoBehaviour
         {
             foreach (DayNightScript t in suns)
             {
-                t.timeMultiplier = 0; // stop time!
+                t.timeScalar = 0; // stop time!
                 t.currentTimeOfDay = times[status];
+                t.SetColor(colors[status]);
             }
             Debug.Log("Paused time  at " + times[status]);
         }

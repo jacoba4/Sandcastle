@@ -75,6 +75,8 @@ public class PlayerControl : MonoBehaviour
     // temp bucket stuff
     bool bucketFull = false;
 
+    public List<BucketData> roofData = new List<BucketData>(); // used for spawning in roofs
+
 
     [ContextMenu("Get rewired player from id")]
     void TestStart()
@@ -236,17 +238,28 @@ public class PlayerControl : MonoBehaviour
                 {
                     if (carryingBucket.isSpecialItem)
                     {
-                        if (carryingBucket.specialItemScoopAnimation != WorldBucket.SpecialItemAnimation.None)
+                        if (!carryingBucket.unHighlightPosition || sandWorld.WithinBounds(pos))
                         {
-                            scoopPlaceCoroutine = StartCoroutine(AnimatedUseSpecialBucketAfterTime(scoopDelayTime, pos));
-                        } else
-                        {
-                            UseSpecialBucket(pos);
+                            // if it's not related to world position or it can be placed at the position, then let them place it!
+                            if (carryingBucket.specialItemScoopAnimation != WorldBucket.SpecialItemAnimation.None)
+                            {
+                                scoopPlaceCoroutine = StartCoroutine(AnimatedUseSpecialBucketAfterTime(scoopDelayTime, pos));
+                            }
+                            else
+                            {
+                                UseSpecialBucket(pos);
+                            }
                         }
                     }
                     else
                     {
-                        scoopPlaceCoroutine = StartCoroutine(ScoopPlaceAfterTime(scoopDelayTime, pos));
+                        // only actually let them place if they can place there!
+                        // but they can definitely scoop there
+                        // or if it's the roof bucket and we have the special edge case... :P
+                        if ((CanPlaceAtPosition(pos) || !IsBucketFull()) || (carryingBucket.callSpecialFunctionInsteadOfPlace && IsBucketFull()))
+                        {
+                            scoopPlaceCoroutine = StartCoroutine(ScoopPlaceAfterTime(scoopDelayTime, pos));
+                        }
                     }
                 }
             }
@@ -352,34 +365,6 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(t);
 
         UseSpecialBucket(pos);
-        //carryingBucket.specialItemEvent.Invoke();
-        //if (IsBucketFull())
-        //{
-        //    //Check if current bucket is placeable on selected block
-        //    bool p = false;
-        //    int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
-        //    p = carryingBucketData.Placeable(s);
-
-        //    //Debug.Log("Carrying: " + carryingBucketData.bucketID);
-        //    //Debug.Log("Spot: " + s);
-        //    //Debug.Log("Placeable?: " + p);
-        //    if (p)
-        //    {
-        //        SetBucketFull(false);
-        //        sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
-        //        //plays placing sound effect
-        //        PlaySoundEffect(placingSound, volume);
-        //    }
-
-        //}
-        //else
-        //{
-        //    // pickup!
-        //    SetBucketFull(true);
-        //    sandWorld.PopBlock(pos.x, pos.y);
-        //    //plays digging sound effect
-        //    PlaySoundEffect(diggingSound, volume);
-        //}
         yield return new WaitForSeconds(t / 2);
         scoopPlaceCoroutine = null; // let people scoop and place again!
         canMove = true;
@@ -426,6 +411,121 @@ public class PlayerControl : MonoBehaviour
         Debug.LogError("CUrrently unable to upgrade thigns!");
     }
 
+    public void PlaceRandomRoofWhereFacing()
+    {
+        List<BucketData> placableRoofs = new List<BucketData>();
+
+        Vector2 character2dPos = placePosition.position;
+        character2dPos.y = placePosition.position.z;
+        Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);
+
+        //Debug.Log("Place pos is at " + pos);
+
+        if (!sandWorld.WithinBounds(pos))
+        {
+            return;
+        }
+
+        List<int> blocks = sandWorld.GetSpot(pos.x, pos.y);
+        if (blocks == null)
+        {
+            //Debug.Log("Can't find blocks");
+            return; // can't place it out of bounds?
+        }
+        int underblock = blocks[blocks.Count - 1];
+
+        foreach (BucketData roof in roofData)
+        {
+            if (CanPlaceOnBlock(roof, underblock))
+            {
+                placableRoofs.Add(roof);
+            }
+        }
+
+        if (placableRoofs.Count == 0)
+        {
+            //Debug.LogError("Unable to place any roof on block type : " + underblock);
+        }
+        else
+        {
+            // place the roof!
+            sandWorld.SetPlayer(gameObject);
+            SetBucketFull(false);
+            int roofNum = Random.Range(0, placableRoofs.Count);
+            sandWorld.AddBlock(pos.x, pos.y, placableRoofs[roofNum]);
+            //plays placing sound effect
+            PlaySoundEffect(placingSound, volume);
+        }
+    }
+
+    public void PlacePathWhereFacing()
+    {
+
+    }
+
+    public bool CanPlaceOnBlock(BucketData bucket, int blockType)
+    {
+        bool p = false;
+        switch (blockType)
+        {
+            case 0:
+                p = bucket.POFloor;
+                break;
+            case 1:
+                p = bucket.POCylinder;
+                break;
+            case 2:
+                p = bucket.POSquare;
+                break;
+            case 3:
+                p = bucket.POWall;
+                break;
+            case 4:
+                p = bucket.POGate;
+                break;
+            case 5:
+                p = bucket.POStraightWall;
+                break;
+            case 6:
+                p = bucket.POWallRoof;
+                break;
+            case 7:
+                p = bucket.POCylinderRoof;
+                break;
+            case 8:
+                p = bucket.POCylinder2Roof;
+                break;
+            case 9:
+                p = bucket.POCylinder3Roof;
+                break;
+            case 10:
+                p = bucket.POSquareRoof;
+                break;
+            case 11:
+                p = bucket.POStraightRoad;
+                break;
+            case 12:
+                p = bucket.POCurvedRoad;
+                break;
+            case 13:
+                p = bucket.POIntersectionRoad;
+                break;
+        }
+        return p;
+    }
+
+    public bool CanPlaceAtPosition(Vector3Int pos)
+    {
+        bool p = false;
+        List<int> blocks = sandWorld.GetSpot(pos.x, pos.y);
+        if (blocks == null)
+        {
+            return false; // can't place it out of bounds
+        }
+        int s = blocks[blocks.Count - 1];
+        return CanPlaceOnBlock(carryingBucketData, s);
+    }
+
     private IEnumerator ScoopPlaceAfterTime(float t, Vector3Int pos)
     {
         canMove = false;
@@ -444,68 +544,27 @@ public class PlayerControl : MonoBehaviour
         sandWorld.UnHighlightBlock(pos.x, pos.y);
         if (IsBucketFull())
         {
-            //Check if current bucket is placeable on selected block
-            bool p = false;
-            int s = sandWorld.GetSpot(pos.x, pos.y)[sandWorld.GetSpot(pos.x, pos.y).Count - 1];
-            switch (s)
+            if (carryingBucket.callSpecialFunctionInsteadOfPlace)
             {
-                case 0:
-                    p = carryingBucketData.POFloor;
-                    break;
-                case 1:
-                    p = carryingBucketData.POCylinder;
-                    break;
-                case 2:
-                    p = carryingBucketData.POSquare;
-                    break;
-                case 3:
-                    p = carryingBucketData.POWall;
-                    break;
-                case 4:
-                    p = carryingBucketData.POGate;
-                    break;
-                case 5:
-                    p = carryingBucketData.POStraightWall;
-                    break;
-                case 6:
-                    p = carryingBucketData.POWallRoof;
-                    break;
-                case 7:
-                    p = carryingBucketData.POCylinderRoof;
-                    break;
-                case 8:
-                    p = carryingBucketData.POCylinder2Roof;
-                    break;
-                case 9:
-                    p = carryingBucketData.POCylinder3Roof;
-                    break;
-                case 10:
-                    p = carryingBucketData.POSquareRoof;
-                    break;
-                case 11:
-                    p = carryingBucketData.POStraightRoad;
-                    break;
-                case 12:
-                    p = carryingBucketData.POCurvedRoad;
-                    break;
-                case 13:
-                    p = carryingBucketData.POIntersectionRoad;
-                    break;
+                // this is just a hacky way to get the roof placing working... sorry world...
+                carryingBucket.InvokeSpecialEvent(this);
             }
-            
-
-            //Debug.Log("Carrying: " + carryingBucketData.bucketID);
-            //Debug.Log("Spot: " + s);
-            //Debug.Log("Placeable?: " + p);
-            if(p)
+            else
             {
-                SetBucketFull(false);
-                sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
-                //plays placing sound effect
-                PlaySoundEffect(placingSound, volume);
+                //Debug.Log("Carrying: " + carryingBucketData.bucketID);
+                //Debug.Log("Spot: " + s);
+                //Debug.Log("Placeable?: " + p);
 
+                //Check if current bucket is placeable on selected block
+                if (CanPlaceAtPosition(pos))
+                {
+                    SetBucketFull(false);
+                    sandWorld.AddBlock(pos.x, pos.y, carryingBucketData);
+                    //plays placing sound effect
+                    PlaySoundEffect(placingSound, volume);
+
+                }
             }
-
         }
         else
         {

@@ -9,24 +9,37 @@ public class DayNightScript : MonoBehaviour
     public float secondsInFullDay = 120f;
     [Range(0, 1)]
     public float currentTimeOfDay = 0f;
-    [HideInInspector]
-    public float timeMultiplier = 1f;
+    private float timeMultiplier = 1f;
+    public float timeScalar = 1; // this is used by the time machine as well
 
     public int startPosition;
     public bool isSun;
 
     float sunInitialIntensity;
 
+    private Color normalColor;
+
     void Start()
     {
         sunInitialIntensity = sun.intensity;
+        normalColor = sun.color;
+    }
+
+    public void ResetColor()
+    {
+        sun.color = normalColor;
+    }
+
+    public void SetColor(Color c)
+    {
+        sun.color = c;
     }
 
     void Update()
     {
         UpdateSun();
 
-        currentTimeOfDay += (Time.deltaTime / secondsInFullDay) * timeMultiplier;
+        currentTimeOfDay += (Time.deltaTime / secondsInFullDay) * timeMultiplier * timeScalar;
 
         if (currentTimeOfDay >= 1)
         {

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e88348635921648b51a894f4eb7b9b, type: 3}
   m_Name: 7_CylinderRoofBucket
   m_EditorClassIdentifier: 
-  bucketName: Cylinder Roof 1
+  bucketName: Roof Bucket
   bucketID: 7
   prefab: {fileID: 1431938445197191033, guid: 9a7818526ab552741b98f8f94f73f002, type: 3}
-  emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
-  fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
+  emptyImage: {fileID: 21300000, guid: eb3098d63925d674193ceb0fc89acad1, type: 3}
+  fullImage: {fileID: 21300000, guid: d2603e9e73e80b4439b4286352653c82, type: 3}
+  rotateWithPlayer: 0
+  randomRotation: 0
   POFloor: 1
   POCylinder: 1
   POSquare: 0
