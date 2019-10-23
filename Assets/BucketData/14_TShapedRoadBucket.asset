@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bucketName: T-Shaped Road
   bucketID: 14
-  prefab: {fileID: 6984990916510635992, guid: e0633944f76a4f94e951a2d844f5f191, type: 3}
+  prefab: {fileID: 6984990916510635992, guid: 9af9752389db408428cc02979e17bfb3, type: 3}
   emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
   fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   rotateWithPlayer: 1

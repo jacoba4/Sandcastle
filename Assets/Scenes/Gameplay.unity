@@ -182,7 +182,7 @@ MonoBehaviour:
     type: 3}
   curvedPath: {fileID: 4720671167284089730, guid: a70558dedcfb6d64dba4ebb21fd272e1,
     type: 3}
-  tJunctionPath: {fileID: 6984990916510635992, guid: e0633944f76a4f94e951a2d844f5f191,
+  tJunctionPath: {fileID: 6984990916510635992, guid: 9af9752389db408428cc02979e17bfb3,
     type: 3}
   intersectionPath: {fileID: 6984990916510635992, guid: e0633944f76a4f94e951a2d844f5f191,
     type: 3}
