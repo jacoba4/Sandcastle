@@ -290,6 +290,10 @@ public class PlayerControl : MonoBehaviour
 
     private void UseSpecialBucket(Vector3Int pos)
     {
+        if (carryingBucket == null)
+        {
+            return; // return early, perhaps they dropped it during the animation?
+        }
         if (carryingBucket.unHighlightPosition)
         {
             sandWorld.UnHighlightBlock(pos.x, pos.y);

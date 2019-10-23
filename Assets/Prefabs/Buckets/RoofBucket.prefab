@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 2192669312721209084}
   - component: {fileID: 2192669312721209083}
   m_Layer: 0
-  m_Name: CircleBucket
+  m_Name: CylinderBucket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,8 +148,10 @@ MonoBehaviour:
   - {fileID: 1023102239516982824}
   beingHeld: 0
   rb: {fileID: 2192669312721209084}
+  unHighlightPosition: 1
   isSpecialItem: 0
-  specialItemUseScoopAnimation: 0
+  isSingleUse: 0
+  specialItemScoopAnimation: 0
   specialItemEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -298,7 +300,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7586a80bced9b164d96aaee250ac23ce, type: 2}
+      objectReference: {fileID: 2100000, guid: 9bc2b9c7c845e1c4fb6f0e26ef9db4dc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 291a1154b01927b48b2dd0f95e48ca37, type: 3}
 --- !u!4 &4682599728877340998 stripped
