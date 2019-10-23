@@ -8,6 +8,11 @@ public class BlockHighlighter : MonoBehaviour
     public List<MeshRenderer> renderersToReplace = new List<MeshRenderer>();
     public List<Material> originalMaterials = new List<Material>();
 
+    private void Start()
+    {
+        CopyMats();
+    }
+
     [ContextMenu("Find all renderers")]
     public void FindAllRenderers()
     {

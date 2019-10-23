@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 635870658567428997}
+  - component: {fileID: 6173028210254483144}
   m_Layer: 0
   m_Name: gate weed
   m_TagString: Untagged
@@ -35,6 +36,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6173028210254483144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4505931856228100502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3347d19c7fd114195c416d6d7a7e69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderersToReplace:
+  - {fileID: 9180581950314285168}
+  originalMaterials: []
 --- !u!1 &5046458164050804102
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,11 +349,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3675693567043029841}
     m_Modifications:
-    - target: {fileID: 8943368097189756915, guid: 38d15893e7e4f9847937b3c768ca0845,
-        type: 3}
-      propertyPath: m_Name
-      value: GameObject (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 3948624032226793818, guid: 38d15893e7e4f9847937b3c768ca0845,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -408,6 +419,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.9619053
       objectReference: {fileID: 0}
+    - target: {fileID: 8943368097189756915, guid: 38d15893e7e4f9847937b3c768ca0845,
+        type: 3}
+      propertyPath: m_Name
+      value: GameObject (1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38d15893e7e4f9847937b3c768ca0845, type: 3}
 --- !u!4 &38945380553770010 stripped
@@ -423,11 +439,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 635870658567428997}
     m_Modifications:
-    - target: {fileID: 8943368097189756915, guid: 38d15893e7e4f9847937b3c768ca0845,
-        type: 3}
-      propertyPath: m_Name
-      value: GameObject
-      objectReference: {fileID: 0}
     - target: {fileID: 3948624032226793818, guid: 38d15893e7e4f9847937b3c768ca0845,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -497,6 +508,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.5725624
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943368097189756915, guid: 38d15893e7e4f9847937b3c768ca0845,
+        type: 3}
+      propertyPath: m_Name
+      value: GameObject
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38d15893e7e4f9847937b3c768ca0845, type: 3}

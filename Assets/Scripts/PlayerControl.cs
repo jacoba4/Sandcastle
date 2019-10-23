@@ -135,6 +135,9 @@ public class PlayerControl : MonoBehaviour
             // drop whatever bucket you have so it doesn't get scaled weirdly!
             if (carryingBucket != null)
             {
+                hasBucket = false;
+                playerAnimator.SetBool("HoldingBucket", false);
+
                 carryingBucket.Drop();
                 carryingBucket.transform.parent = null;
                 Vector3 bucketForce = Random.onUnitSphere;
@@ -348,7 +351,7 @@ public class PlayerControl : MonoBehaviour
             // then place it!
             //Debug.Log("Scooping placing " + IsBucketFull() + " full?");
             // pos.z is the grid height, switching coordinate systems
-            if (hasBucket)
+            if (hasBucket && carryingBucket != null)
             {
                 if (scoopPlaceCoroutine == null)
                 {
