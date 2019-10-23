@@ -28,7 +28,7 @@ MonoBehaviour:
   POCylinder2Roof: 0
   POCylinder3Roof: 0
   POSquareRoof: 0
-  POStraightRoad: 0
-  POCurvedRoad: 0
-  POIntersectionRoad: 0
-  POTShapedRoad: 0
+  POStraightRoad: 1
+  POCurvedRoad: 1
+  POIntersectionRoad: 1
+  POTShapedRoad: 1

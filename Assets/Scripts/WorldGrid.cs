@@ -64,7 +64,7 @@ public class WorldGrid : MonoBehaviour
         if (WithinBounds(pos.x, pos.y))
         {
             // then check to see if the height is ok
-            if (pos.z >= 0 && pos.z < grid[pos.x, pos.y].Count)
+            if (pos.z >= 0 && pos.z <= grid[pos.x, pos.y].Count)
             {
                 return true;
             }

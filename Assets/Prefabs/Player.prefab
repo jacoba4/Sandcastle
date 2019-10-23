@@ -174,6 +174,12 @@ MonoBehaviour:
   xBoundaries: {x: 0, y: 49.5}
   yBoundaries: {x: -0.5, y: 200.5}
   yTeleportBoundaries: {x: -20, y: 220}
+  roofData:
+  - {fileID: 11400000, guid: 93b548b86fcaaba4b812062ff7bb4ecd, type: 2}
+  - {fileID: 11400000, guid: 83152df7930db3a498b9b43c497453b7, type: 2}
+  - {fileID: 11400000, guid: 435330c5b33a0a94c8909307ca7eb332, type: 2}
+  - {fileID: 11400000, guid: 0033d5de10a0ba140851dfe35d142fcb, type: 2}
+  - {fileID: 11400000, guid: 633164cae2fbf2740bc8a09631cce5d6, type: 2}
 --- !u!82 &1988859611348374396
 AudioSource:
   m_ObjectHideFlags: 0
