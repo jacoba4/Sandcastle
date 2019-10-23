@@ -20,7 +20,7 @@ MonoBehaviour:
   POFloor: 1
   POCylinder: 0
   POSquare: 1
-  POWall: 0
+  POWall: 1
   POGate: 0
   POStraightWall: 0
   POWallRoof: 0
