@@ -844,6 +844,7 @@ MonoBehaviour:
     type: 3}
   gameManager: {fileID: 0}
   player: {fileID: 0}
+  joinGameText: {fileID: 2067833853}
   players: []
   inventoryui: []
   cameras: []
@@ -5111,7 +5112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2067833854
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5166,8 +5167,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press any key to join the game!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a4b7a12dd49e73f4b836a50a6f43d80f, type: 2}
-  m_sharedMaterial: {fileID: 7029317726190474497, guid: a4b7a12dd49e73f4b836a50a6f43d80f,
+  m_fontAsset: {fileID: 11400000, guid: dc7b08ba11a5e9540861de5ae16eca73, type: 2}
+  m_sharedMaterial: {fileID: -8576737291151589010, guid: dc7b08ba11a5e9540861de5ae16eca73,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5194,8 +5195,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 54
-  m_fontSizeBase: 54
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5802,7 +5803,7 @@ PrefabInstance:
     - target: {fileID: 7714190528731736736, guid: fb796761ffa0c194f97ca9bd89063d58,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.23
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7714190528731736736, guid: fb796761ffa0c194f97ca9bd89063d58,
         type: 3}

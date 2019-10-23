@@ -10,6 +10,7 @@ public class SplitScreenRects : MonoBehaviour
     public GameObject inventoryPrefab;
     public GameObject gameManager;
     public GameObject player;
+    public GameObject joinGameText;
     public List<Transform> players = new List<Transform>();
     public List<GameObject> inventoryui = new List<GameObject>();
     // we can add and remove from this and it'll create scripts to follow that
@@ -86,9 +87,12 @@ public class SplitScreenRects : MonoBehaviour
                 }
                 c.gameObject.SetActive(false); // disable them all
             }
+            joinGameText.SetActive(true);
         }
         else
         {
+            joinGameText.SetActive(false);
+
             defaultCamera.gameObject.SetActive(false);
             // activate other cameras
             for (int i = 0; i < players.Count; i++)
