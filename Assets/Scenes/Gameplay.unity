@@ -869,7 +869,8 @@ MonoBehaviour:
   defaultCamera: {fileID: 605935499}
   cameraPrefab: {fileID: 7714190528731736799, guid: fb796761ffa0c194f97ca9bd89063d58,
     type: 3}
-  inventoryPrefab: {fileID: 0}
+  inventoryPrefab: {fileID: 1810892250195182157, guid: f0f66df5925397c448be823c3abb381f,
+    type: 3}
   gameManager: {fileID: 0}
   player: {fileID: 0}
   joinGameText: {fileID: 2067833853}
