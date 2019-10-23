@@ -2580,6 +2580,24 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 3
+    - _id: 13
+      _name: Growth
+      _type: 0
+      _descriptiveName: Shrink/Grow axis
+      _positiveDescriptiveName: Grow
+      _negativeDescriptiveName: Shrink
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 3
+    - _id: 14
+      _name: ToggleCamera
+      _type: 1
+      _descriptiveName: ToggleCamera
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 3
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -2610,7 +2628,7 @@ MonoBehaviour:
       - categoryId: 2
         actionIds: 05000000
       - categoryId: 3
-        actionIds: 060000000700000008000000090000000a0000000b000000
+        actionIds: 060000000700000008000000090000000a0000000b0000000d0000000e000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -2898,7 +2916,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 19
         _axisRange: 0
@@ -2909,7 +2927,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 14
         _elementType: 1
         _elementIdentifierId: 20
         _axisRange: 0
@@ -2920,18 +2938,18 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 21
         _axisRange: 0
         _invert: 0
-        _axisContribution: 0
+        _axisContribution: 1
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 14
         _elementType: 1
         _elementIdentifierId: 22
         _axisRange: 0
@@ -3656,7 +3674,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 16
         _axisRange: 0
@@ -3667,7 +3685,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 14
         _elementType: 1
         _elementIdentifierId: 17
         _axisRange: 0
@@ -3678,18 +3696,18 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 18
         _axisRange: 0
         _invert: 0
-        _axisContribution: 0
+        _axisContribution: 1
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 14
         _elementType: 1
         _elementIdentifierId: 19
         _axisRange: 0
@@ -4381,7 +4399,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 18
         _axisRange: 0
@@ -4392,7 +4410,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 14
         _elementType: 1
         _elementIdentifierId: 19
         _axisRange: 0
@@ -4403,18 +4421,18 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 20
         _axisRange: 0
         _invert: 0
-        _axisContribution: 0
+        _axisContribution: 1
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 14
         _elementType: 1
         _elementIdentifierId: 21
         _axisRange: 0
@@ -5137,7 +5155,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 5
-    actionIdCounter: 12
+    actionIdCounter: 15
     actionCategoryIdCounter: 4
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 4

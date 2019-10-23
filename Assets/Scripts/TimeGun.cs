@@ -9,6 +9,7 @@ public class TimeGun : MonoBehaviour
     public float normalTimeMultiplier = 1;
     public List<float> times = new List<float>(); // loop through these then go to a moving day/night cycle after you exhaust them, then loop again
     public List<Color> colors = new List<Color>();
+    public Color defaultBackgroundColor;
 
 
     private int status = -1; // what the current status is of this gun.
@@ -32,6 +33,11 @@ public class TimeGun : MonoBehaviour
                 t.timeScalar = normalTimeMultiplier;
                 t.ResetColor();
             }
+
+            foreach (Camera c in FindObjectsOfType<Camera>())
+            {
+                c.backgroundColor = defaultBackgroundColor;
+            }
             //Debug.Log("Time is moving!");
         }
         else
@@ -41,6 +47,11 @@ public class TimeGun : MonoBehaviour
                 t.timeScalar = 0; // stop time!
                 t.currentTimeOfDay = times[status];
                 t.SetColor(colors[status]);
+            }
+
+            foreach (Camera c in FindObjectsOfType<Camera>())
+            {
+                c.backgroundColor = colors[status];
             }
             //Debug.Log("Paused time  at " + times[status]);
         }
