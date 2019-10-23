@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class WorldBucket : MonoBehaviour
 {
     public BucketData bucket; // the bucket data that's associated with this!
@@ -22,6 +23,8 @@ public class WorldBucket : MonoBehaviour
     public UnityUseItemEvent specialItemEvent; // invoke this!
 
 
+    private Rect bounds = new Rect(0, -20, 50, 240);
+
     private void Start()
     {
         SetFullOfSand(false);
@@ -40,6 +43,23 @@ public class WorldBucket : MonoBehaviour
         }
         beingHeld = true;
         rb.isKinematic = true;
+    }
+
+    private void Update()
+    {
+        if (!beingHeld)
+        {
+            // teleport into bounds if out of bounds!
+            if (transform.position.x < bounds.xMin || transform.position.x > bounds.xMax || transform.position.z < bounds.yMin || transform.position.z > bounds.yMax)
+            {
+                // teleport to a new place!
+                //transform.position = manager.RandomWorldBucketPosition();
+                Vector3 clippedPos = transform.position;
+                clippedPos.x = Mathf.Max(bounds.xMin, Mathf.Min(bounds.xMax, clippedPos.x));
+                clippedPos.z = Mathf.Max(bounds.yMin, Mathf.Min(bounds.yMax, clippedPos.z));
+                transform.position = clippedPos;    
+            }
+        }
     }
 
     public void Drop()
