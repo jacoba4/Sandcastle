@@ -15,6 +15,10 @@ MonoBehaviour:
   bucketName: Square Tower
   bucketID: 2
   prefab: {fileID: 6822711904708790328, guid: d725f3adf7684bc488bbb6e47a01bf3b, type: 3}
+  ShellUpgrade: {fileID: 6524231374990172490, guid: 8b7a52b04ea56dc45a47f1180e108f41,
+    type: 3}
+  WeedUpgrade: {fileID: 5948351643753891278, guid: f7608732cf4b86046beb2f796d307ad9,
+    type: 3}
   emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
   fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   rotateWithPlayer: 0

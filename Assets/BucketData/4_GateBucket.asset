@@ -15,6 +15,10 @@ MonoBehaviour:
   bucketName: Gate Bucket
   bucketID: 4
   prefab: {fileID: 3144497118551327617, guid: 2e0edbffc2e54454c91c950a9e4499c1, type: 3}
+  ShellUpgrade: {fileID: 2779534234451218511, guid: 65c29bb0e3621c643a7d8b788d98812c,
+    type: 3}
+  WeedUpgrade: {fileID: 4505931856228100502, guid: ee9133434c962434aab5dd69833091e0,
+    type: 3}
   emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
   fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   rotateWithPlayer: 1

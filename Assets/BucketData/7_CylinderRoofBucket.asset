@@ -15,6 +15,10 @@ MonoBehaviour:
   bucketName: Roof Bucket
   bucketID: 7
   prefab: {fileID: 1431938445197191033, guid: 9a7818526ab552741b98f8f94f73f002, type: 3}
+  ShellUpgrade: {fileID: 7406623248436080963, guid: 2713d638f841d1f4ba1c6ed94e414fb7,
+    type: 3}
+  WeedUpgrade: {fileID: 4731620239020332790, guid: 3735607630cfe364691ac60e6d7e9e3b,
+    type: 3}
   emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
   fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   rotateWithPlayer: 0

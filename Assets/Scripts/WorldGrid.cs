@@ -485,6 +485,50 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
+
+    public void UpgradeBlock(int x, int y, bool isseaweed)
+    {
+        int b = GetSpot(x, y)[grid[x,y].Count-1];
+        GameObject bo = GetSpotTop(x, y);
+        GameObject n;
+        Transform tt = bo.transform;
+        if(isseaweed)
+        {
+            if (BucketData[b].WeedUpgrade != null)
+            {
+                n = Instantiate(BucketData[b].WeedUpgrade, worldParent);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        else
+        {
+            if (BucketData[b].ShellUpgrade != null)
+            {
+                n = Instantiate(BucketData[b].ShellUpgrade, worldParent);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+
+        Vector3 downpos = tt.position;
+        if(b == 2)
+        {
+            downpos.y -= .5f;
+        }
+        
+        n.transform.position = downpos;
+        n.transform.rotation = tt.rotation;
+        Destroy(objectgrid[x, y][objectgrid[x, y].Count - 1]);
+        objectgrid[x, y][objectgrid[x, y].Count - 1] = n;
+
+    }
     public bool Placeable(int x, int y, int block)
     {
         int t = grid[x, y].Count - 1;

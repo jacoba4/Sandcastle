@@ -525,7 +525,8 @@ public class PlayerControl : MonoBehaviour
         Vector2 character2dPos = placePosition.position;
         character2dPos.y = placePosition.position.z;
         Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);
-        Debug.LogError("CUrrently unable to upgrade thigns!");
+        sandWorld.UpgradeBlock(pos.x, pos.y, isSeaweed);
+        //Debug.LogError("CUrrently unable to upgrade thigns!");
     }
 
     public void PlaceRandomRoofWhereFacing()

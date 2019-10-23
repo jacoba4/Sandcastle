@@ -15,6 +15,10 @@ MonoBehaviour:
   bucketName: Curved Road
   bucketID: 12
   prefab: {fileID: 4720671167284089730, guid: a70558dedcfb6d64dba4ebb21fd272e1, type: 3}
+  ShellUpgrade: {fileID: 3718195896112740272, guid: 8a8a8f298484a284eba3b7199b5eaca6,
+    type: 3}
+  WeedUpgrade: {fileID: 913604194884231168, guid: ca913246383688640af81ef80b419635,
+    type: 3}
   emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
   fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   rotateWithPlayer: 1
