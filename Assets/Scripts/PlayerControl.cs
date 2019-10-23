@@ -118,16 +118,19 @@ public class PlayerControl : MonoBehaviour
         {
             carryingBucket.SetFullOfSand(full);
         }
+        inventoryUI.SetFull(full);
     }
 
-    public void PickupBucket(Sprite s)
+    public void PickupBucket()
     {
         // used for UI stuff
+        inventoryUI.SetBucketPickedUp(carryingBucketData);
     }
 
     public void DropBucket()
     {
         // used for UI stuff
+        inventoryUI.SetBucketPickedUp(null);
     }
 
     public void DisconnectPlayer()
@@ -240,6 +243,7 @@ public class PlayerControl : MonoBehaviour
                     // also do UI stuff
                     wb.Pickup();
                     StartCoroutine(PickUpBucketAfterTime(.25f));
+                    PickupBucket();
                 }
             }
         }
@@ -274,6 +278,7 @@ public class PlayerControl : MonoBehaviour
                     carryingBucket.rb.AddForce(bucketForce, ForceMode.Acceleration);
                     carryingBucket = null;
                     carryingBucketData = null;
+                    DropBucket();
                 }
             }
         }
@@ -294,6 +299,7 @@ public class PlayerControl : MonoBehaviour
             carryingBucket.transform.position = manager.RandomWorldBucketPosition(); // randomize the position after use
             carryingBucket = null;
             carryingBucketData = null;
+            DropBucket();
 
             hasBucket = false;
             playerAnimator.SetBool("HoldingBucket", false);

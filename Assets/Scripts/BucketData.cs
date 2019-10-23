@@ -13,7 +13,11 @@ public class BucketData : ScriptableObject
     //[Tooltip("I have no clue if we're actually going to use this")]
     //public Sprite bucketSprite;
     //[Header("Also put in things like meshes here so that it's easy to find them!")]
-    
+
+    [Header("Inventory Sprites")]
+    public Sprite emptyImage;
+    public Sprite fullImage;
+
 
     [Header("Placing rules")]
     
