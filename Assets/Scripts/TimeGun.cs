@@ -32,7 +32,7 @@ public class TimeGun : MonoBehaviour
                 t.timeScalar = normalTimeMultiplier;
                 t.ResetColor();
             }
-            Debug.Log("Time is moving!");
+            //Debug.Log("Time is moving!");
         }
         else
         {
@@ -42,7 +42,7 @@ public class TimeGun : MonoBehaviour
                 t.currentTimeOfDay = times[status];
                 t.SetColor(colors[status]);
             }
-            Debug.Log("Paused time  at " + times[status]);
+            //Debug.Log("Paused time  at " + times[status]);
         }
     }
 }

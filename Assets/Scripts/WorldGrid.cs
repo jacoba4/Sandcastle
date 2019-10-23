@@ -294,11 +294,11 @@ public class WorldGrid : MonoBehaviour
             if (left) connectionCount++;
             if (right) connectionCount++;
 
-            string debugLog = "Found a connection, pos = x:" + x + " y:" + y + " z:" + z + " count = " + connectionCount + ":" + up + down + left + right + ": adding ";
+            //string debugLog = "Found a connection, pos = x:" + x + " y:" + y + " z:" + z + " count = " + connectionCount + ":" + up + down + left + right + ": adding ";
 
             if (connectionCount == 0)
             {
-                Debug.Log(debugLog);
+                //Debug.Log(debugLog);
                 return; // no need to change, there are no paths nearby
             }
             else if ((connectionCount == 1) || (connectionCount == 2 && ((up && down) || (left && right))))
@@ -310,7 +310,7 @@ public class WorldGrid : MonoBehaviour
                 objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
                 if (up || down)
                 {
-                    // then rotate it vertically! (I changed this from before to match the player rotation better)
+                    // then rotate it vertically! (I changed this from before to match the player rotation better)  
                     objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
                 }
             }
@@ -366,10 +366,10 @@ public class WorldGrid : MonoBehaviour
                 objectgrid[x, y][z] = Instantiate(intersectionPath, worldParent);
                 objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
             }
-            if (updateSurroundings)
-            {
-                Debug.Log(debugLog);
-            }
+            //if (updateSurroundings)
+            //{
+            //    Debug.Log(debugLog);
+            //}
         }
 
         if (updateSurroundings)
