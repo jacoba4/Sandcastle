@@ -1000,6 +1000,16 @@ PrefabInstance:
       propertyPath: m_Shadows.m_NormalBias
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7589615362296888011, guid: 7dde606ec27d6ea4a99de2998deaa305,
+        type: 3}
+      propertyPath: timeScalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7589615362296888011, guid: 7dde606ec27d6ea4a99de2998deaa305,
+        type: 3}
+      propertyPath: currentTimeOfDay
+      value: 0.41
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dde606ec27d6ea4a99de2998deaa305, type: 3}
 --- !u!1 &536060647
@@ -1545,6 +1555,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Shadows.m_Type
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2265486498675557719, guid: 14d7d32f62dd67644b109355dbffabaa,
+        type: 3}
+      propertyPath: timeScalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2265486498675557719, guid: 14d7d32f62dd67644b109355dbffabaa,
+        type: 3}
+      propertyPath: currentTimeOfDay
+      value: 0.41
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14d7d32f62dd67644b109355dbffabaa, type: 3}
