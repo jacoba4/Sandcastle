@@ -308,9 +308,9 @@ public class WorldGrid : MonoBehaviour
                 Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
                 objectgrid[x, y][z] = Instantiate(straightPath, worldParent);
                 objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
-                if (left || right)
+                if (up || down)
                 {
-                    // then rotate it sideways!
+                    // then rotate it vertically! (I changed this from before to match the player rotation better)
                     objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
                 }
             }
