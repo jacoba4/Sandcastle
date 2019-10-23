@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190be14f8f8eb2643a3aacd93d054ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bucket: {fileID: 11400000, guid: 3ef77b49a480dd64d9ae2ee75de9f259, type: 2}
+  bucket: {fileID: 11400000, guid: 669dd00df2c51814dad0d77ecd413f56, type: 2}
   colliders:
   - {fileID: 3726904208314883779}
   fullMeshes: []

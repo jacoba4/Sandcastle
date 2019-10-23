@@ -110,6 +110,7 @@ public class SplitScreenRects : MonoBehaviour
                 
                 inventoryui.Add(inventory);
                 inventory.GetComponent<Canvas>().worldCamera = c;
+                inventory.GetComponent<Canvas>().planeDistance = 1; // make it so it's above the sand!
                 InventoryItems ui = inventory.GetComponentInChildren<InventoryItems>();
                 players[i].gameObject.GetComponent<PlayerControl>().inventoryUI = ui;
 
