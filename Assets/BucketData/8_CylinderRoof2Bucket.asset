@@ -19,7 +19,7 @@ MonoBehaviour:
   fullImage: {fileID: 21300000, guid: d2603e9e73e80b4439b4286352653c82, type: 3}
   POFloor: 1
   POCylinder: 1
-  POSquare: 0
+  POSquare: 1
   POWall: 0
   POGate: 0
   POStraightWall: 0
