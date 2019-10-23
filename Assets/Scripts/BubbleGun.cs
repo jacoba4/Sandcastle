@@ -54,6 +54,7 @@ public class BubbleGun : MonoBehaviour
     public void Fire()
     {
         // fire the bubble!
+        //GetComponent<AudioSource>().Play();
         GameObject go = Instantiate(bubblePrefab);
         go.transform.position = spawnPoint.position;
         go.transform.localScale = Random.Range(randomSizeRange.x, randomSizeRange.y) * Vector3.one;

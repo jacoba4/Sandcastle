@@ -428,6 +428,7 @@ public class PlayerControl : MonoBehaviour
                     carryingBucket.rb.AddForce(bucketForce, ForceMode.Acceleration);
                     carryingBucket = null;
                     carryingBucketData = null;
+                    GetComponent<AudioSource>().Play();
                     DropBucket();
                 }
             }

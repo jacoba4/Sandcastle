@@ -8,6 +8,7 @@ public class SaveGrid
     public SaveGridList[] grid;
     public int width;
     public int height;
+    public SaveGridList[] upgradegrid;
 }
 
 [System.Serializable]

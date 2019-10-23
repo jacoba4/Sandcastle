@@ -6,10 +6,17 @@ public class BubbleCollision : MonoBehaviour
 {
     private bool destroyed = false;
     public GameObject visuals; // disable the visuals when destroyed
+    AudioSource asource;
+    public AudioClip spawnsound;
+    public AudioClip popsound;
 
     private void Start()
     {
         // play a sound!
+        asource = GetComponent<AudioSource>();
+        asource.clip = spawnsound;
+        asource.Play();
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -21,11 +28,14 @@ public class BubbleCollision : MonoBehaviour
     {
         if (!destroyed)
         {
+            asource.clip = popsound;
+            asource.Play();
             destroyed = true;
             visuals.SetActive(false);
             Destroy(gameObject, 5f); // destroy yourself! possibly create a particle system! play a sound
 
             // play a sound when popped!
+            
             //Debug.Log("Popped!");
         }
     }

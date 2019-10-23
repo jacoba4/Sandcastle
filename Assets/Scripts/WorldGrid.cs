@@ -19,6 +19,7 @@ public class WorldGrid : MonoBehaviour
     [SerializeField]
     private List<int>[,] grid;
     List<GameObject>[,] objectgrid;
+    List<int>[,] upgradegrid;
     SaveGrid sg;
     [Header("Prefabs")]
     public GameObject floor;
@@ -140,9 +141,10 @@ public class WorldGrid : MonoBehaviour
                 for(int k = 1; k < grid[i,j].Count; k++)
                 {
                     GameObject g = null;
+                    /*
                     if(grid[i,j][k] == 0)
                     {
-                        g = Instantiate(floor, worldParent);           
+                        g = Instantiate(BucketData[grid[i,j][k]].prefab, worldParent);           
                     }
                     if(grid[i,j][k] == 1)
                     {
@@ -159,13 +161,18 @@ public class WorldGrid : MonoBehaviour
                     if (grid[i, j][k] == 4)
                     {
                         g = Instantiate(gate, worldParent);
-                    }
+                    }*/
+
+                    
+                     g = Instantiate(BucketData[grid[i, j][k]].prefab, worldParent);
+                   
 
                     if (pathIDs.Contains(grid[i, j][k]))
                     {
                         // then spawn a random path object I guess?
                         g = Instantiate(straightPath, worldParent);
                     }
+                   
 
                     if (grid[i,j][k] != 0)
                     {

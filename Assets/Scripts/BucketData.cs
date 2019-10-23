@@ -10,6 +10,8 @@ public class BucketData : ScriptableObject
     public string bucketName;
     public int bucketID = -1;
     public GameObject prefab;
+    public Mesh ShellUpgrade;
+    public Mesh WeedUpgrade;
     //[Tooltip("I have no clue if we're actually going to use this")]
     //public Sprite bucketSprite;
     //[Header("Also put in things like meshes here so that it's easy to find them!")]

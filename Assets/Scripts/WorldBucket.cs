@@ -95,4 +95,9 @@ public class WorldBucket : MonoBehaviour
     {
         None, Scoop, Place
     }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        GetComponent<AudioSource>().Play();
+    }
 }
