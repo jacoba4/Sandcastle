@@ -149,6 +149,13 @@ public class SplitScreenRects : MonoBehaviour
                     Debug.Log("Error unable to handle the current number of players");
                 }
                 c.rect = cRect;
+
+
+                // first person camera stuff
+                PlayerControl p = players[i].GetComponent<PlayerControl>();
+                p.isometricCamera = c;
+                p.firstPersonCamera.rect = cRect;
+                c.enabled = true;
             }
 
             for (int i = players.Count; i < cameras.Count; i++)

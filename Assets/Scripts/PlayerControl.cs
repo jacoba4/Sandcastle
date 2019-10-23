@@ -36,6 +36,16 @@ public class PlayerControl : MonoBehaviour
     public WorldGrid sandWorld; // a reference to the world to place things in
     public InventoryItems inventoryUI;
 
+    public bool isAllowedFirstPerson = true;
+    public Camera firstPersonCamera;
+    public Camera isometricCamera;
+    public bool firstPerson = false;
+    public float scale = 1;
+    public float firstPersonLookSpeed = 1;
+    public float growthSpeed = .5f;
+    public Vector2 minMaxScale; // .1 to 3 probably? I don't really know... Things are going to go wonky...
+    private float cameraLookAngle = 0;
+
     [SerializeField]
     private GameObject tempBullet;
     [SerializeField]
@@ -93,6 +103,7 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        firstPersonCamera.enabled = false; // start with first person disabled
         if (player == null)
         {
             TestStart();
@@ -104,6 +115,42 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void ToggleCamera()
+    {
+        // swap the two
+        firstPerson = !firstPerson;
+        firstPersonCamera.enabled = firstPerson;
+        isometricCamera.enabled = !firstPerson;
+
+        if (!firstPerson)
+        {
+            transform.localScale = Vector3.one; // normal sized!
+            scale = 1; // reset scale when leaving!
+            cameraLookAngle = 0;
+        }
+        else
+        {
+            sandWorld.UnHighlightBlock(highlightPosition.x, highlightPosition.y);
+
+            // drop whatever bucket you have so it doesn't get scaled weirdly!
+            if (carryingBucket != null)
+            {
+                carryingBucket.Drop();
+                carryingBucket.transform.parent = null;
+                Vector3 bucketForce = Random.onUnitSphere;
+                if (bucketForce.y < .4)
+                {
+                    bucketForce.y = .4f;
+                }
+                bucketForce *= bucketDropForce;
+                carryingBucket.rb.AddForce(bucketForce, ForceMode.Acceleration);
+                carryingBucket = null;
+                carryingBucketData = null;
+                DropBucket();
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -111,7 +158,15 @@ public class PlayerControl : MonoBehaviour
         {
             UpdateMovement();
         }
-        UpdatePlacing();
+        if (isAllowedFirstPerson)
+        {
+            UpdateFirstPerson();
+        }
+        if (!firstPerson)
+        {
+            // no placing when you're in first person
+            UpdatePlacing();
+        }
         UpdateUI();
     }
 
@@ -119,6 +174,22 @@ public class PlayerControl : MonoBehaviour
     {
         // this is a function just to abstract it in case we change how we do things around
         return bucketFull;
+    }
+
+    private void UpdateFirstPerson()
+    {
+        if (player.GetButtonDown("ToggleCamera"))
+        {
+            ToggleCamera();
+        }
+        if (firstPerson)
+        {
+            // then allow them to shrink and grow
+            float dSize = player.GetAxis("Growth") * growthSpeed * Time.deltaTime;
+            scale += dSize;
+            scale = Mathf.Max(minMaxScale.x, Mathf.Min(minMaxScale.y, scale));
+            transform.localScale = Vector3.one * scale;
+        }
     }
 
     private void SetBucketFull(bool full)
@@ -162,43 +233,88 @@ public class PlayerControl : MonoBehaviour
         Vector2 movementInput = new Vector2(player.GetAxis("MoveHorizontal"), player.GetAxis("MoveVertical"));
         Vector2 lookInput = new Vector2(player.GetAxis("LookHorizontal"), player.GetAxis("LookVertical"));
 
-        if (lookInput.magnitude < ignoreLookCutoff && (movementInput.magnitude < lookmoveCutoff))
-        {
-            // look input = movement input and don't move if the thumbstick isn't pushed very much
-            lookInput = movementInput;
-            movementInput = Vector2.zero;
-        }
 
-        // then move and look around based on those inputs!
-        movementInput = Quaternion.Euler(0, 0, inputRotation) * movementInput;
-        lookInput = Quaternion.Euler(0, 0, inputRotation) * lookInput;
-        Vector3 newPosition = transform.position + Vector3.right * playerSpeed * movementInput.x + Vector3.forward * playerSpeed * movementInput.y;
-        // limit position and teleport!
-        newPosition.x = Mathf.Max(xBoundaries.x, Mathf.Min(xBoundaries.y, newPosition.x));
-        if (newPosition.z > yTeleportBoundaries.y)
+        if (firstPerson)
         {
-            newPosition.z = yBoundaries.x;
-        }
-        if (newPosition.z < yTeleportBoundaries.x)
-        {
-            newPosition.z = yBoundaries.y;
-        }
+            Vector3 newPosition = transform.position + transform.right * playerSpeed * movementInput.y * Time.deltaTime + transform.forward * playerSpeed * -movementInput.x * Time.deltaTime;
+            newPosition.x = Mathf.Max(xBoundaries.x, Mathf.Min(xBoundaries.y, newPosition.x));
+            if (newPosition.z > yTeleportBoundaries.y)
+            {
+                newPosition.z = yBoundaries.x;
+            }
+            if (newPosition.z < yTeleportBoundaries.x)
+            {
+                newPosition.z = yBoundaries.y;
+            }
 
-        transform.position = newPosition;
+            transform.position = newPosition;
 
-        playerAnimator.SetBool("Walking", movementInput.sqrMagnitude > 0);
+            playerAnimator.SetBool("Walking", movementInput.sqrMagnitude > 0);
 
-        float lookAngle = 0;
-        if (lookInput.magnitude > ignoreLookCutoff)
-        {
-            // then look around with the right stick!
-            lookAngle = Mathf.Atan2(-lookInput.y, lookInput.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, lookAngle, 0);
+
+            // now do look:
+            Vector3 bodyLookAngle = transform.localEulerAngles;
+            bodyLookAngle.y += lookInput.x * firstPersonLookSpeed * Time.deltaTime;
+            transform.localEulerAngles = bodyLookAngle;
+
+            // now vertical look
+            cameraLookAngle -= lookInput.y * firstPersonLookSpeed * Time.deltaTime;
+            cameraLookAngle = Mathf.Max(-89, Mathf.Min(89, cameraLookAngle)); // avoid gimbal lock
+            firstPersonCamera.transform.localRotation = Quaternion.Euler(cameraLookAngle, 0, 0);
+
+
+            //if (lookInput.magnitude > ignoreLookCutoff)
+            //{
+            //    // then look around with the right stick!
+            //    lookAngle = Mathf.Atan2(-lookInput.y, lookInput.x) * Mathf.Rad2Deg;
+            //    transform.rotation = Quaternion.Euler(0, lookAngle, 0);
+            //}
+            //else if (movementInput.magnitude > ignoreLookCutoff)
+            //{
+            //    lookAngle = Mathf.Atan2(-movementInput.y, movementInput.x) * Mathf.Rad2Deg;
+            //    transform.rotation = Quaternion.Euler(0, lookAngle, 0);
+            //}
         }
-        else if (movementInput.magnitude > ignoreLookCutoff)
+        else
         {
-            lookAngle = Mathf.Atan2(-movementInput.y, movementInput.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, lookAngle, 0);
+            if (lookInput.magnitude < ignoreLookCutoff && (movementInput.magnitude < lookmoveCutoff))
+            {
+                // look input = movement input and don't move if the thumbstick isn't pushed very much
+                lookInput = movementInput;
+                movementInput = Vector2.zero;
+            }
+
+            // then move and look around based on those inputs!
+            movementInput = Quaternion.Euler(0, 0, inputRotation) * movementInput;
+            lookInput = Quaternion.Euler(0, 0, inputRotation) * lookInput;
+            Vector3 newPosition = transform.position + Vector3.right * playerSpeed * movementInput.x * Time.deltaTime + Vector3.forward * playerSpeed * movementInput.y * Time.deltaTime;
+            // limit position and teleport!
+            newPosition.x = Mathf.Max(xBoundaries.x, Mathf.Min(xBoundaries.y, newPosition.x));
+            if (newPosition.z > yTeleportBoundaries.y)
+            {
+                newPosition.z = yBoundaries.x;
+            }
+            if (newPosition.z < yTeleportBoundaries.x)
+            {
+                newPosition.z = yBoundaries.y;
+            }
+
+            transform.position = newPosition;
+
+            playerAnimator.SetBool("Walking", movementInput.sqrMagnitude > 0);
+
+            float lookAngle = 0;
+            if (lookInput.magnitude > ignoreLookCutoff)
+            {
+                // then look around with the right stick!
+                lookAngle = Mathf.Atan2(-lookInput.y, lookInput.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, lookAngle, 0);
+            }
+            else if (movementInput.magnitude > ignoreLookCutoff)
+            {
+                lookAngle = Mathf.Atan2(-movementInput.y, movementInput.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, lookAngle, 0);
+            }
         }
     }
 
