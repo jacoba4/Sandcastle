@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2265486498675557717}
   - component: {fileID: 2265486498675557716}
   - component: {fileID: 2265486498675557719}
+  - component: {fileID: -478047940540174754}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -144,6 +145,18 @@ MonoBehaviour:
   sun: {fileID: 2265486498675557739}
   secondsInFullDay: 120
   currentTimeOfDay: 0.25
-  timeMultiplier: 1
+  timeScalar: 1
   startPosition: 270
   isSun: 1
+--- !u!114 &-478047940540174754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265486498675557736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c382f16b296af164c981b48f18c81704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

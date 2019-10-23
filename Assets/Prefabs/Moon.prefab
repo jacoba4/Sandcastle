@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 7589615362296888013}
   - component: {fileID: 7589615362296888010}
   - component: {fileID: 7589615362296888011}
+  - component: {fileID: -3916689144535582784}
   m_Layer: 0
-  m_Name: Moon 1
+  m_Name: Moon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,6 +145,18 @@ MonoBehaviour:
   sun: {fileID: 7589615362296888012}
   secondsInFullDay: 120
   currentTimeOfDay: 0.25
-  timeMultiplier: 1
+  timeScalar: 1
   startPosition: 90
   isSun: 0
+--- !u!114 &-3916689144535582784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7589615362296888008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c382f16b296af164c981b48f18c81704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
