@@ -15,8 +15,8 @@ MonoBehaviour:
   bucketName: Circle Tower
   bucketID: 1
   prefab: {fileID: 6411153440717365685, guid: 0b767c7ae5899b84a88955dc5cf7e386, type: 3}
-  emptyImage: {fileID: 21300000, guid: eb3098d63925d674193ceb0fc89acad1, type: 3}
-  fullImage: {fileID: 21300000, guid: d2603e9e73e80b4439b4286352653c82, type: 3}
+  emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
+  fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   rotateWithPlayer: 0
   randomRotation: 1
   POFloor: 1

@@ -143,12 +143,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190be14f8f8eb2643a3aacd93d054ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bucket: {fileID: 11400000, guid: 5e8149a4a686b614d8895c9e3011f213, type: 2}
+  bucket: {fileID: 11400000, guid: ce56e63534c7fa54d8a78f99264bc23d, type: 2}
   colliders:
   - {fileID: 3726904208314883779}
   fullMeshes: []
   beingHeld: 0
   rb: {fileID: 2192669312721209084}
+  callSpecialFunctionInsteadOfPlace: 0
   unHighlightPosition: 1
   isSpecialItem: 1
   isSingleUse: 0

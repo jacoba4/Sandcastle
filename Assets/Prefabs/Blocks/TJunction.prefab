@@ -39,7 +39,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2854910536249316911}
-  m_Mesh: {fileID: 675711555775644876, guid: f37713a684652b0409b609301ccce75d, type: 3}
+  m_Mesh: {fileID: 8902363097372591126, guid: 85dd127134a730b429eddf9c0f1022aa, type: 3}
 --- !u!23 &813773266778289017
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7586a80bced9b164d96aaee250ac23ce, type: 2}
+  - {fileID: 2100000, guid: 758289038bbe01b4c90e65ca67107277, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,8 +87,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6247888942375675339}
+  - component: {fileID: 3012308558080938995}
   m_Layer: 0
-  m_Name: IntersectionRoad
+  m_Name: TJunction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,3 +110,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3012308558080938995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6984990916510635992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3347d19c7fd114195c416d6d7a7e69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderersToReplace:
+  - {fileID: 813773266778289017}
+  originalMaterials:
+  - {fileID: 2100000, guid: 758289038bbe01b4c90e65ca67107277, type: 2}

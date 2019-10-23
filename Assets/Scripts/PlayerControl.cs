@@ -460,7 +460,29 @@ public class PlayerControl : MonoBehaviour
 
     public void PlacePathWhereFacing()
     {
+        Vector2 character2dPos = placePosition.position;
+        character2dPos.y = placePosition.position.z;
+        Vector3Int pos = sandWorld.WorldtoGrid(character2dPos);
 
+        sandWorld.UnHighlightBlock(pos.x, pos.y);
+
+        if (sandWorld.IsTopBlockAPath(pos))
+        {
+            // if so, pop it!
+            sandWorld.PopBlock(pos.x, pos.y);
+        } else
+        {
+            // create a path?
+            if (CanPlaceAtPosition(pos))
+            {
+                // then place it!
+                sandWorld.SetPlayer(gameObject);
+                sandWorld.AddBlock(pos.x, pos.y, carryingBucketData);
+            } else
+            {
+                // do nothing I guess. Whomp Whomp...
+            }
+        }
     }
 
     public bool CanPlaceOnBlock(BucketData bucket, int blockType)
