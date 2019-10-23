@@ -14,6 +14,7 @@ public class WorldBucket : MonoBehaviour
     public Rigidbody rb;
 
     [Space]
+    public bool callSpecialFunctionInsteadOfPlace = false;
     [Header("Special Bucket Settings")]
     public bool unHighlightPosition = true; // unhighlight the position by default
     public bool isSpecialItem = false; // if it's a special item then do things!
