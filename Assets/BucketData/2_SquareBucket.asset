@@ -17,6 +17,8 @@ MonoBehaviour:
   prefab: {fileID: 6822711904708790328, guid: d725f3adf7684bc488bbb6e47a01bf3b, type: 3}
   emptyImage: {fileID: 21300000, guid: eb3098d63925d674193ceb0fc89acad1, type: 3}
   fullImage: {fileID: 21300000, guid: d2603e9e73e80b4439b4286352653c82, type: 3}
+  rotateWithPlayer: 0
+  randomRotation: 1
   POFloor: 1
   POCylinder: 0
   POSquare: 1

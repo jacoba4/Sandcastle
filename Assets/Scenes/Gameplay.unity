@@ -178,6 +178,7 @@ MonoBehaviour:
   textbox: {fileID: 179634386}
   worldParent: {fileID: 38914249}
   player: {fileID: 0}
+  cubeBucketdata: {fileID: 0}
 --- !u!4 &38914249
 Transform:
   m_ObjectHideFlags: 0

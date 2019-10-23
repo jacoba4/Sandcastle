@@ -423,7 +423,6 @@ public class PlayerControl : MonoBehaviour
 
         if (!sandWorld.WithinBounds(pos))
         {
-            Debug.Log("Not within bounds");
             return;
         }
 
@@ -435,7 +434,7 @@ public class PlayerControl : MonoBehaviour
         }
         int underblock = blocks[blocks.Count - 1];
 
-        foreach(BucketData roof in roofData)
+        foreach (BucketData roof in roofData)
         {
             if (CanPlaceOnBlock(roof, underblock))
             {
@@ -445,15 +444,15 @@ public class PlayerControl : MonoBehaviour
 
         if (placableRoofs.Count == 0)
         {
-            Debug.LogError("Unable to place any roof on block type : " + underblock);
-        } else
+            //Debug.LogError("Unable to place any roof on block type : " + underblock);
+        }
+        else
         {
-            Debug.Log("Placed the roof?");
             // place the roof!
             sandWorld.SetPlayer(gameObject);
             SetBucketFull(false);
             int roofNum = Random.Range(0, placableRoofs.Count);
-            sandWorld.AddBlock(pos.x, pos.y, placableRoofs[roofNum].bucketID);
+            sandWorld.AddBlock(pos.x, pos.y, placableRoofs[roofNum]);
             //plays placing sound effect
             PlaySoundEffect(placingSound, volume);
         }
@@ -560,7 +559,7 @@ public class PlayerControl : MonoBehaviour
                 if (CanPlaceAtPosition(pos))
                 {
                     SetBucketFull(false);
-                    sandWorld.AddBlock(pos.x, pos.y, carryingBucketData.bucketID);
+                    sandWorld.AddBlock(pos.x, pos.y, carryingBucketData);
                     //plays placing sound effect
                     PlaySoundEffect(placingSound, volume);
 

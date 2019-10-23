@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName ="BucketData", menuName = "Create Bucket Data")]
+[CreateAssetMenu(fileName = "BucketData", menuName = "Create Bucket Data")]
 public class BucketData : ScriptableObject
 {
     [Header("Data")]
@@ -17,6 +17,11 @@ public class BucketData : ScriptableObject
     [Header("Inventory Sprites")]
     public Sprite emptyImage;
     public Sprite fullImage;
+
+    [Header("Rotation rules")]
+    [Tooltip("rotate with player takes priority over random rotation, I'm just not feeling the enum at 1:30 am")]
+    public bool rotateWithPlayer;
+    public bool randomRotation;
 
 
     [Header("Placing rules")]
