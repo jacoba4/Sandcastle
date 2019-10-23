@@ -15,8 +15,8 @@ MonoBehaviour:
   bucketName: Wall Roof
   bucketID: 6
   prefab: {fileID: 8039180046107194359, guid: 1708529bb7a1f74499ffea31f1833383, type: 3}
-  emptyImage: {fileID: 21300000, guid: eb3098d63925d674193ceb0fc89acad1, type: 3}
-  fullImage: {fileID: 21300000, guid: d2603e9e73e80b4439b4286352653c82, type: 3}
+  emptyImage: {fileID: 21300000, guid: f63ae7bf6a444444eb446a5583580aae, type: 3}
+  fullImage: {fileID: 21300000, guid: 3032437d194109f43aa8a1e8df18d410, type: 3}
   rotateWithPlayer: 1
   randomRotation: 0
   POFloor: 1
