@@ -178,7 +178,16 @@ MonoBehaviour:
   textbox: {fileID: 179634386}
   worldParent: {fileID: 38914249}
   player: {fileID: 0}
-  cubeBucketdata: {fileID: 0}
+  straightPath: {fileID: 9158847943140847299, guid: 2342a0102370461429c9b50bb81bb58e,
+    type: 3}
+  curvedPath: {fileID: 4720671167284089730, guid: a70558dedcfb6d64dba4ebb21fd272e1,
+    type: 3}
+  tJunctionPath: {fileID: 6984990916510635992, guid: e0633944f76a4f94e951a2d844f5f191,
+    type: 3}
+  intersectionPath: {fileID: 6984990916510635992, guid: e0633944f76a4f94e951a2d844f5f191,
+    type: 3}
+  pathIDs: 0b0000000c0000000d0000000e000000
+  cubeBucketdata: {fileID: 11400000, guid: 8f9667ef0a1242b4ca041125d20ce2f9, type: 2}
 --- !u!4 &38914249
 Transform:
   m_ObjectHideFlags: 0

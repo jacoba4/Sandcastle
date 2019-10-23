@@ -38,6 +38,14 @@ public class WorldGrid : MonoBehaviour
     public Transform worldParent; // the parent of all the cubes added to the scene so that it's organized
     public GameObject player;
 
+    [Header("Paths")]
+    public GameObject straightPath;
+    public GameObject curvedPath;
+    public GameObject tJunctionPath;
+    public GameObject intersectionPath;
+
+    public List<int> pathIDs = new List<int>(); // this is used to save all paths as one type of path I guess?
+
     [Space]
     public BucketData cubeBucketdata;
     
@@ -161,7 +169,7 @@ public class WorldGrid : MonoBehaviour
                             }
                             g.transform.eulerAngles = new Vector3(g.transform.rotation.x, yrot, g.transform.rotation.z);
                         }
-                        g.transform.position = new Vector3(i, k-.5f, j);
+                        g.transform.position = new Vector3(i, k, j);
                     }
                     else
                     {
@@ -231,6 +239,80 @@ public class WorldGrid : MonoBehaviour
     {
         player = g;
     }
+
+    private bool IsPath(int x, int y, int z)
+    {
+        return WithinBounds(x, y) && (grid[x, y + 1].Count > z) && pathIDs.Contains(grid[x, y + 1][z]);
+    }
+
+    private void UpdatePath(int x, int y, int z, bool updateSurroundings = false)
+    {
+        if (!WithinBounds(x, y))
+        {
+            return;
+        }
+
+
+        bool up = IsPath(x, y + 1, z);
+        bool down = IsPath(x, y - 1, z);
+        bool left = IsPath(x - 1, y, z);
+        bool right = IsPath(x + 1, y, z);
+        int connectionCount = 0;
+        if (up) connectionCount++;
+        if (down) connectionCount++;
+        if (left) connectionCount++;
+        if (right) connectionCount++;
+
+        if (connectionCount == 0)
+        {
+            return; // no need to change, there are no paths nearby
+        }
+        else if ((connectionCount == 1) || (connectionCount == 2 && ((up && down) || (left && right))))
+        {
+            // if there's one connection, or if there's two and it's a straight line
+            // make it straight and rotate it to the correct direction
+            Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
+            objectgrid[x, y][z] = Instantiate(straightPath);
+            objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
+            if (left || right)
+            {
+                // then rotate it sideways!
+                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
+            }
+        } else if (connectionCount == 2)
+        {
+            // then make it a curve and rotate it
+            Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
+            objectgrid[x, y][z] = Instantiate(curvedPath);
+            if (left && down)
+            {
+                // don't rotate it
+            } else if (down && right)
+            {
+                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, -90, 0);
+            } else if (right && up)
+            {
+                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 180, 0);
+            } else if (left && up)
+            {
+                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
+            }
+        } else if (connectionCount == 3 || connectionCount == 4)
+        {
+            // for now there's no t-junction so just make it a 4 way
+            Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
+            objectgrid[x, y][z] = Instantiate(intersectionPath);
+        }
+
+        if (updateSurroundings)
+        {
+            if (right) UpdatePath(x + 1, y, z, false);
+            if (left) UpdatePath(x - 1, y, z, false);
+            if (up) UpdatePath(x, y + 1, z, false);
+            if (down) UpdatePath(x, y - 1, z, false);
+        }
+    }
+
     //Adds a specified structure to the specified block
     public void AddBlock(int x, int y, BucketData bucketData)
     {
@@ -250,8 +332,16 @@ public class WorldGrid : MonoBehaviour
         objectgrid[x, y].Add(g);
         grid[x, y].Add(block);
 
+        if (pathIDs.Contains(block))
+        {
+            // it's a path!
+            // if we're placing it then update it I guess? We rotate if there's nothing else attached to it I guess?
+            g.transform.position = new Vector3(x, grid[x, y].Count - 1f, y);
+            g.transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.Round(player.transform.eulerAngles.y / 90) * 90f, transform.eulerAngles.z);
 
-        if(bucketData.rotateWithPlayer)
+            UpdatePath(x, y, grid[x, y].Count - 1, true);
+        }
+        else if(bucketData.rotateWithPlayer)
         {
             g.transform.position = new Vector3(x, grid[x, y].Count - 1f, y);
             g.transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.Round(player.transform.eulerAngles.y / 90) * 90f, transform.eulerAngles.z);
@@ -274,7 +364,7 @@ public class WorldGrid : MonoBehaviour
 
             }
             g.transform.eulerAngles = new Vector3(g.transform.rotation.x, yrot, g.transform.rotation.z);
-            g.transform.position = new Vector3(x, grid[x, y].Count - 1.5f, y);         
+            g.transform.position = new Vector3(x, grid[x, y].Count - 1f, y);
         }
         else
         {
