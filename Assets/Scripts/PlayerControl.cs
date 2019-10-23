@@ -67,6 +67,11 @@ public class PlayerControl : MonoBehaviour
     public SkinnedMeshRenderer headRenderer;
     public List<SkinnedMeshRenderer> handRenderers = new List<SkinnedMeshRenderer>();
 
+    [Header("Movement boundaries")]
+    public Vector2 xBoundaries; // max x and y coordinates
+    public Vector2 yBoundaries; // where you're teleported to
+    public Vector2 yTeleportBoundaries; // where you're teleported from
+
     // temp bucket stuff
     bool bucketFull = false;
 
@@ -165,7 +170,20 @@ public class PlayerControl : MonoBehaviour
         // then move and look around based on those inputs!
         movementInput = Quaternion.Euler(0, 0, inputRotation) * movementInput;
         lookInput = Quaternion.Euler(0, 0, inputRotation) * lookInput;
-        transform.position += Vector3.right * playerSpeed * movementInput.x + Vector3.forward * playerSpeed * movementInput.y;
+        Vector3 newPosition = transform.position + Vector3.right * playerSpeed * movementInput.x + Vector3.forward * playerSpeed * movementInput.y;
+        // limit position and teleport!
+        newPosition.x = Mathf.Max(xBoundaries.x, Mathf.Min(xBoundaries.y, newPosition.x));
+        if (newPosition.z > yTeleportBoundaries.y)
+        {
+            newPosition.z = yBoundaries.x;
+        }
+        if (newPosition.z < yTeleportBoundaries.x)
+        {
+            newPosition.z = yBoundaries.y;
+        }
+
+        transform.position = newPosition;
+
         playerAnimator.SetBool("Walking", movementInput.sqrMagnitude > 0);
 
         float lookAngle = 0;

@@ -171,6 +171,9 @@ MonoBehaviour:
   handRenderers:
   - {fileID: 1525725056074199927}
   - {fileID: 6108250580540239250}
+  xBoundaries: {x: 0, y: 49.5}
+  yBoundaries: {x: -0.5, y: 200.5}
+  yTeleportBoundaries: {x: -20, y: 220}
 --- !u!82 &1988859611348374396
 AudioSource:
   m_ObjectHideFlags: 0
