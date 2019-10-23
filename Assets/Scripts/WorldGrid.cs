@@ -69,6 +69,19 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
+    public bool IsTopBlockAPath(Vector3Int pos)
+    {
+        if (!WithinBounds(pos.x, pos.y))
+        {
+            return false; // it's outside the bounds it's not a path duh.
+        }
+        if (grid[pos.x, pos.y].Count == 0)
+        {
+            return false;
+        }
+        return pathIDs.Contains(grid[pos.x, pos.y][grid[pos.x, pos.y].Count - 1]); // is the top thing a path?
+    }
+
     //Checks if the position is within the bounds of the world
     public bool WithinBounds(Vector3Int pos)
     {
@@ -145,7 +158,13 @@ public class WorldGrid : MonoBehaviour
                     }
                     if (grid[i, j][k] == 4)
                     {
-                        g = Instantiate(gate, worldParent);                       
+                        g = Instantiate(gate, worldParent);
+                    }
+
+                    if (pathIDs.Contains(grid[i, j][k]))
+                    {
+                        // then spawn a random path object I guess?
+                        g = Instantiate(straightPath, worldParent);
                     }
 
                     if (grid[i,j][k] != 0)
@@ -177,6 +196,12 @@ public class WorldGrid : MonoBehaviour
                     }
                     //g.transform.position = new Vector3(i, k, j);
                     objectgrid[i, j].Add(g);
+
+                    if (pathIDs.Contains(grid[i, j][k]))
+                    {
+                        // update surroundings and yourself!
+                        UpdatePath(i, j, k, true);
+                    }
                 }
             }
         }
@@ -242,7 +267,7 @@ public class WorldGrid : MonoBehaviour
 
     private bool IsPath(int x, int y, int z)
     {
-        return WithinBounds(x, y) && (grid[x, y + 1].Count > z) && pathIDs.Contains(grid[x, y + 1][z]);
+        return WithinBounds(x, y) && (grid[x, y].Count > z) && pathIDs.Contains(grid[x, y][z]);
     }
 
     private void UpdatePath(int x, int y, int z, bool updateSurroundings = false)
@@ -252,56 +277,99 @@ public class WorldGrid : MonoBehaviour
             return;
         }
 
-
         bool up = IsPath(x, y + 1, z);
         bool down = IsPath(x, y - 1, z);
         bool left = IsPath(x - 1, y, z);
         bool right = IsPath(x + 1, y, z);
-        int connectionCount = 0;
-        if (up) connectionCount++;
-        if (down) connectionCount++;
-        if (left) connectionCount++;
-        if (right) connectionCount++;
 
-        if (connectionCount == 0)
+        if (grid[x, y].Count <= z)
         {
-            return; // no need to change, there are no paths nearby
+            // then we removed the path!, so only do neighbors!
         }
-        else if ((connectionCount == 1) || (connectionCount == 2 && ((up && down) || (left && right))))
+        else
         {
-            // if there's one connection, or if there's two and it's a straight line
-            // make it straight and rotate it to the correct direction
-            Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
-            objectgrid[x, y][z] = Instantiate(straightPath);
-            objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
-            if (left || right)
+            int connectionCount = 0;
+            if (up) connectionCount++;
+            if (down) connectionCount++;
+            if (left) connectionCount++;
+            if (right) connectionCount++;
+
+            string debugLog = "Found a connection, pos = x:" + x + " y:" + y + " z:" + z + " count = " + connectionCount + ":" + up + down + left + right + ": adding ";
+
+            if (connectionCount == 0)
             {
-                // then rotate it sideways!
-                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
+                Debug.Log(debugLog);
+                return; // no need to change, there are no paths nearby
             }
-        } else if (connectionCount == 2)
-        {
-            // then make it a curve and rotate it
-            Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
-            objectgrid[x, y][z] = Instantiate(curvedPath);
-            if (left && down)
+            else if ((connectionCount == 1) || (connectionCount == 2 && ((up && down) || (left && right))))
             {
-                // don't rotate it
-            } else if (down && right)
-            {
-                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, -90, 0);
-            } else if (right && up)
-            {
-                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 180, 0);
-            } else if (left && up)
-            {
-                objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
+                // if there's one connection, or if there's two and it's a straight line
+                // make it straight and rotate it to the correct direction
+                Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
+                objectgrid[x, y][z] = Instantiate(straightPath, worldParent);
+                objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
+                if (left || right)
+                {
+                    // then rotate it sideways!
+                    objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
+                }
             }
-        } else if (connectionCount == 3 || connectionCount == 4)
-        {
-            // for now there's no t-junction so just make it a 4 way
-            Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
-            objectgrid[x, y][z] = Instantiate(intersectionPath);
+            else if (connectionCount == 2)
+            {
+                // then make it a curve and rotate it
+                Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
+                objectgrid[x, y][z] = Instantiate(curvedPath, worldParent);
+                objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
+                if (left && down)
+                {
+                    // don't rotate it
+                }
+                else if (down && right)
+                {
+                    objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, -90, 0);
+                }
+                else if (right && up)
+                {
+                    objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 180, 0);
+                }
+                else if (left && up)
+                {
+                    objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
+                }
+            }
+            else if (connectionCount == 3)
+            {
+                Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
+                objectgrid[x, y][z] = Instantiate(tJunctionPath, worldParent);
+                objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
+                // rotate it!
+                if (!right)
+                {
+                    // don't rotate it!
+                }
+                else if (!down)
+                {
+                    objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 90, 0);
+                }
+                else if (!left)
+                {
+                    objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, 180, 0);
+                }
+                else if (!up)
+                {
+                    objectgrid[x, y][z].transform.eulerAngles = new Vector3(0, -90, 0);
+                }
+            }
+            else if (connectionCount == 4)
+            {
+                Destroy(objectgrid[x, y][z]); // this is inefficient but I can deal.
+                objectgrid[x, y][z] = Instantiate(intersectionPath, worldParent);
+                objectgrid[x, y][z].transform.position = new Vector3(x, z, y);
+            }
+            if (updateSurroundings)
+            {
+                Debug.Log(debugLog);
+            }
         }
 
         if (updateSurroundings)
@@ -394,7 +462,19 @@ public class WorldGrid : MonoBehaviour
         }
         else
         {
-            grid[x, y].RemoveAt(grid[x, y].Count - 1);
+            int block = grid[x, y][grid[x, y].Count - 1];
+            if (pathIDs.Contains(block))
+            {
+                grid[x, y].RemoveAt(grid[x, y].Count - 1);
+
+                // it's a path!
+
+                UpdatePath(x, y, grid[x, y].Count, true);
+            } else
+            {
+                // just remove it normally
+                grid[x, y].RemoveAt(grid[x, y].Count - 1);
+            }
         }
     }
 
@@ -514,16 +594,45 @@ public class WorldGrid : MonoBehaviour
         }
 
         GameObject block = objectgrid[x, y][objectgrid[x, y].Count - 1];
-        if(block.transform.childCount == 0)
+        if (block == null)
         {
-            objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
-            return;
+            return; // it was probably destroyed and the world is shutting down atm.
         }
-        foreach (Transform child in block.transform)
+        BlockHighlighter bh = block.GetComponent<BlockHighlighter>();
+        if (bh != null)
         {
-            child.GetComponent<MeshRenderer>().material = hmat;
+            // then use it!
+            bh.HighlightMat(hmat);
         }
-        
+        else
+        {
+            if (block.transform.childCount == 0)
+            {
+                //umat = objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material;
+                objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = hmat;
+                return;
+            }
+            //bool first = true;
+            //foreach (Transform child in block.transform)
+            //{
+            //    if (first)
+            //    {
+            //        first = false;
+            //        umat = child.GetComponent<MeshRenderer>().material;
+            //    }
+            //    child.GetComponent<MeshRenderer>().material = hmat;
+            //}
+
+            foreach (MeshRenderer m in objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponentsInChildren<MeshRenderer>())
+            {
+                //if (first)
+                //{
+                //    first = false;
+                //    umat = m.material;
+                //}
+                m.material = hmat;
+            }
+        }
     }
 
     //UnHighlights the top block of the specified spot
@@ -539,24 +648,37 @@ public class WorldGrid : MonoBehaviour
         {
             return; // it was probably destroyed, so return early
         }
-        if (block.transform.childCount == 0)
+        BlockHighlighter bh = block.GetComponent<BlockHighlighter>();
+        if (bh != null)
         {
-            if (objectgrid[x, y][objectgrid[x, y].Count - 1] == null)
-            {
-                //Debug.Log("Object is null, was it destroyed?");
-                return; // it was destroyed...
-            }
-            else
-            {
-                objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
-            }
-            return;
+            // then use it!
+            bh.UnHighlight();
         }
-        foreach (Transform child in objectgrid[x, y][objectgrid[x, y].Count - 1].transform)
+        else
         {
-            child.GetComponent<MeshRenderer>().material = umat;
-        }
+            if (block.transform.childCount == 0)
+            {
+                if (objectgrid[x, y][objectgrid[x, y].Count - 1] == null)
+                {
+                    //Debug.Log("Object is null, was it destroyed?");
+                    return; // it was destroyed...
+                }
+                else
+                {
+                    objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponent<MeshRenderer>().material = umat;
+                }
+                return;
+            }
+            //foreach (Transform child in objectgrid[x, y][objectgrid[x, y].Count - 1].transform)
+            //{
+            //    child.GetComponent<MeshRenderer>().material = umat;
+            //}
 
+            foreach (MeshRenderer m in objectgrid[x, y][objectgrid[x, y].Count - 1].GetComponentsInChildren<MeshRenderer>())
+            {
+                m.material = umat;
+            }
+        }
     }
 
     //UnHighlights the top block of the specified spot
@@ -566,7 +688,12 @@ public class WorldGrid : MonoBehaviour
         {
             return; // outside of bounds
         }
-        objectgrid[pos.x, pos.y][pos.z].GetComponent<MeshRenderer>().material = umat;
+        //objectgrid[pos.x, pos.y][pos.z].GetComponent<MeshRenderer>().material = umat;
+
+        foreach (MeshRenderer m in objectgrid[pos.x, pos.y][pos.z].GetComponentsInChildren<MeshRenderer>())
+        {
+            m.material = umat;
+        }
     }
 
     //Prints the grid in the unity console

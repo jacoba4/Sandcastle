@@ -915,6 +915,7 @@ MonoBehaviour:
   - {fileID: 2192669312721209086, guid: 6ea2eaf494bfdf34aaf0953a65c2cf88, type: 3}
   - {fileID: 2192669312721209086, guid: b4bb3e4b669d76843be90f52bc7e0ecc, type: 3}
   - {fileID: 2192669312721209086, guid: 8f88e2c0f9e498148bda052c8e9c2ea7, type: 3}
+  - {fileID: 2192669312721209086, guid: 0ec40e92116a69c4ca4f8aacc98a999e, type: 3}
   decorationPrefabs:
   - {fileID: 2192669312721209086, guid: 0b5bf70a05465434f8c844cabe2f8ac3, type: 3}
   - {fileID: 2192669312721209086, guid: fae6ef55694291b4f9eb7eb56eeec140, type: 3}
