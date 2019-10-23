@@ -102,6 +102,27 @@ MonoBehaviour:
   playerMaterials:
   - {fileID: 2100000, guid: cf00892367d18424db2d22eb29bd6667, type: 2}
   - {fileID: 2100000, guid: 206408218ba54c74fbd7a653fa82bb3b, type: 2}
+  - {fileID: 2100000, guid: 8077a270db2a22b469dbe7a83af43321, type: 2}
+  - {fileID: 2100000, guid: 12a7afeec9c920d439b1d937ec3efd18, type: 2}
+  - {fileID: 2100000, guid: 9117dd15847cf0749be11f2ddb122c8c, type: 2}
+  - {fileID: 2100000, guid: 0569de0b504ab924894f11da45176a78, type: 2}
+  - {fileID: 2100000, guid: 76f4599e98dcc2a44935cb073645ac7b, type: 2}
+  - {fileID: 2100000, guid: 5aebfaa7e3c0ff34ab483d1f278624f3, type: 2}
+  sunglassesMaterials:
+  - {fileID: 2100000, guid: c102c73e47b88a2499825c174752f1cb, type: 2}
+  - {fileID: 2100000, guid: 9ec3b44f2fb4bc54baf7a3ac772004cf, type: 2}
+  - {fileID: 2100000, guid: 39c3d4ee7a9c61a46b10727edca08feb, type: 2}
+  - {fileID: 2100000, guid: 1aec3d9694ae6b14395dfe2f7cc08350, type: 2}
+  - {fileID: 2100000, guid: 94a2e95897a02b74ab0f39851a2ab590, type: 2}
+  - {fileID: 2100000, guid: 4418baf40c975f34798f5096737bc789, type: 2}
+  - {fileID: 2100000, guid: 77f5694c61fd9c946b970e3960991b83, type: 2}
+  - {fileID: 2100000, guid: a16a756ab27913f42963cda40da193f8, type: 2}
+  handMaterials:
+  - {fileID: 2100000, guid: 18174789e3b66ab4a8aba3e0a76e00d7, type: 2}
+  - {fileID: 2100000, guid: da75138bc3ab4464485f99026aadec06, type: 2}
+  headMaterials:
+  - {fileID: 2100000, guid: c6cf8a5d12696ca4b9ef49df75a2c6bc, type: 2}
+  - {fileID: 2100000, guid: b4ce716754ebf904eb52a7347708a8cb, type: 2}
 --- !u!1 &3726904208314883779
 GameObject:
   m_ObjectHideFlags: 0

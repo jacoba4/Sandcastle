@@ -63,6 +63,9 @@ public class PlayerControl : MonoBehaviour
 
     public Animator playerAnimator;
     public SkinnedMeshRenderer playerBodyMeshRenderer;
+    public SkinnedMeshRenderer sunglassesRenderer;
+    public SkinnedMeshRenderer headRenderer;
+    public List<SkinnedMeshRenderer> handRenderers = new List<SkinnedMeshRenderer>();
 
     // temp bucket stuff
     bool bucketFull = false;
